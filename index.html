@@ -403,7 +403,15 @@ tbody tr:last-child td{border-bottom:none;}
 
 <script>
 // ===================== CORE REFERENCE DATA =====================
-const DIVISIONS = ['Civil','Infrastructure','MEP','Oil & Gas','Plant & Workshops'];
+const DIVISION_RECORDS = [
+  {id:'DIV-CIV', name:'Civil', abbr:'CIV'},
+  {id:'DIV-INF', name:'Infrastructure', abbr:'INF'},
+  {id:'DIV-MEP', name:'MEP', abbr:'MEP'},
+  {id:'DIV-OG', name:'Oil & Gas', abbr:'OG'},
+  {id:'DIV-PLT', name:'Plant & Workshops', abbr:'PLT'},
+];
+const DIVISIONS = DIVISION_RECORDS.map(d=>d.name);
+function syncDivisionNames(){ DIVISIONS.length=0; DIVISIONS.push(...DIVISION_RECORDS.map(d=>d.name)); }
 
 const PROJECTS = [
   {id:'PRJ-CIV-01', division:'Civil', name:'Duqm Refinery Expansion — Pkg 3', site:'Duqm Industrial Area'},
@@ -414,13 +422,13 @@ const PROJECTS = [
 ];
 
 const PERMIT_TYPES = [
-  {code:'GPTW', name:'General / Cold Work', color:'#4E8FC4'},
-  {code:'HWP',  name:'Hot Work', color:'#C4463A'},
+  {code:'GPTW', name:'General / Cold Work', color:'#2E86DE'},
+  {code:'HWP',  name:'Hot Work', color:'#EF4444'},
   {code:'EXC',  name:'Excavation', color:'#9A6B3E'},
   {code:'CSE',  name:'Confined Space', color:'#8E5FB0'},
   {code:'ELEC', name:'Electrical Work', color:'#D9C23A'},
-  {code:'LIFT', name:'Lifting', color:'#3A9D63'},
-  {code:'WAH',  name:'Work at Height', color:'#D98E2E'},
+  {code:'LIFT', name:'Lifting', color:'#22C55E'},
+  {code:'WAH',  name:'Work at Height', color:'#FF7A1A'},
   {code:'BC',   name:'Breaking Containment', color:'#3FA6A0'},
   {code:'PT',   name:'Pressure Testing', color:'#3FC4C4'},
   {code:'RAD',  name:'Radiography', color:'#C43FA6'},
@@ -1179,6 +1187,11 @@ async function syncFromSheet(showToast){
     if(data.permits && data.permits.length){ PERMITS.length=0; PERMITS.push(...data.permits.map(hydratePermit)); }
     if(data.actions){ ACTIONS.length=0; ACTIONS.push(...data.actions); }
     if(data.config){ Object.assign(CONFIG, data.config); if(data.config.weights) Object.assign(CONFIG.weights, data.config.weights); }
+    if(data.divisions && data.divisions.length){ DIVISION_RECORDS.length=0; DIVISION_RECORDS.push(...data.divisions); syncDivisionNames(); }
+    if(data.projects && data.projects.length){ PROJECTS.length=0; PROJECTS.push(...data.projects); }
+    if(data.permitTypes && data.permitTypes.length){ PERMIT_TYPES.length=0; PERMIT_TYPES.push(...data.permitTypes); }
+    if(data.riskLevels && data.riskLevels.length){ RISK_LEVELS.length=0; RISK_LEVELS.push(...data.riskLevels); }
+    if(data.hazards && data.hazards.length){ HAZARDS_LIB.length=0; HAZARDS_LIB.push(...data.hazards.map(h=>h.name)); }
     SYNC_STATE.connected = true; SYNC_STATE.lastError=null; SYNC_STATE.lastSync = new Date();
     if(showToast!==false) toast('Connected to Google Sheet — data synced.');
     renderView();
@@ -1204,6 +1217,22 @@ function persistAction(a){
 function persistConfig(){
   if(!CONFIG.apiUrl || !AUTH_TOKEN) return;
   apiCall('updateConfig', {config:CONFIG, user:CU()?CU().name:'system'}).catch(()=>{});
+}
+// Generic save/delete for the admin-editable reference lists (Divisions,
+// Projects, Permit Types, Risk Levels, Hazards). `type` matches MASTER_LISTS
+// keys in Code.gs. Returns the backend result so callers can show a specific
+// error; falls back to a clear local-only notice when no Sheet is connected.
+async function persistMaster(type, item){
+  if(!CONFIG.apiUrl || !AUTH_TOKEN){ toast('Saved locally — connect a Google Sheet to persist this change.','amber'); return {ok:true, offline:true}; }
+  const res = await apiCall('saveMasterItem', {type, item, byUser:CU().name});
+  if(res.error) toast('Save failed: '+res.error,'danger');
+  return res;
+}
+async function removeMasterRemote(type, key){
+  if(!CONFIG.apiUrl || !AUTH_TOKEN){ toast('Removed locally — connect a Google Sheet to persist this change.','amber'); return {ok:true, offline:true}; }
+  const res = await apiCall('deleteMasterItem', {type, key, byUser:CU().name});
+  if(res.error) toast('Remove failed: '+res.error,'danger');
+  return res;
 }
 function connectSheet(){
   const url = document.getElementById('apiUrlInput').value.trim();
@@ -1281,7 +1310,7 @@ function submitPermit(){
   STATE.wizard=null;
   go('detail', p.id);
 }
-function abbr(div){ return {'Civil':'CIV','Infrastructure':'INF','MEP':'MEP','Oil & Gas':'OG','Plant & Workshops':'PLT'}[div]||'GEN'; }
+function abbr(div){ const d=DIVISION_RECORDS.find(x=>x.name===div); return d && d.abbr ? d.abbr : (div||'GEN').replace(/[^A-Za-z]/g,'').slice(0,3).toUpperCase()||'GEN'; }
 
 function renderNewPermit(){
   ensureWizard(); const w=wz();
@@ -2176,10 +2205,10 @@ function reportLocation(){
 
 // ===================== ADMIN CONSOLE =====================
 function renderAdmin(){
-  const tabs=[['integration','Integration'],['users','Users'],['approvers','Approvers'],['types','Permit Types'],['risk','Risk & Approval Matrix'],['config','Crew, Scoring & Config'],['audit','Audit Trail']];
+  const tabs=[['integration','Integration'],['users','Users'],['org','Divisions & Projects'],['approvers','Approvers'],['types','Permit Types & Hazards'],['risk','Risk & Approval Matrix'],['config','Crew, Scoring & Config'],['audit','Audit Trail']];
   return `<div class="pagehead"><div><div class="eyebrow">SYSTEM</div><h2>Admin Control Console</h2><p class="sub">Configure the platform without changing source code. Every administrative change is recorded in the audit trail.</p></div></div>
   <div class="tabs">${tabs.map(([k,l])=>`<div class="tab ${STATE.adminTab===k?'active':''}" onclick="STATE.adminTab='${k}';renderView()">${l}</div>`).join('')}</div>
-  ${STATE.adminTab==='integration'?adminIntegration():STATE.adminTab==='users'?adminUsers():STATE.adminTab==='approvers'?adminApprovers():STATE.adminTab==='types'?adminTypes():STATE.adminTab==='risk'?adminRisk():STATE.adminTab==='config'?adminConfig():adminAudit()}`;
+  ${STATE.adminTab==='integration'?adminIntegration():STATE.adminTab==='users'?adminUsers():STATE.adminTab==='org'?adminOrg():STATE.adminTab==='approvers'?adminApprovers():STATE.adminTab==='types'?adminTypes():STATE.adminTab==='risk'?adminRisk():STATE.adminTab==='config'?adminConfig():adminAudit()}`;
 }
 function adminIntegration(){
   const connected = SYNC_STATE.connected && CONFIG.apiUrl;
@@ -2240,7 +2269,7 @@ function userFormFields(u){
   </div>
   <div class="form-row">
     <div class="field"><label>Designation</label><input id="ufDesignation" value="${u.designation}"></div>
-    <div class="field"><label>Division</label><select id="ufDivision" onchange="renderView()">${DIVISIONS.map(d=>`<option ${d===u.division?'selected':''}>${d}</option>`).join('')}<option value="All" ${u.division==='All'?'selected':''}>All</option></select></div>
+    <div class="field"><label>Division</label><select id="ufDivision" onchange="refreshUserFormProjects()">${DIVISIONS.map(d=>`<option ${d===u.division?'selected':''}>${d}</option>`).join('')}<option value="All" ${u.division==='All'?'selected':''}>All</option></select></div>
   </div>
   <div class="form-row">
     <div class="field"><label>Role <span class="req">*</span></label><select id="ufRole">${['applicant','authorizer','hse','holder','admin','viewer'].map(r=>`<option value="${r}" ${r===u.role?'selected':''}>${roleLabel(r)}</option>`).join('')}</select></div>
@@ -2248,6 +2277,13 @@ function userFormFields(u){
   </div>
   <div class="field"><label>Email <span class="req">*</span></label><input id="ufEmail" value="${u.email}" placeholder="name.surname${REQUIRED_EMAIL_DOMAIN}">
   <span class="hint">Must end in ${REQUIRED_EMAIL_DOMAIN} — this is the only domain allowed to sign in.</span></div>`;
+}
+function refreshUserFormProjects(){
+  const div = document.getElementById('ufDivision').value;
+  const sel = document.getElementById('ufProject');
+  const projOptions = PROJECTS.filter(p=>p.division===div);
+  sel.innerHTML = '<option value="">—</option>' + projOptions.map(p=>`<option value="${p.id}">${p.name}</option>`).join('');
+  if(!projOptions.length){ const opt=document.createElement('option'); opt.disabled=true; opt.textContent='No projects in this division yet — add one under Admin > Divisions & Projects'; sel.appendChild(opt); }
 }
 function openAddUserModal(){
   openModal(`<div class="mhead"><h4>New User</h4><button class="xbtn" onclick="closeModal()">✕</button></div>
@@ -2334,27 +2370,181 @@ async function submitRemoveUser(id){
 }
 function adminApprovers(){
   const approvers = USERS.filter(u=>u.role==='authorizer'||u.role==='hse');
-  return `<div class="card"><h3>Permit Authorizer / HSE Master List</h3>
+  return `<div class="card"><h3>Permit Authorizer / HSE Master List <small>Derived from Users — change a person's Role in Admin &gt; Users to add/remove them here</small></h3>
   <div class="tablewrap"><table><thead><tr><th>Employee ID</th><th>Name</th><th>Designation</th><th>Division / Project</th><th>Max Risk Level</th><th>Status</th></tr></thead><tbody>
-  ${approvers.map(u=>`<tr><td style="font-family:var(--mono);">${u.id}</td><td>${u.name}</td><td>${u.designation}</td><td>${u.division} · ${PROJ(u.project)?PROJ(u.project).name:'—'}</td><td>${u.role==='hse'?'R4':'R2'}</td><td><span class="pill pill-approved">Active</span></td></tr>`).join('')}
+  ${approvers.map(u=>`<tr><td style="font-family:var(--mono);">${u.id}</td><td>${u.name}</td><td>${u.designation}</td><td>${u.division} · ${PROJ(u.project)?PROJ(u.project).name:'—'}</td><td>${u.role==='hse'?'R4':'R2'}</td><td>${u.status&&String(u.status).toLowerCase()==='inactive'?'<span class="pill pill-suspended">Inactive</span>':'<span class="pill pill-approved">Active</span>'}</td></tr>`).join('')}
   </tbody></table></div></div>`;
 }
-function adminTypes(){
-  return `<div class="card"><h3>Permit Types &amp; Colour Codes</h3>
-  <div class="tablewrap"><table><thead><tr><th>Code</th><th>Permit</th><th>Colour</th></tr></thead><tbody>
-  ${PERMIT_TYPES.map(t=>`<tr><td style="font-family:var(--mono);">${t.code}</td><td>${t.name}</td><td><span class="chip" style="background:${t.color}22;color:${t.color};border-color:${t.color}55">${t.color}</span></td></tr>`).join('')}
+
+// ===================== ADMIN — Divisions & Projects =====================
+function adminOrg(){
+  const isAdmin = CU().role==='admin';
+  return `<div class="card"><h3>Divisions ${isAdmin?`<button class="btn btn-sm btn-amber" onclick="openDivisionModal()">＋ Add Division</button>`:''}</h3>
+  <div class="tablewrap"><table><thead><tr><th>ID</th><th>Name</th><th>Abbreviation</th><th></th></tr></thead><tbody>
+  ${DIVISION_RECORDS.map(d=>`<tr><td style="font-family:var(--mono);">${d.id}</td><td>${d.name}</td><td>${d.abbr||'—'}</td><td>${isAdmin?`<button class="btn btn-sm" onclick="openDivisionModal('${d.id}')">Edit</button> <button class="btn btn-sm btn-danger" onclick="removeDivision('${d.id}')">Remove</button>`:''}</td></tr>`).join('')}
   </tbody></table></div></div>
-  <div class="card"><h3>Hazard &amp; Control Library</h3><p style="font-size:12.5px;color:var(--text-dim);">${HAZARDS_LIB.length} hazards mapped to ${Object.values(CONTROLS_LIB).flat().length} standard controls, used to auto-generate Step 4 of the New Permit wizard.</p></div>`;
+  <div class="card"><h3>Projects ${isAdmin?`<button class="btn btn-sm btn-amber" onclick="openProjectModal()">＋ Add Project</button>`:''}</h3>
+  <div class="tablewrap"><table><thead><tr><th>ID</th><th>Name</th><th>Division</th><th>Site</th><th></th></tr></thead><tbody>
+  ${PROJECTS.map(p=>`<tr><td style="font-family:var(--mono);">${p.id}</td><td>${p.name}</td><td>${p.division}</td><td>${p.site}</td><td>${isAdmin?`<button class="btn btn-sm" onclick="openProjectModal('${p.id}')">Edit</button> <button class="btn btn-sm btn-danger" onclick="removeProject('${p.id}')">Remove</button>`:''}</td></tr>`).join('')}
+  </tbody></table></div>
+  <p class="small-note" style="margin-top:8px;">Removing a Division or Project does not touch existing permits or users that already reference it — they keep the name/id they were created with, but it disappears from future dropdowns.</p></div>`;
 }
+function openDivisionModal(id){
+  const d = id ? DIVISION_RECORDS.find(x=>x.id===id) : {id:'',name:'',abbr:''};
+  openModal(`<div class="mhead"><h4>${id?'Edit':'Add'} Division</h4><button class="xbtn" onclick="closeModal()">✕</button></div>
+  <div class="mbody">
+  <div class="field" style="margin-bottom:10px;"><label>ID ${id?'':'<span class="req">*</span>'}</label><input id="dvId" value="${d.id}" ${id?'disabled':''} placeholder="e.g. DIV-CIV"></div>
+  <div class="field" style="margin-bottom:10px;"><label>Name <span class="req">*</span></label><input id="dvName" value="${d.name}" placeholder="e.g. Civil"></div>
+  <div class="field"><label>Abbreviation (used in permit numbers)</label><input id="dvAbbr" value="${d.abbr}" placeholder="e.g. CIV" maxlength="4"></div>
+  </div>
+  <div class="mfoot"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn btn-amber" onclick="submitDivision('${id||''}')">Save</button></div>`);
+}
+async function submitDivision(id){
+  const item = { id: id || document.getElementById('dvId').value.trim(), name: document.getElementById('dvName').value.trim(), abbr: document.getElementById('dvAbbr').value.trim().toUpperCase() };
+  if(!item.id || !item.name){ toast('ID and name are required.','danger'); return; }
+  if(!id && DIVISION_RECORDS.some(d=>d.id===item.id)){ toast('That Division ID already exists.','danger'); return; }
+  const res = await persistMaster('divisions', item);
+  if(res.error) return;
+  const idx = DIVISION_RECORDS.findIndex(d=>d.id===item.id);
+  if(idx>-1) Object.assign(DIVISION_RECORDS[idx], item); else DIVISION_RECORDS.push(item);
+  syncDivisionNames();
+  toast('Division saved.'); closeModal(); renderView();
+}
+async function removeDivision(id){
+  const d = DIVISION_RECORDS.find(x=>x.id===id); if(!d) return;
+  if(!confirm('Remove division "'+d.name+'"? Existing permits/users keep their recorded division, but it disappears from future dropdowns.')) return;
+  const res = await removeMasterRemote('divisions', id);
+  if(res.error) return;
+  const idx = DIVISION_RECORDS.findIndex(x=>x.id===id); if(idx>-1) DIVISION_RECORDS.splice(idx,1);
+  syncDivisionNames();
+  toast('Division removed.'); renderView();
+}
+function openProjectModal(id){
+  const p = id ? PROJECTS.find(x=>x.id===id) : {id:'',name:'',division:DIVISIONS[0],site:''};
+  openModal(`<div class="mhead"><h4>${id?'Edit':'Add'} Project</h4><button class="xbtn" onclick="closeModal()">✕</button></div>
+  <div class="mbody">
+  <div class="field" style="margin-bottom:10px;"><label>ID ${id?'':'<span class="req">*</span>'}</label><input id="pjId" value="${p.id}" ${id?'disabled':''} placeholder="e.g. PRJ-CIV-02"></div>
+  <div class="field" style="margin-bottom:10px;"><label>Name <span class="req">*</span></label><input id="pjName" value="${p.name}"></div>
+  <div class="form-row">
+  <div class="field"><label>Division</label><select id="pjDivision">${DIVISIONS.map(d=>`<option ${d===p.division?'selected':''}>${d}</option>`).join('')}</select></div>
+  <div class="field"><label>Site</label><input id="pjSite" value="${p.site}"></div>
+  </div>
+  </div>
+  <div class="mfoot"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn btn-amber" onclick="submitProject('${id||''}')">Save</button></div>`);
+}
+async function submitProject(id){
+  const item = { id: id || document.getElementById('pjId').value.trim(), name: document.getElementById('pjName').value.trim(), division: document.getElementById('pjDivision').value, site: document.getElementById('pjSite').value.trim() };
+  if(!item.id || !item.name){ toast('ID and name are required.','danger'); return; }
+  if(!id && PROJECTS.some(p=>p.id===item.id)){ toast('That Project ID already exists.','danger'); return; }
+  const res = await persistMaster('projects', item);
+  if(res.error) return;
+  const idx = PROJECTS.findIndex(p=>p.id===item.id);
+  if(idx>-1) Object.assign(PROJECTS[idx], item); else PROJECTS.push(item);
+  toast('Project saved.'); closeModal(); renderView();
+}
+async function removeProject(id){
+  const p = PROJECTS.find(x=>x.id===id); if(!p) return;
+  if(!confirm('Remove project "'+p.name+'"? Existing permits/users keep their recorded project, but it disappears from future dropdowns.')) return;
+  const res = await removeMasterRemote('projects', id);
+  if(res.error) return;
+  const idx = PROJECTS.findIndex(x=>x.id===id); if(idx>-1) PROJECTS.splice(idx,1);
+  toast('Project removed.'); renderView();
+}
+
+// ===================== ADMIN — Permit Types & Hazards =====================
+function adminTypes(){
+  const isAdmin = CU().role==='admin';
+  return `<div class="card"><h3>Permit Types &amp; Colour Codes ${isAdmin?`<button class="btn btn-sm btn-amber" onclick="openTypeModal()">＋ Add Type</button>`:''}</h3>
+  <div class="tablewrap"><table><thead><tr><th>Code</th><th>Permit</th><th>Colour</th><th></th></tr></thead><tbody>
+  ${PERMIT_TYPES.map(t=>`<tr><td style="font-family:var(--mono);">${t.code}</td><td>${t.name}</td><td><span class="chip" style="background:${t.color}22;color:${t.color};border-color:${t.color}55">${t.color}</span></td><td>${isAdmin?`<button class="btn btn-sm" onclick="openTypeModal('${t.code}')">Edit</button> <button class="btn btn-sm btn-danger" onclick="removeType('${t.code}')">Remove</button>`:''}</td></tr>`).join('')}
+  </tbody></table></div></div>
+  <div class="card"><h3>Hazard Library ${isAdmin?`<span class="small-note">(${HAZARDS_LIB.length} hazards, used to auto-generate Step 4 controls)</span>`:''}</h3>
+  ${HAZARDS_LIB.map(h=>`<div class="check-row"><span style="flex:1;font-size:12.5px;">${h}</span>${isAdmin?`<button class="btn btn-sm btn-danger" onclick="removeHazard('${h.replace(/'/g,"\\'")}')">Remove</button>`:''}</div>`).join('')}
+  ${isAdmin?`<div class="form-row" style="margin-top:14px;align-items:flex-end;"><div class="field"><label>Add Hazard</label><input id="newHazardInput" placeholder="e.g. Vehicle rollover risk"></div><button class="btn" style="height:38px;" onclick="addHazard()">+ Add</button></div>`:''}
+  </div>`;
+}
+function openTypeModal(code){
+  const t = code ? PERMIT_TYPES.find(x=>x.code===code) : {code:'',name:'',color:'#2E86DE'};
+  openModal(`<div class="mhead"><h4>${code?'Edit':'Add'} Permit Type</h4><button class="xbtn" onclick="closeModal()">✕</button></div>
+  <div class="mbody">
+  <div class="field" style="margin-bottom:10px;"><label>Code ${code?'':'<span class="req">*</span>'}</label><input id="ptCode" value="${t.code}" ${code?'disabled':''} placeholder="e.g. VENT" maxlength="6" style="text-transform:uppercase;"></div>
+  <div class="field" style="margin-bottom:10px;"><label>Name <span class="req">*</span></label><input id="ptName" value="${t.name}"></div>
+  <div class="field"><label>Colour</label><div style="display:flex;gap:8px;"><input type="color" id="ptColorPicker" value="${t.color}" style="width:44px;padding:2px;height:38px;" onchange="document.getElementById('ptColor').value=this.value"><input id="ptColor" value="${t.color}" style="flex:1;" oninput="document.getElementById('ptColorPicker').value=this.value"></div></div>
+  </div>
+  <div class="mfoot"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn btn-amber" onclick="submitType('${code||''}')">Save</button></div>`);
+}
+async function submitType(code){
+  const item = { code: (code || document.getElementById('ptCode').value.trim()).toUpperCase(), name: document.getElementById('ptName').value.trim(), color: document.getElementById('ptColor').value.trim() };
+  if(!item.code || !item.name){ toast('Code and name are required.','danger'); return; }
+  if(!code && PERMIT_TYPES.some(t=>t.code===item.code)){ toast('That code already exists.','danger'); return; }
+  const res = await persistMaster('permitTypes', item);
+  if(res.error) return;
+  const idx = PERMIT_TYPES.findIndex(t=>t.code===item.code);
+  if(idx>-1) Object.assign(PERMIT_TYPES[idx], item); else PERMIT_TYPES.push(item);
+  toast('Permit type saved.'); closeModal(); renderView();
+}
+async function removeType(code){
+  const t = PERMIT_TYPES.find(x=>x.code===code); if(!t) return;
+  if(!confirm('Remove permit type "'+t.name+'"? Existing permits keep their recorded type, but it disappears from the New Permit wizard.')) return;
+  const res = await removeMasterRemote('permitTypes', code);
+  if(res.error) return;
+  const idx = PERMIT_TYPES.findIndex(x=>x.code===code); if(idx>-1) PERMIT_TYPES.splice(idx,1);
+  toast('Permit type removed.'); renderView();
+}
+async function addHazard(){
+  const val = document.getElementById('newHazardInput').value.trim();
+  if(!val){ toast('Enter a hazard description.','danger'); return; }
+  if(HAZARDS_LIB.includes(val)){ toast('That hazard already exists.','danger'); return; }
+  const res = await persistMaster('hazards', {name:val});
+  if(res.error) return;
+  HAZARDS_LIB.push(val); toast('Hazard added.'); renderView();
+}
+async function removeHazard(name){
+  if(!confirm('Remove hazard "'+name+'"? It will no longer appear in the New Permit wizard.')) return;
+  const res = await removeMasterRemote('hazards', name);
+  if(res.error) return;
+  const idx = HAZARDS_LIB.indexOf(name); if(idx>-1) HAZARDS_LIB.splice(idx,1);
+  toast('Hazard removed.'); renderView();
+}
+
+// ===================== ADMIN — Risk / Approval Matrix =====================
 function adminRisk(){
-  return `<div class="card"><h3>Risk / Criticality &amp; Approval Matrix</h3>
-  <div class="tablewrap"><table><thead><tr><th>Risk</th><th>Name</th><th>Approval Required</th></tr></thead><tbody>
-  ${RISK_LEVELS.map(r=>`<tr><td><span class="chip risk-${r.code}">${r.code}</span></td><td>${r.name}</td><td>${r.approval}</td></tr>`).join('')}
+  const isAdmin = CU().role==='admin';
+  return `<div class="card"><h3>Risk / Criticality &amp; Approval Matrix ${isAdmin?`<button class="btn btn-sm btn-amber" onclick="openRiskModal()">＋ Add Level</button>`:''}</h3>
+  <div class="tablewrap"><table><thead><tr><th>Risk</th><th>Name</th><th>Approval Required</th><th></th></tr></thead><tbody>
+  ${RISK_LEVELS.map(r=>`<tr><td><span class="chip risk-${r.code}">${r.code}</span></td><td>${r.name}</td><td>${r.approval}</td><td>${isAdmin?`<button class="btn btn-sm" onclick="openRiskModal('${r.code}')">Edit</button> <button class="btn btn-sm btn-danger" onclick="removeRisk('${r.code}')">Remove</button>`:''}</td></tr>`).join('')}
   </tbody></table></div></div>
   <div class="card"><h3>Mandatory Competency by Permit Type</h3>
-  <div class="tablewrap"><table><thead><tr><th>Permit Type</th><th>Required Competencies</th></tr></thead><tbody>
-  ${Object.entries(CONFIG.competency).map(([k,v])=>`<tr><td>${typeChip(k)}</td><td>${v.join(', ')}</td></tr>`).join('')}
-  </tbody></table></div></div>`;
+  ${PERMIT_TYPES.map(t=>`<div class="form-row" style="align-items:flex-end;margin-bottom:10px;"><div style="padding-bottom:9px;">${typeChip(t.code)}</div><div class="field"><label>Required competencies (comma-separated)</label><input value="${(CONFIG.competency[t.code]||[]).join(', ')}" onchange="CONFIG.competency['${t.code}']=this.value.split(',').map(s=>s.trim()).filter(Boolean);persistConfig();toast('Competency requirement updated for ${t.code}.')"></div></div>`).join('')}
+  </div>`;
+}
+function openRiskModal(code){
+  const r = code ? RISK_LEVELS.find(x=>x.code===code) : {code:'',name:'',approval:''};
+  openModal(`<div class="mhead"><h4>${code?'Edit':'Add'} Risk Level</h4><button class="xbtn" onclick="closeModal()">✕</button></div>
+  <div class="mbody">
+  <div class="field" style="margin-bottom:10px;"><label>Code ${code?'':'<span class="req">*</span>'}</label><input id="rkCode" value="${r.code}" ${code?'disabled':''} placeholder="e.g. R5" maxlength="4" style="text-transform:uppercase;"></div>
+  <div class="field" style="margin-bottom:10px;"><label>Name <span class="req">*</span></label><input id="rkName" value="${r.name}" placeholder="e.g. Extreme"></div>
+  <div class="field"><label>Approval Required</label><input id="rkApproval" value="${r.approval}" placeholder="e.g. Board-level Authority + HSE Director"></div>
+  </div>
+  <div class="mfoot"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn btn-amber" onclick="submitRisk('${code||''}')">Save</button></div>`);
+}
+async function submitRisk(code){
+  const item = { code: (code || document.getElementById('rkCode').value.trim()).toUpperCase(), name: document.getElementById('rkName').value.trim(), approval: document.getElementById('rkApproval').value.trim() };
+  if(!item.code || !item.name){ toast('Code and name are required.','danger'); return; }
+  if(!code && RISK_LEVELS.some(r=>r.code===item.code)){ toast('That risk code already exists.','danger'); return; }
+  const res = await persistMaster('riskLevels', item);
+  if(res.error) return;
+  const idx = RISK_LEVELS.findIndex(r=>r.code===item.code);
+  if(idx>-1) Object.assign(RISK_LEVELS[idx], item); else RISK_LEVELS.push(item);
+  toast('Risk level saved.'); closeModal(); renderView();
+}
+async function removeRisk(code){
+  const r = RISK_LEVELS.find(x=>x.code===code); if(!r) return;
+  if(!confirm('Remove risk level "'+r.name+'"? Existing permits keep their recorded risk level, but it disappears from the New Permit wizard.')) return;
+  const res = await removeMasterRemote('riskLevels', code);
+  if(res.error) return;
+  const idx = RISK_LEVELS.findIndex(x=>x.code===code); if(idx>-1) RISK_LEVELS.splice(idx,1);
+  toast('Risk level removed.'); renderView();
 }
 function adminConfig(){
   return `<div class="grid g-2">
@@ -2368,7 +2558,7 @@ function adminConfig(){
   <p class="small-note" style="margin-top:8px;">Serious critical-control failures carry significantly greater deductions than minor administrative findings.</p>
   </div>
   </div>
-  <div class="card"><h3>Notification Rules</h3><p style="font-size:12.5px;color:var(--text-dim);">In-app notifications are active for all trigger events (submission, approval, SIMOPS, expiry, overdue visits, corrective actions). Email / SMS / Teams integration is planned for the production backend.</p></div>`;
+  <div class="card"><h3>Notification Rules</h3><p style="font-size:12.5px;color:var(--text-dim);">Email notifications fire automatically on key events (submission, approval, HSE concurrence, issue, suspension, stop-work, corrective actions, password changes) once a Google Sheet is connected. In-app Performance Alerts are always live, computed from current data.</p></div>`;
 }
 function adminAudit(){
   let all=[];
