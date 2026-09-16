@@ -794,6 +794,12 @@ async function doLogin(){
       if(res.error || !res.ok){ showLoginError(res.error||'Sign-in failed — check your Employee ID and password.'); return; }
       AUTH_TOKEN = res.token;
       STATE.userId = res.user.id;
+      // Merge the just-logged-in profile into USERS immediately — enterApp() below
+      // needs CU() to resolve right now, and the full sync from the Sheet hasn't
+      // landed yet (it's fired async, right after). Without this, any real user
+      // whose ID isn't one of the local demo IDs hits a blank screen.
+      const idx = USERS.findIndex(u=>u.id===res.user.id);
+      if(idx>-1) Object.assign(USERS[idx], res.user); else USERS.push(res.user);
       // Session persisted for this browser tab only (per-viewer convenience) so a refresh doesn't force re-login.
       try{ sessionStorage.setItem('atnm_eptw_session', JSON.stringify({token:AUTH_TOKEN, userId:STATE.userId, apiUrl:CONFIG.apiUrl})); }catch(e){}
       enterApp();
@@ -811,9 +817,15 @@ async function doLogin(){
   }
 }
 function enterApp(){
+  const u=CU();
+  if(!u){
+    showLoginError('Signed in, but your profile could not be loaded. Please try again — if this repeats, contact your System Administrator.');
+    AUTH_TOKEN=null; STATE.userId=null;
+    try{ sessionStorage.removeItem('atnm_eptw_session'); }catch(e){}
+    return;
+  }
   document.getElementById('loginScreen').style.display='none';
   document.getElementById('appShell').style.display='grid';
-  const u=CU();
   document.getElementById('topAvatar').textContent = initials(u.name);
   document.getElementById('topUserName').textContent = u.name;
   document.getElementById('topUserRole').textContent = roleLabel(u.role)+' · '+u.division;
@@ -837,6 +849,8 @@ async function tryRestoreSession(){
     const res = await apiCallRaw('whoami', {token:saved.token});
     if(res.ok && res.user){
       AUTH_TOKEN=saved.token; STATE.userId=res.user.id;
+      const idx = USERS.findIndex(u=>u.id===res.user.id);
+      if(idx>-1) Object.assign(USERS[idx], res.user); else USERS.push(res.user);
       enterApp(); syncFromSheet(false);
       return true;
     }
