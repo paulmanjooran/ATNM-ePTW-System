@@ -361,7 +361,7 @@ tbody tr:last-child td{border-bottom:none;}
       <div id="loginError" style="display:none;background:var(--danger-dim);border:1px solid rgba(239,68,68,.4);color:#FF9E9E;border-radius:10px;padding:9px 12px;font-size:12px;margin-bottom:14px;"></div>
       <div class="field" style="margin-bottom:14px;">
         <label>Employee ID</label>
-        <input id="loginId" value="ENG-2201" placeholder="e.g. ENG-2201" autocomplete="username">
+        <input id="loginId" value="" placeholder="e.g. ENG-2201" autocomplete="username">
       </div>
       <div class="field" style="margin-bottom:10px;">
         <label>Password</label>
@@ -369,13 +369,12 @@ tbody tr:last-child td{border-bottom:none;}
       </div>
       <div style="text-align:right;margin-bottom:10px;"><a href="#" onclick="openForgotPasswordModal();return false;" style="font-size:11.5px;color:var(--text-faint);">Forgot password?</a></div>
       <div id="loginConnStatus" style="font-size:11px;color:var(--text-faint);margin-bottom:16px;"></div>
-      <label style="font-size:11.5px;color:var(--text-dim);font-family:var(--head);letter-spacing:.3px;display:block;margin-bottom:8px;">Quick-fill Employee ID <span style="color:var(--text-faint);font-weight:400;">(password still required)</span></label>
-      <div class="login-role-grid" id="loginRoleGrid"></div>
       <button class="btn-primary" id="loginSubmitBtn" onclick="doLogin()">SIGN IN</button>
     </div>
     <div class="login-foot"><span>ATNM-ePTW v1.0 · Prototype</span><span id="loginFootRight">Non‑PDO Operations</span></div>
   </div>
 </div>
+
 
 <div id="appShell" class="app-shell" style="display:none;">
   <div class="mobile-nav-bg" id="mobileNavBg" onclick="toggleNav(false)"></div>
@@ -713,7 +712,7 @@ let QR_TARGET = null;
 </script>
 <script>
 // ===================== STATE =====================
-let STATE = { userId:null, loginPick:'ENG-2201', view:'dashboard', permitId:null, detailTab:'overview', reportTab:'applicant', adminTab:'users', tbtLang:'English', wizard:null, regFilter:{q:'',status:'',division:'',type:''}, hseFilter:{division:'',project:'',adviser:'',scope:'all'} };
+let STATE = { userId:null, view:'dashboard', permitId:null, detailTab:'overview', reportTab:'applicant', adminTab:'users', tbtLang:'English', wizard:null, regFilter:{q:'',status:'',division:'',type:''}, hseFilter:{division:'',project:'',adviser:'',scope:'all'} };
 function CU(){ return user(STATE.userId); }
 
 const STATUS_CLASS = {'Draft':'draft','Submitted':'submitted','Under Review':'review','Returned':'returned','Approved':'approved','Issued':'issued','Active':'active','Suspended':'suspended','Revalidation Required':'revalidation','Expired':'expired','Work Complete':'complete','Awaiting Handback':'handback','Closed':'closed','Rejected':'rejected','Cancelled':'cancelled'};
@@ -750,25 +749,16 @@ function openModal(html){ document.getElementById('modalBox').innerHTML=html; do
 function closeModal(){ document.getElementById('modalBg').classList.remove('show'); }
 
 // ===================== LOGIN / AUTHENTICATION =====================
-const LOGIN_PICKS = ['ENG-2201','PM-1001','HSE-3001','FRM-4010','ADM-5000','MGT-6000'];
 const LOCAL_DEMO_PASSWORD = 'Welcome@1'; // ONLY used when no Google Sheet backend is connected — see loginConnStatus note
 const REQUIRED_EMAIL_DOMAIN = '@altasnim.com'; // must match REQUIRED_EMAIL_DOMAIN in Code.gs
 let AUTH_TOKEN = null;
 
-function renderLoginRoles(){
-  const grid=document.getElementById('loginRoleGrid');
-  grid.innerHTML = LOGIN_PICKS.map(id=>{
-    const u=user(id); const active = STATE.loginPick===id;
-    return `<button type="button" class="role-pick ${active?'active':''}" onclick="pickLoginRole('${id}')"><strong>${u.name}</strong>${u.designation} · ${roleLabel(u.role)}</button>`;
-  }).join('');
-  renderLoginConnStatus();
-}
 function renderLoginConnStatus(){
   const el = document.getElementById('loginConnStatus'); if(!el) return;
   if(CONFIG.apiUrl){
     el.innerHTML = `● Connected to Google Sheet — sign-in is verified against real accounts. <a href="#" onclick="openConnectModal();return false;" style="color:var(--carbon);">Change</a>`;
   } else {
-    el.innerHTML = `⚠ No backend connected — local demo login only (any Employee ID above, password <b>${LOCAL_DEMO_PASSWORD}</b>). <a href="#" onclick="openConnectModal();return false;" style="color:var(--carbon);">Connect Google Sheet</a> for real authentication.`;
+    el.innerHTML = `⚠ No backend connected — local demo login only (any seeded Employee ID, password <b>${LOCAL_DEMO_PASSWORD}</b>). <a href="#" onclick="openConnectModal();return false;" style="color:var(--carbon);">Connect Google Sheet</a> for real authentication.`;
   }
 }
 function openConnectModal(){
@@ -786,7 +776,6 @@ function saveConnectFromLogin(){
   closeModal(); renderLoginConnStatus(); toast('Google Sheet URL saved. Sign in to verify the connection.');
 }
 function roleLabel(r){ return {applicant:'Applicant',authorizer:'Authorizer',hse:'HSE Adviser',holder:'Permit Holder',admin:'System Admin',viewer:'Management'}[r]||r; }
-function pickLoginRole(id){ STATE.loginPick=id; renderLoginRoles(); document.getElementById('loginId').value=id; document.getElementById('loginPassword').focus(); }
 
 function showLoginError(msg){
   const el=document.getElementById('loginError');
@@ -2215,14 +2204,14 @@ function adminUsers(){
   const isAdmin = CU().role==='admin';
   return `<div class="tbl-toolbar"><input class="grow" placeholder="Search users…" oninput="filterAdminUsers(this.value)" id="adminUserSearch">${isAdmin?`<button class="btn btn-amber" onclick="openAddUserModal()">＋ New User</button>`:''}</div>
   <div class="tablewrap" style="border-radius:0 0 4px 4px;"><table id="adminUserTable"><thead><tr><th>Employee ID</th><th>Name</th><th>Designation</th><th>Division</th><th>Email</th><th>Role</th><th>Status</th><th></th></tr></thead><tbody>${adminUserRows(USERS)}</tbody></table></div>
-  <p class="small-note" style="margin-top:8px;">Employee ID is the unique login username. Only ${REQUIRED_EMAIL_DOMAIN} email addresses can sign in. Adding, deactivating and removing accounts is admin-only and writes straight to the Users/Auth sheets.</p>`;
+  <p class="small-note" style="margin-top:8px;">Employee ID is the unique login username. Only ${REQUIRED_EMAIL_DOMAIN} email addresses can sign in. Adding, resetting passwords, deactivating and removing accounts is admin-only and writes straight to the Users/Auth sheets — passwords themselves are never shown here, only emailed once to the account holder.</p>`;
 }
 function adminUserRows(list){
   const isAdmin = CU().role==='admin';
   return list.map(u=>{
     const inactive = u.status && String(u.status).toLowerCase()==='inactive';
     return `<tr><td style="font-family:var(--mono);">${u.id}</td><td>${u.name}</td><td>${u.designation}</td><td>${u.division}</td><td style="color:var(--text-dim);">${u.email||'—'}</td><td><span class="badge-role">${roleLabel(u.role)}</span></td><td>${inactive?'<span class="pill pill-suspended">Inactive</span>':'<span class="pill pill-approved">Active</span>'}</td>
-    <td style="white-space:nowrap;">${isAdmin?`<button class="btn btn-sm" onclick="openEditUserModal('${u.id}')">Edit</button> <button class="btn btn-sm" onclick="toggleUserStatus('${u.id}','${inactive?'Active':'Inactive'}')">${inactive?'Reactivate':'Deactivate'}</button> <button class="btn btn-sm btn-danger" onclick="openRemoveUserModal('${u.id}')">Remove</button>`:'<span class="small-note">View only</span>'}</td></tr>`;
+    <td style="white-space:nowrap;">${isAdmin?`<button class="btn btn-sm" onclick="openEditUserModal('${u.id}')">Edit</button> <button class="btn btn-sm" onclick="submitAdminResetPassword('${u.id}')">Reset Password</button> <button class="btn btn-sm" onclick="toggleUserStatus('${u.id}','${inactive?'Active':'Inactive'}')">${inactive?'Reactivate':'Deactivate'}</button> <button class="btn btn-sm btn-danger" onclick="openRemoveUserModal('${u.id}')">Remove</button>`:'<span class="small-note">View only</span>'}</td></tr>`;
   }).join('');
 }
 function filterAdminUsers(q){ q=q.toLowerCase(); document.querySelector('#adminUserTable tbody').innerHTML = adminUserRows(USERS.filter(u=>(u.name+u.id+u.designation+u.division).toLowerCase().includes(q))); }
@@ -2303,6 +2292,14 @@ async function toggleUserStatus(id, newStatus){
   u.status = newStatus;
   toast(newStatus==='Inactive' ? u.name+' deactivated — they can no longer sign in.' : u.name+' reactivated.');
   renderView();
+}
+async function submitAdminResetPassword(id){
+  const u = user(id); if(!u) return;
+  if(!CONFIG.apiUrl || !AUTH_TOKEN){ toast('Password reset requires a connected Google Sheet backend.','amber'); return; }
+  if(!confirm('Reset the password for '+u.name+'? A new temporary password will be emailed to '+(u.email||'their registered address')+'.')) return;
+  const res = await apiCall('adminResetPassword', {id, byUser:CU().name});
+  if(res.error){ toast(res.error,'danger'); return; }
+  toast(res.emailed ? 'New temporary password emailed to '+u.email+'.' : 'Password reset, but the email could not be sent — check the address on file.');
 }
 function openRemoveUserModal(id){
   const u = user(id); if(!u) return;
@@ -2444,8 +2441,7 @@ function renderNotifications(){
 </script>
 <script>
 loadStoredApiUrl();
-renderLoginRoles();
-document.getElementById('loginId').value = STATE.loginPick;
+renderLoginConnStatus();
 document.getElementById('modalBg').addEventListener('click', function(e){ if(e.target===this) closeModal(); });
 setInterval(function(){ if(STATE.userId && STATE.view==='live'){ renderView(); } }, 30000);
 setInterval(function(){ if(STATE.userId){ updateNotifBadge(); } }, 60000);
