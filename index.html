@@ -10,29 +10,29 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
 :root{
-  --bg:#12151A;
-  --panel: rgba(255,255,255,.05); --panel2: rgba(255,255,255,.085); --panel3: rgba(255,255,255,.14);
-  --border: rgba(255,255,255,.15); --border-soft: rgba(255,255,255,.08);
-  --text:#EDEFF3; --text-dim:#A7AFB9; --text-faint:#6E7680;
-  --carbon:#3D56D6; --carbon-dark:#26348B; --brand-navy:#26348B; --brand-grey:#4F5355;
-  --tangerine:#F58220; --tangerine-dim: rgba(245,130,32,.16); --brand-orange:#F07D00;
-  --blue:#2E86DE; --teal:#37B0F0;
-  --safe:#22C55E; --safe-dim: rgba(34,197,94,.16);
-  --warn:#F5A623; --warn-dim: rgba(245,166,35,.14);
-  --amber:#F5A623; --amber-dim: rgba(245,166,35,.16);
-  --danger:#EF4444; --danger-dim: rgba(239,68,68,.16);
-  --critical:#DC2626;
-  --grey:#6E7680;
-  --grad-brand: linear-gradient(135deg,#3D56D6 0%,#26348B 45%,#F07D00 100%);
-  --grad-safe: linear-gradient(135deg,#22C55E,#37B0F0);
-  --grad-danger: linear-gradient(135deg,#EF4444,#DC2626);
-  --glow-carbon: 0 0 1px rgba(46,134,222,.6), 0 0 22px rgba(46,134,222,.35);
-  --glow-tangerine: 0 0 1px rgba(255,122,26,.65), 0 0 22px rgba(255,122,26,.4);
-  --glow-safe: 0 0 1px rgba(34,197,94,.6), 0 0 18px rgba(34,197,94,.32);
-  --glow-warn: 0 0 1px rgba(245,166,35,.6), 0 0 18px rgba(245,166,35,.3);
-  --glow-danger: 0 0 1px rgba(239,68,68,.7), 0 0 20px rgba(239,68,68,.38);
-  --glass-shadow: 0 8px 32px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.07);
-  --radius:16px;
+  --bg:#EEF2F8;
+  --panel: #FFFFFF; --panel2: #F7F9FC; --panel3: #EEF2F8;
+  --border: #E3E9F2; --border-soft: #ECF0F6;
+  --text:#212B39; --text-dim:#5B6675; --text-faint:#98A3B3;
+  --carbon:#3E5FC4; --carbon-dark:#26348B; --brand-navy:#26348B; --brand-grey:#4F5355;
+  --tangerine:#DE7F3B; --tangerine-dim: #FBEADB; --brand-orange:#F07D00;
+  --blue:#3E5FC4; --teal:#3E93A8;
+  --safe:#3E9151; --safe-dim: #E4F5E8;
+  --warn:#C5852A; --warn-dim: #FBF1DD;
+  --amber:#C5852A; --amber-dim: #FBF1DD;
+  --danger:#C24942; --danger-dim: #FBE9E7;
+  --critical:#A23A34;
+  --grey:#5B6675;
+  --grad-brand: linear-gradient(135deg,#3E5FC4 0%,#5A78D6 55%,#DE7F3B 100%);
+  --grad-safe: linear-gradient(135deg,#3E9151,#4FA863);
+  --grad-danger: linear-gradient(135deg,#C24942,#A23A34);
+  --glow-carbon: 0 2px 8px rgba(62,95,196,.20);
+  --glow-tangerine: 0 2px 8px rgba(222,127,59,.22);
+  --glow-safe: 0 2px 8px rgba(62,145,81,.18);
+  --glow-warn: 0 2px 8px rgba(197,133,42,.18);
+  --glow-danger: 0 2px 8px rgba(194,73,66,.20);
+  --glass-shadow: 0 2px 10px rgba(33,43,57,.06), 0 1px 2px rgba(33,43,57,.05);
+  --radius:14px;
   --mono:'JetBrains Mono',monospace;
   --head:'Oswald',sans-serif;
   --body:'Inter',sans-serif;
@@ -42,13 +42,9 @@ html,body{margin:0;padding:0;color:var(--text);font-family:var(--body);font-size
 body{
   min-height:100vh;
   background:
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/></svg>"),
-    radial-gradient(900px 620px at 6% -8%, rgba(61,86,214,.26), transparent 60%),
-    radial-gradient(900px 700px at 108% 4%, rgba(245,130,32,.18), transparent 60%),
-    radial-gradient(1000px 800px at 50% 118%, rgba(38,52,139,.22), transparent 60%),
-    radial-gradient(700px 600px at 96% 62%, rgba(245,130,32,.10), transparent 60%),
+    radial-gradient(1000px 640px at 4% -10%, rgba(62,95,196,.07), transparent 60%),
+    radial-gradient(1000px 700px at 108% 0%, rgba(222,127,59,.07), transparent 60%),
     var(--bg);
-  background-blend-mode: overlay, normal, normal, normal, normal, normal;
   background-attachment:fixed;
 }
 a{color:var(--carbon);text-decoration:none;}
@@ -62,62 +58,59 @@ input,select,textarea{font-family:var(--body);}
 /* ---------- Login ---------- */
 .login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;
   background:
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/></svg>"),
-    radial-gradient(700px 500px at 8% 0%, rgba(61,86,214,.28), transparent 60%),
-    radial-gradient(700px 500px at 100% 100%, rgba(245,130,32,.22), transparent 60%),
-    radial-gradient(900px 700px at 50% 50%, rgba(38,52,139,.20), transparent 65%),
+    radial-gradient(800px 550px at 6% 0%, rgba(62,95,196,.09), transparent 60%),
+    radial-gradient(800px 550px at 100% 100%, rgba(222,127,59,.10), transparent 60%),
     var(--bg);
-  background-blend-mode: overlay, normal, normal, normal, normal;
 }
-.login-box{width:100%;max-width:420px;background:rgba(255,255,255,.06);backdrop-filter:blur(22px) saturate(150%);-webkit-backdrop-filter:blur(22px) saturate(150%);border:1px solid var(--border);border-radius:22px;overflow:hidden;box-shadow:var(--glass-shadow), 0 0 60px rgba(46,134,222,.14);}
-.login-head{background:rgba(255,255,255,.035);padding:26px 28px 20px;border-bottom:1px solid var(--border-soft);position:relative;}
-.login-head::after{content:'';position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--grad-brand);box-shadow:var(--glow-carbon);}
+.login-box{width:100%;max-width:420px;background:var(--panel);border:1px solid var(--border);border-radius:18px;overflow:hidden;box-shadow:0 12px 34px rgba(33,43,57,.10), 0 2px 8px rgba(33,43,57,.06);}
+.login-head{background:var(--panel2);padding:26px 28px 20px;border-bottom:1px solid var(--border-soft);position:relative;}
+.login-head::after{content:'';position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--grad-brand);}
 .login-head .brandmark{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
-.login-head .brandmark .mark{width:34px;height:34px;background:rgba(255,255,255,.92);object-fit:contain;padding:4px;display:flex;align-items:center;justify-content:center;font-size:15px;border-radius:10px;box-shadow:var(--glow-carbon);}
+.login-head .brandmark .mark{width:34px;height:34px;background:#fff;object-fit:contain;padding:4px;display:flex;align-items:center;justify-content:center;font-size:15px;border-radius:10px;border:1px solid var(--border);box-shadow:var(--glass-shadow);}
 .login-head .brandline{font-family:var(--head);font-size:12px;letter-spacing:2px;color:var(--text-dim);}
 .login-head h1{font-size:22px;color:var(--text);}
 .login-head p{color:var(--text-dim);margin-top:4px;font-size:13px;}
 .login-body{padding:24px 28px 28px;}
 .login-body .field{margin-bottom:14px;}
 .login-role-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px;}
-.role-pick{border:1px solid var(--border);background:rgba(255,255,255,.045);backdrop-filter:blur(10px);border-radius:12px;padding:10px 8px;text-align:left;color:var(--text-dim);font-size:12px;line-height:1.3;}
+.role-pick{border:1px solid var(--border);background:var(--panel2);border-radius:12px;padding:10px 8px;text-align:left;color:var(--text-dim);font-size:12px;line-height:1.3;}
 .role-pick strong{display:block;color:var(--text);font-size:12.5px;font-family:var(--head);letter-spacing:.3px;font-weight:500;}
-.role-pick.active{border-color:var(--tangerine);background:var(--tangerine-dim);color:var(--text);box-shadow:var(--glow-tangerine);}
-.btn-primary{width:100%;background:var(--grad-brand);border:none;color:#0E1420;font-family:var(--head);font-size:14px;letter-spacing:.5px;padding:13px;border-radius:12px;font-weight:700;box-shadow:var(--glow-tangerine);}
-.btn-primary:hover{filter:brightness(1.08);}
+.role-pick.active{border-color:var(--tangerine);background:var(--tangerine-dim);color:var(--text);}
+.btn-primary{width:100%;background:var(--grad-brand);border:none;color:#fff;font-family:var(--head);font-size:14px;letter-spacing:.5px;padding:13px;border-radius:12px;font-weight:700;box-shadow:var(--glow-tangerine);}
+.btn-primary:hover{filter:brightness(1.05);}
 .login-foot{padding:12px 28px;border-top:1px solid var(--border-soft);color:var(--text-faint);font-size:11px;display:flex;justify-content:space-between;}
 
 /* ---------- Shell ---------- */
 .app-shell{display:grid;grid-template-columns:222px 1fr;min-height:100vh;}
-.sidebar{background:rgba(255,255,255,.04);backdrop-filter:blur(20px) saturate(140%);-webkit-backdrop-filter:blur(20px) saturate(140%);border-right:1px solid var(--border);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto;z-index:40;}
+.sidebar{background:var(--panel);border-right:1px solid var(--border);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto;z-index:40;}
 .sidebar .brand{padding:16px 16px 14px;border-bottom:1px solid var(--border-soft);display:flex;align-items:center;gap:9px;}
-.sidebar .brand .mark{width:28px;height:28px;background:rgba(255,255,255,.92);object-fit:contain;padding:3px;display:flex;align-items:center;justify-content:center;font-size:13px;border-radius:8px;flex:none;box-shadow:var(--glow-carbon);}
+.sidebar .brand .mark{width:28px;height:28px;background:#fff;object-fit:contain;padding:3px;display:flex;align-items:center;justify-content:center;font-size:13px;border-radius:8px;flex:none;border:1px solid var(--border);}
 .sidebar .brand div{font-family:var(--head);font-size:13px;letter-spacing:.6px;line-height:1.25;}
 .sidebar .brand small{display:block;color:var(--text-faint);font-size:9.5px;letter-spacing:1.2px;}
 .nav-group{padding:10px 8px;}
 .nav-group .gt{font-size:10px;color:var(--text-faint);letter-spacing:1.4px;padding:8px 10px 4px;font-family:var(--head);}
 .nav-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:10px;color:var(--text-dim);font-size:13px;cursor:pointer;border-left:2px solid transparent;}
 .nav-item .ic{width:18px;text-align:center;font-size:13px;flex:none;}
-.nav-item:hover{background:rgba(255,255,255,.06);color:var(--text);}
-.nav-item.active{background:rgba(46,134,222,.14);color:var(--text);border-left-color:var(--tangerine);box-shadow:inset 0 0 0 1px rgba(255,255,255,.05), var(--glow-carbon);}
-.nav-item .badge{margin-left:auto;background:var(--grad-danger);color:#fff;font-size:10px;padding:1px 6px;border-radius:10px;font-family:var(--mono);box-shadow:var(--glow-danger);}
+.nav-item:hover{background:var(--panel2);color:var(--text);}
+.nav-item.active{background:#EEF2FC;color:var(--carbon);border-left-color:var(--tangerine);font-weight:600;}
+.nav-item .badge{margin-left:auto;background:var(--danger);color:#fff;font-size:10px;padding:1px 6px;border-radius:10px;font-family:var(--mono);}
 .sidebar-foot{margin-top:auto;padding:12px;border-top:1px solid var(--border-soft);font-size:11px;color:var(--text-faint);}
 
 .main{min-width:0;}
-.topbar{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.04);backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%);border-bottom:1px solid var(--border);padding:10px 20px;display:flex;align-items:center;gap:14px;}
+.topbar{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:10px 20px;display:flex;align-items:center;gap:14px;}
 .topbar .menu-btn{display:none;background:none;border:1px solid var(--border);color:var(--text);border-radius:10px;padding:6px 9px;font-size:14px;}
 .topbar .search{flex:1;max-width:420px;position:relative;}
-.topbar .search input{width:100%;background:rgba(255,255,255,.055);border:1px solid var(--border);color:var(--text);padding:8px 10px 8px 30px;border-radius:10px;font-size:13px;}
+.topbar .search input{width:100%;background:var(--panel2);border:1px solid var(--border);color:var(--text);padding:8px 10px 8px 30px;border-radius:10px;font-size:13px;}
 .topbar .search .ic{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:var(--text-faint);font-size:12px;}
 .topbar .spacer{flex:1;}
 .topbar .userchip{display:flex;align-items:center;gap:8px;border-left:1px solid var(--border-soft);padding-left:14px;}
-.topbar .userchip .av{width:28px;height:28px;border-radius:50%;background:var(--grad-brand);display:flex;align-items:center;justify-content:center;font-family:var(--head);font-size:12px;color:#0E1420;border:1px solid var(--border);box-shadow:var(--glow-carbon);}
+.topbar .userchip .av{width:28px;height:28px;border-radius:50%;background:var(--grad-brand);display:flex;align-items:center;justify-content:center;font-family:var(--head);font-size:12px;color:#fff;}
 .topbar .userchip .who{line-height:1.2;}
 .topbar .userchip .who b{font-size:12.5px;display:block;}
 .topbar .userchip .who span{font-size:10.5px;color:var(--text-faint);}
-.iconbtn{background:rgba(255,255,255,.035);border:1px solid var(--border);color:var(--text-dim);width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;position:relative;font-size:14px;}
+.iconbtn{background:var(--panel2);border:1px solid var(--border);color:var(--text-dim);width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;position:relative;font-size:14px;}
 .iconbtn:hover{color:var(--text);border-color:var(--text-faint);}
-.iconbtn .dot{position:absolute;top:-4px;right:-4px;background:var(--grad-danger);color:#fff;font-size:9px;border-radius:9px;padding:0 4px;font-family:var(--mono);box-shadow:var(--glow-danger);}
+.iconbtn .dot{position:absolute;top:-4px;right:-4px;background:var(--danger);color:#fff;font-size:9px;border-radius:9px;padding:0 4px;font-family:var(--mono);}
 
 .content{padding:20px 22px 60px;max-width:1400px;}
 .view{display:none;}
@@ -126,23 +119,23 @@ input,select,textarea{font-family:var(--body);}
 
 .pagehead{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:18px;}
 .pagehead h2{font-size:20px;}
-.pagehead .eyebrow{font-size:11px;color:var(--tangerine);text-shadow:0 0 14px rgba(255,122,26,.4);font-family:var(--head);letter-spacing:1.6px;margin-bottom:3px;}
+.pagehead .eyebrow{font-size:11px;color:var(--tangerine);font-family:var(--head);letter-spacing:1.6px;margin-bottom:3px;}
 .pagehead p.sub{color:var(--text-dim);font-size:12.5px;margin-top:4px;}
 .pagehead .actions{display:flex;gap:8px;}
 
 /* ---------- Buttons ---------- */
-.btn{border:1px solid var(--border);background:rgba(255,255,255,.05);backdrop-filter:blur(8px);color:var(--text);padding:8px 14px;border-radius:11px;font-size:12.5px;font-weight:500;display:inline-flex;align-items:center;gap:6px;position:relative;overflow:hidden;}
+.btn{border:1px solid var(--border);background:var(--panel);color:var(--text);padding:8px 14px;border-radius:10px;font-size:12.5px;font-weight:500;display:inline-flex;align-items:center;gap:6px;position:relative;overflow:hidden;}
 .btn-amber,.btn-safe,.btn-danger,.btn-primary{position:relative;isolation:isolate;}
-.btn-amber::before,.btn-safe::before,.btn-danger::before,.btn-primary::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg, rgba(255,255,255,.32) 0%, rgba(255,255,255,.06) 42%, rgba(255,255,255,0) 60%);pointer-events:none;}
-.btn:hover{border-color:var(--text-faint);background:rgba(255,255,255,.09);}
-.btn-amber{background:var(--grad-brand);border-color:transparent;color:#0E1420;font-weight:700;box-shadow:var(--glow-tangerine);}
-.btn-amber:hover{filter:brightness(1.08);}
-.btn-safe{background:var(--grad-safe);border-color:transparent;color:#052A1C;font-weight:700;box-shadow:var(--glow-safe);}
+.btn-amber::before,.btn-safe::before,.btn-danger::before,.btn-primary::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg, rgba(255,255,255,.22) 0%, rgba(255,255,255,.02) 50%, rgba(255,255,255,0) 60%);pointer-events:none;}
+.btn:hover{border-color:var(--text-faint);background:var(--panel2);}
+.btn-amber{background:var(--grad-brand);border-color:transparent;color:#fff;font-weight:700;box-shadow:var(--glow-tangerine);}
+.btn-amber:hover{filter:brightness(1.05);}
+.btn-safe{background:var(--grad-safe);border-color:transparent;color:#fff;font-weight:700;box-shadow:var(--glow-safe);}
 .btn-danger{background:var(--grad-danger);border-color:transparent;color:#fff;font-weight:700;box-shadow:var(--glow-danger);}
 .btn-ghost{background:none;}
 .btn-sm{padding:5px 10px;font-size:11.5px;border-radius:9px;}
-.btn-lg{padding:13px 20px;font-size:14px;font-family:var(--head);letter-spacing:.4px;border-radius:13px;}
-.btn:disabled{opacity:.4;cursor:not-allowed;box-shadow:none;}
+.btn-lg{padding:13px 20px;font-size:14px;font-family:var(--head);letter-spacing:.4px;border-radius:12px;}
+.btn:disabled{opacity:.45;cursor:not-allowed;box-shadow:none;}
 .btn-block{width:100%;justify-content:center;}
 
 /* ---------- Cards / grid ---------- */
@@ -153,63 +146,62 @@ input,select,textarea{font-family:var(--body);}
 @media(max-width:1100px){.g-4{grid-template-columns:repeat(2,1fr);}.g-3{grid-template-columns:repeat(2,1fr);}}
 @media(max-width:640px){.g-4,.g-3,.g-2{grid-template-columns:1fr;}}
 
-.kpi{background:rgba(255,255,255,.05);backdrop-filter:blur(16px) saturate(140%);-webkit-backdrop-filter:blur(16px) saturate(140%);border:1px solid var(--border);border-radius:16px;padding:14px 16px;position:relative;overflow:hidden;box-shadow:var(--glass-shadow);}
-.kpi .kv{font-family:var(--head);font-size:26px;line-height:1;}
+.kpi{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:14px 16px;position:relative;overflow:hidden;box-shadow:var(--glass-shadow);}
+.kpi .kv{font-family:var(--head);font-size:26px;line-height:1;color:var(--text);}
 .kpi .kl{color:var(--text-dim);font-size:11px;margin-top:6px;letter-spacing:.3px;}
 .kpi .ktrend{font-size:10.5px;margin-top:6px;font-family:var(--mono);}
-.kpi::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--border-soft);}
-.kpi.k-amber::before{background:var(--amber);box-shadow:var(--glow-warn);} .kpi.k-safe::before{background:var(--safe);box-shadow:var(--glow-safe);}
-.kpi.k-danger::before{background:var(--danger);box-shadow:var(--glow-danger);} .kpi.k-blue::before{background:var(--carbon);box-shadow:var(--glow-carbon);}
+.kpi::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--border);}
+.kpi.k-amber::before{background:var(--amber);} .kpi.k-safe::before{background:var(--safe);}
+.kpi.k-danger::before{background:var(--danger);} .kpi.k-blue::before{background:var(--carbon);}
 .kpi.clickable{cursor:pointer;} .kpi.clickable:hover{border-color:var(--text-faint);transform:translateY(-1px);}
 
-.card{background:rgba(255,255,255,.045);backdrop-filter:blur(16px) saturate(130%);-webkit-backdrop-filter:blur(16px) saturate(130%);border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:var(--glass-shadow);}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:var(--glass-shadow);}
 .card + .card{margin-top:14px;}
 .card h3{font-size:14px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;}
 .card h3 small{color:var(--text-faint);font-family:var(--body);font-size:11px;font-weight:400;}
 
 /* ---------- Table ---------- */
-.tablewrap{overflow-x:auto;border:1px solid var(--border);border-radius:14px;background:rgba(255,255,255,.025);backdrop-filter:blur(10px);}
+.tablewrap{overflow-x:auto;border:1px solid var(--border);border-radius:12px;background:var(--panel);}
 table{width:100%;border-collapse:collapse;font-size:12.5px;min-width:720px;}
-thead th{text-align:left;background:rgba(255,255,255,.045);color:var(--text-dim);font-size:10.5px;letter-spacing:.6px;padding:9px 12px;border-bottom:1px solid var(--border);white-space:nowrap;font-family:var(--head);font-weight:500;}
+thead th{text-align:left;background:var(--panel2);color:var(--text-dim);font-size:10.5px;letter-spacing:.6px;padding:9px 12px;border-bottom:1px solid var(--border);white-space:nowrap;font-family:var(--head);font-weight:500;}
 tbody td{padding:9px 12px;border-bottom:1px solid var(--border-soft);white-space:nowrap;color:var(--text);}
-tbody tr:hover{background:rgba(255,255,255,.045);}
+tbody tr:hover{background:var(--panel2);}
 tbody tr:last-child td{border-bottom:none;}
-.tbl-link{color:var(--carbon);cursor:pointer;font-family:var(--mono);font-weight:600;text-shadow:0 0 10px rgba(46,134,222,.3);}
-.tbl-toolbar{display:flex;gap:8px;flex-wrap:wrap;padding:10px;background:rgba(255,255,255,.045);backdrop-filter:blur(14px);border:1px solid var(--border);border-bottom:none;border-radius:14px 14px 0 0;}
-.tbl-toolbar input,.tbl-toolbar select{background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--text);padding:7px 9px;border-radius:9px;font-size:12px;}
+.tbl-link{color:var(--carbon);cursor:pointer;font-family:var(--mono);font-weight:600;}
+.tbl-toolbar{display:flex;gap:8px;flex-wrap:wrap;padding:10px;background:var(--panel2);border:1px solid var(--border);border-bottom:none;border-radius:12px 12px 0 0;}
+.tbl-toolbar input,.tbl-toolbar select{background:var(--panel);border:1px solid var(--border);color:var(--text);padding:7px 9px;border-radius:9px;font-size:12px;}
 .tbl-toolbar .grow{flex:1;min-width:160px;}
 
 /* ---------- Pills / chips (RAG applied to status/safety states) ---------- */
-.pill{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;padding:3px 9px;border-radius:20px;font-family:var(--head);letter-spacing:.4px;font-weight:500;white-space:nowrap;border:1px solid transparent;backdrop-filter:blur(6px);}
-.pill-dot{width:6px;height:6px;border-radius:50%;background:currentColor;box-shadow:0 0 6px currentColor;}
-.pill-draft{background:rgba(255,255,255,.08);color:#B9C0C9;border-color:rgba(255,255,255,.12);}
-.pill-submitted{background:rgba(46,134,222,.14);color:#7EBBF5;border-color:rgba(46,134,222,.32);}
-.pill-review{background:rgba(245,166,35,.14);color:var(--amber);border-color:rgba(245,166,35,.32);box-shadow:0 0 12px rgba(245,166,35,.16);}
-.pill-returned{background:var(--tangerine-dim);color:#FFB16A;border-color:rgba(255,122,26,.32);}
-.pill-approved{background:rgba(34,197,94,.14);color:#6FE39B;border-color:rgba(34,197,94,.32);box-shadow:0 0 12px rgba(34,197,94,.16);}
-.pill-issued{background:rgba(46,134,222,.14);color:#7EBBF5;border-color:rgba(46,134,222,.32);}
-.pill-active{background:rgba(34,197,94,.16);color:#6FE39B;border-color:rgba(34,197,94,.35);box-shadow:0 0 14px rgba(34,197,94,.22);}
-.pill-suspended{background:rgba(239,68,68,.16);color:#FF9E9E;border-color:rgba(239,68,68,.35);box-shadow:0 0 14px rgba(239,68,68,.22);}
-.pill-revalidation{background:rgba(245,166,35,.14);color:var(--amber);border-color:rgba(245,166,35,.3);}
-.pill-expiring{background:rgba(245,166,35,.16);color:#FFCB7A;border-color:rgba(245,166,35,.35);box-shadow:0 0 12px rgba(245,166,35,.22);}
-.pill-expired{background:rgba(239,68,68,.14);color:#FF9E9E;border-color:rgba(239,68,68,.3);}
-.pill-complete{background:rgba(46,134,222,.14);color:#7EBBF5;border-color:rgba(46,134,222,.32);}
-.pill-handback{background:rgba(46,134,222,.14);color:#7EBBF5;border-color:rgba(46,134,222,.32);}
-.pill-closed{background:rgba(255,255,255,.06);color:var(--text-faint);border-color:rgba(255,255,255,.1);}
-.pill-rejected{background:rgba(239,68,68,.14);color:#FF9E9E;border-color:rgba(239,68,68,.3);}
-.pill-cancelled{background:rgba(255,255,255,.06);color:var(--text-faint);border-color:rgba(255,255,255,.1);}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;padding:3px 9px;border-radius:20px;font-family:var(--head);letter-spacing:.4px;font-weight:500;white-space:nowrap;border:1px solid transparent;}
+.pill-dot{width:6px;height:6px;border-radius:50%;background:currentColor;}
+.pill-draft{background:#EEF1F5;color:#5B6675;border-color:#E3E9F2;}
+.pill-submitted{background:#E9EEFB;color:#3E5FC4;border-color:#D6E0F7;}
+.pill-review{background:var(--warn-dim);color:var(--amber);border-color:#F5DFB3;}
+.pill-returned{background:var(--tangerine-dim);color:var(--tangerine);border-color:#F3D2AE;}
+.pill-approved{background:var(--safe-dim);color:var(--safe);border-color:#C9EAD0;}
+.pill-issued{background:#E9EEFB;color:#3E5FC4;border-color:#D6E0F7;}
+.pill-active{background:var(--safe-dim);color:var(--safe);border-color:#C9EAD0;font-weight:600;}
+.pill-suspended{background:var(--danger-dim);color:var(--danger);border-color:#F1C7C3;font-weight:600;}
+.pill-revalidation{background:var(--warn-dim);color:var(--amber);border-color:#F5DFB3;}
+.pill-expiring{background:var(--warn-dim);color:var(--amber);border-color:#F5DFB3;font-weight:600;}
+.pill-expired{background:var(--danger-dim);color:var(--danger);border-color:#F1C7C3;}
+.pill-complete{background:#E9EEFB;color:#3E5FC4;border-color:#D6E0F7;}
+.pill-handback{background:#E9EEFB;color:#3E5FC4;border-color:#D6E0F7;}
+.pill-closed{background:#EEF1F5;color:var(--text-faint);border-color:#E3E9F2;}
+.pill-rejected{background:var(--danger-dim);color:var(--danger);border-color:#F1C7C3;}
+.pill-cancelled{background:#EEF1F5;color:var(--text-faint);border-color:#E3E9F2;}
 
-.chip{display:inline-flex;align-items:center;gap:6px;font-size:10.5px;padding:3px 8px;border-radius:8px;font-weight:600;letter-spacing:.2px;border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(6px);}
-/* Risk scale uses a Green -> Amber -> Tangerine -> Red escalation (RAG extended for 4 criticality tiers) */
-.risk-R1{background:rgba(34,197,94,.14);color:#6FE39B;} .risk-R2{background:rgba(245,166,35,.16);color:#FFCB7A;}
-.risk-R3{background:var(--tangerine-dim);color:#FFB16A;} .risk-R4{background:rgba(239,68,68,.16);color:#FF9E9E;box-shadow:0 0 10px rgba(239,68,68,.28);}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:10.5px;padding:3px 8px;border-radius:8px;font-weight:600;letter-spacing:.2px;border:1px solid transparent;}
+.risk-R1{background:var(--safe-dim);color:var(--safe);} .risk-R2{background:var(--warn-dim);color:var(--amber);}
+.risk-R3{background:var(--tangerine-dim);color:var(--tangerine);} .risk-R4{background:var(--danger-dim);color:var(--danger);}
 
 /* ---------- Forms ---------- */
 .field{display:flex;flex-direction:column;gap:5px;}
 .field label{font-size:11.5px;color:var(--text-dim);font-family:var(--head);letter-spacing:.3px;}
 .field label .req{color:var(--danger);}
-.field input,.field select,.field textarea{background:rgba(255,255,255,.055);border:1px solid var(--border);color:var(--text);padding:9px 10px;border-radius:10px;font-size:13px;width:100%;}
-.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--carbon);box-shadow:var(--glow-carbon);}
+.field input,.field select,.field textarea{background:var(--panel);border:1px solid var(--border);color:var(--text);padding:9px 10px;border-radius:10px;font-size:13px;width:100%;}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--carbon);box-shadow:0 0 0 3px rgba(62,95,196,.12);}
 .field textarea{resize:vertical;min-height:64px;}
 .field .hint{font-size:10.5px;color:var(--text-faint);}
 .form-row{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:14px;}
@@ -220,81 +212,81 @@ tbody tr:last-child td{border-bottom:none;}
 .toggle{position:relative;width:38px;height:21px;flex:none;}
 .toggle input{opacity:0;width:0;height:0;}
 .toggle .tr{position:absolute;inset:0;background:var(--panel3);border:1px solid var(--border);border-radius:20px;transition:.15s;}
-.toggle .tr:before{content:'';position:absolute;width:15px;height:15px;left:2px;top:2px;background:var(--text-faint);border-radius:50%;transition:.15s;}
-.toggle input:checked + .tr{background:rgba(34,197,94,.22);border-color:var(--safe);box-shadow:var(--glow-safe);}
-.toggle input:checked + .tr:before{transform:translateX(17px);background:var(--safe);}
+.toggle .tr:before{content:'';position:absolute;width:15px;height:15px;left:2px;top:2px;background:#fff;border:1px solid var(--border);border-radius:50%;transition:.15s;}
+.toggle input:checked + .tr{background:var(--safe-dim);border-color:var(--safe);}
+.toggle input:checked + .tr:before{transform:translateX(17px);background:var(--safe);border-color:var(--safe);}
 
 /* ---------- Wizard ---------- */
-.steps{display:flex;gap:0;margin-bottom:22px;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:rgba(255,255,255,.025);backdrop-filter:blur(10px);}
+.steps{display:flex;gap:0;margin-bottom:22px;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--panel);}
 .step{flex:1;padding:10px 12px;background:transparent;border-right:1px solid var(--border-soft);font-size:11px;color:var(--text-faint);position:relative;}
 .step:last-child{border-right:none;}
 .step b{display:block;font-family:var(--head);font-size:12px;color:var(--text-dim);}
 .step.done{color:var(--safe);} .step.done b{color:var(--safe);}
-.step.current{background:rgba(46,134,222,.12);} .step.current b{color:var(--tangerine);}
-.step.current::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--grad-brand);box-shadow:var(--glow-carbon);}
+.step.current{background:#EEF2FC;} .step.current b{color:var(--carbon);}
+.step.current::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--grad-brand);}
 @media(max-width:820px){.steps{display:none;}}
 
-.gate{border:1px solid rgba(245,166,35,.4);background:var(--warn-dim);backdrop-filter:blur(14px);border-radius:14px;padding:16px;margin-bottom:18px;box-shadow:0 0 26px rgba(245,166,35,.12);}
+.gate{border:1px solid #F0D9A8;background:var(--warn-dim);border-radius:12px;padding:16px;margin-bottom:18px;}
 .gate h4{color:var(--amber);font-size:13px;margin-bottom:6px;}
 .gate p{font-size:12.5px;color:var(--text-dim);margin:0 0 10px;}
 
 .hazard-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
 @media(max-width:900px){.hazard-grid{grid-template-columns:repeat(2,1fr);}}
-.hz{border:1px solid var(--border);background:rgba(255,255,255,.04);backdrop-filter:blur(8px);border-radius:11px;padding:10px;font-size:12px;display:flex;gap:8px;align-items:flex-start;cursor:pointer;}
+.hz{border:1px solid var(--border);background:var(--panel);border-radius:10px;padding:10px;font-size:12px;display:flex;gap:8px;align-items:flex-start;cursor:pointer;}
 .hz input{margin-top:2px;}
-.hz.checked{border-color:var(--carbon);background:rgba(46,134,222,.12);box-shadow:var(--glow-carbon);}
+.hz.checked{border-color:var(--carbon);background:#EEF2FC;}
 
 /* ---------- Crew list ---------- */
 .crewbar{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
 .crewmeter{flex:1;height:8px;background:var(--panel3);border-radius:5px;overflow:hidden;}
-.crewmeter i{display:block;height:100%;background:var(--grad-brand);box-shadow:var(--glow-carbon);}
-.crewrow{display:flex;align-items:center;gap:10px;padding:9px;border:1px solid var(--border-soft);border-radius:11px;margin-bottom:6px;background:rgba(255,255,255,.035);font-size:12.5px;}
+.crewmeter i{display:block;height:100%;background:var(--grad-brand);}
+.crewrow{display:flex;align-items:center;gap:10px;padding:9px;border:1px solid var(--border-soft);border-radius:10px;margin-bottom:6px;background:var(--panel2);font-size:12.5px;}
 .crewrow .av{width:26px;height:26px;border-radius:50%;background:var(--panel3);display:flex;align-items:center;justify-content:center;font-family:var(--head);font-size:11px;color:var(--text-dim);flex:none;}
 .crewrow .ci{flex:1;min-width:0;}
 .crewrow .ci b{display:block;font-size:12.5px;}
 .crewrow .ci span{color:var(--text-faint);font-size:11px;}
 
 /* ---------- Permit detail ---------- */
-.pdhead{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:14px;border:1px solid var(--border);background:rgba(255,255,255,.045);backdrop-filter:blur(18px) saturate(140%);border-radius:18px;padding:18px;margin-bottom:16px;box-shadow:var(--glass-shadow);}
-.pdhead .pno{font-family:var(--mono);font-size:19px;font-weight:600;letter-spacing:.3px;}
+.pdhead{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:14px;border:1px solid var(--border);background:var(--panel);border-radius:16px;padding:18px;margin-bottom:16px;box-shadow:var(--glass-shadow);}
+.pdhead .pno{font-family:var(--mono);font-size:19px;font-weight:600;letter-spacing:.3px;color:var(--text);}
 .pdhead .pdesc{color:var(--text-dim);font-size:12.5px;margin-top:4px;max-width:520px;}
 .pdhead .meta{display:flex;gap:16px;flex-wrap:wrap;margin-top:10px;font-size:11.5px;color:var(--text-faint);}
 .pdhead .meta b{color:var(--text-dim);}
-.timeline{display:flex;flex-wrap:wrap;gap:0;border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:16px;background:rgba(255,255,255,.025);backdrop-filter:blur(10px);}
+.timeline{display:flex;flex-wrap:wrap;gap:0;border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:16px;background:var(--panel);}
 .tl-step{flex:1;min-width:110px;padding:9px 10px;font-size:10.5px;color:var(--text-faint);background:transparent;border-right:1px solid var(--border-soft);}
 .tl-step b{display:block;font-family:var(--head);font-size:11px;color:var(--text-faint);}
-.tl-step.on{background:rgba(34,197,94,.08);} .tl-step.on b{color:var(--safe);}
+.tl-step.on{background:var(--safe-dim);} .tl-step.on b{color:var(--safe);}
 .tl-step.now b{color:var(--tangerine);}
 
 .tabs{display:flex;gap:2px;border-bottom:1px solid var(--border);margin-bottom:16px;flex-wrap:wrap;}
 .tab{padding:9px 14px;font-size:12.5px;color:var(--text-dim);border-bottom:2px solid transparent;font-family:var(--head);letter-spacing:.2px;cursor:pointer;}
-.tab.active{color:var(--text);border-color:var(--tangerine);text-shadow:0 0 10px rgba(255,122,26,.35);}
+.tab.active{color:var(--carbon);border-color:var(--tangerine);font-weight:600;}
 
 .doclist{list-style:none;padding:0;margin:0;}
 .doclist li{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border-soft);font-size:12.5px;color:var(--text-dim);}
 .doclist li:last-child{border-bottom:none;}
 
-.obs-card{border:1px solid var(--border);border-radius:14px;padding:12px;margin-bottom:10px;background:rgba(255,255,255,.04);backdrop-filter:blur(12px);}
+.obs-card{border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:10px;background:var(--panel2);}
 .obs-card .obhead{display:flex;justify-content:space-between;gap:10px;margin-bottom:6px;}
 .obs-card p{font-size:12.5px;color:var(--text-dim);margin:4px 0;}
 
-.simops-banner{border:1px solid rgba(239,68,68,.45);background:var(--danger-dim);backdrop-filter:blur(14px);border-radius:14px;padding:14px 16px;margin-bottom:16px;display:flex;gap:12px;align-items:flex-start;box-shadow:0 0 26px rgba(239,68,68,.16);}
+.simops-banner{border:1px solid #F1C7C3;background:var(--danger-dim);border-radius:12px;padding:14px 16px;margin-bottom:16px;display:flex;gap:12px;align-items:flex-start;}
 .simops-banner .ic{font-size:20px;}
-.simops-banner h4{color:#FF9E9E;font-size:13.5px;margin-bottom:4px;}
+.simops-banner h4{color:var(--danger);font-size:13.5px;margin-bottom:4px;}
 .simops-banner p{font-size:12px;color:var(--text-dim);margin:0;}
 
-/* Toolbox talk */
+/* Toolbox talk / TRIC card */
 .tbt-lang{display:flex;gap:8px;margin-bottom:14px;}
 .tbt-lang button{flex:1;}
-.tbt-block{border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:10px;background:rgba(255,255,255,.04);backdrop-filter:blur(12px);}
+.tbt-block{border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:10px;background:var(--panel2);}
 .tbt-block h5{font-size:11.5px;color:var(--tangerine);font-family:var(--head);letter-spacing:.6px;margin-bottom:6px;}
 .tbt-block ul{margin:0;padding-left:18px;font-size:13px;color:var(--text);line-height:1.6;}
 .tbt-block p{margin:0;font-size:13px;line-height:1.6;}
 
 /* Modal */
-.modal-bg{position:fixed;inset:0;background:rgba(3,5,8,.6);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:100;padding:20px;}
+.modal-bg{position:fixed;inset:0;background:rgba(30,39,51,.35);backdrop-filter:blur(2px);display:none;align-items:center;justify-content:center;z-index:100;padding:20px;}
 .modal-bg.show{display:flex;}
-.modal{background:rgba(16,20,26,.8);backdrop-filter:blur(26px) saturate(150%);-webkit-backdrop-filter:blur(26px) saturate(150%);border:1px solid var(--border);border-radius:18px;max-width:480px;width:100%;max-height:88vh;overflow:auto;box-shadow:var(--glass-shadow), 0 0 60px rgba(46,134,222,.16);}
+.modal{background:var(--panel);border:1px solid var(--border);border-radius:16px;max-width:480px;width:100%;max-height:88vh;overflow:auto;box-shadow:0 20px 50px rgba(33,43,57,.18);}
 .modal .mhead{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
 .modal .mhead h4{font-size:14px;}
 .modal .mbody{padding:18px;}
@@ -302,9 +294,9 @@ tbody tr:last-child td{border-bottom:none;}
 .xbtn{background:none;border:none;color:var(--text-faint);font-size:18px;line-height:1;}
 
 .toast-wrap{position:fixed;bottom:18px;right:18px;z-index:200;display:flex;flex-direction:column;gap:8px;}
-.toast{background:rgba(16,20,26,.85);backdrop-filter:blur(20px);border:1px solid var(--border);border-left:3px solid var(--safe);color:var(--text);padding:10px 16px;border-radius:12px;font-size:12.5px;box-shadow:var(--glass-shadow), var(--glow-safe);animation:tin .2s ease;}
-.toast.danger{border-left-color:var(--danger);box-shadow:var(--glass-shadow), var(--glow-danger);}
-.toast.amber{border-left-color:var(--amber);box-shadow:var(--glass-shadow), var(--glow-warn);}
+.toast{background:var(--panel);border:1px solid var(--border);border-left:3px solid var(--safe);color:var(--text);padding:10px 16px;border-radius:12px;font-size:12.5px;box-shadow:0 8px 24px rgba(33,43,57,.14);animation:tin .2s ease;}
+.toast.danger{border-left-color:var(--danger);}
+.toast.amber{border-left-color:var(--amber);}
 @keyframes tin{from{opacity:0;transform:translateY(6px);}to{opacity:1;}}
 
 .empty{text-align:center;padding:40px 20px;color:var(--text-faint);}
@@ -314,10 +306,10 @@ tbody tr:last-child td{border-bottom:none;}
 .progress-track{height:5px;background:var(--panel3);border-radius:3px;overflow:hidden;}
 .progress-track i{display:block;height:100%;}
 
-.badge-role{display:inline-block;background:rgba(255,255,255,.06);border:1px solid var(--border);padding:2px 8px;border-radius:8px;font-size:10.5px;color:var(--text-dim);}
+.badge-role{display:inline-block;background:var(--panel2);border:1px solid var(--border);padding:2px 8px;border-radius:8px;font-size:10.5px;color:var(--text-dim);}
 
 /* Mobile nav */
-.mobile-nav-bg{position:fixed;inset:0;background:rgba(3,5,8,.55);z-index:45;display:none;}
+.mobile-nav-bg{position:fixed;inset:0;background:rgba(33,43,57,.35);z-index:45;display:none;}
 .mobile-nav-bg.show{display:block;}
 @media(max-width:960px){
   .app-shell{grid-template-columns:1fr;}
@@ -333,7 +325,7 @@ tbody tr:last-child td{border-bottom:none;}
   .pdhead .meta{gap:10px;}
 }
 .qr-wrap{display:flex;flex-direction:column;align-items:center;gap:10px;padding:10px 0;}
-.qr-wrap #qrcanvas{background:#fff;padding:10px;border-radius:14px;box-shadow:var(--glow-carbon);}
+.qr-wrap #qrcanvas{background:#fff;padding:10px;border-radius:12px;border:1px solid var(--border);}
 .small-note{font-size:11px;color:var(--text-faint);margin-top:4px;}
 .divider{height:1px;background:var(--border-soft);margin:14px 0;}
 .section-title{font-family:var(--head);font-size:12px;letter-spacing:.8px;color:var(--text-dim);margin:18px 0 10px;text-transform:uppercase;}
@@ -346,9 +338,9 @@ tbody tr:last-child td{border-bottom:none;}
 .avatar-lg{width:52px;height:52px;border-radius:50%;background:var(--panel3);display:flex;align-items:center;justify-content:center;font-family:var(--head);font-size:18px;color:var(--tangerine);border:1px solid var(--border);flex:none;}
 
 /* ---------- HSE Dashboard filter bar & charts ---------- */
-.filterbar{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;margin-bottom:16px;background:rgba(255,255,255,.045);backdrop-filter:blur(16px);border:1px solid var(--border);border-radius:14px;padding:12px 14px;box-shadow:var(--glass-shadow);}
+.filterbar{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;margin-bottom:16px;background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:12px 14px;box-shadow:var(--glass-shadow);}
 .filterbar .field{min-width:150px;flex:1;}
-.chartcard{background:rgba(255,255,255,.045);backdrop-filter:blur(16px) saturate(130%);border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:var(--glass-shadow);}
+.chartcard{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:var(--glass-shadow);}
 .chartcard h3{font-size:13px;margin-bottom:12px;}
 .legend-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;font-size:11px;color:var(--text-dim);}
 .legend-row span{display:inline-flex;align-items:center;gap:5px;}
@@ -367,7 +359,7 @@ tbody tr:last-child td{border-bottom:none;}
       <div id="loginError" style="display:none;background:var(--danger-dim);border:1px solid rgba(239,68,68,.4);color:#FF9E9E;border-radius:10px;padding:9px 12px;font-size:12px;margin-bottom:14px;"></div>
       <div class="field" style="margin-bottom:14px;">
         <label>Employee ID</label>
-        <input id="loginId" value="" placeholder="e.g. ENG-2201" autocomplete="username">
+        <input id="loginId" value="" placeholder="e.g. PA-2201" autocomplete="username">
       </div>
       <div class="field" style="margin-bottom:10px;">
         <label>Password</label>
@@ -409,88 +401,103 @@ tbody tr:last-child td{border-bottom:none;}
 
 <script>
 // ===================== CORE REFERENCE DATA =====================
+// ===================== ORGANIZATION — Al Tasnim ODC Self-Managed PTW scope =====================
+// Rebuilt to match ATNM-HSE-SWP-23 (Rev 2, 15.12.2025) — the real PDO-approved
+// procedure — rather than the generic multi-division structure used earlier.
+// This system's scope is specifically Oil & Gas ODC work that does not
+// interfere with existing PDO operational assets.
 const DIVISION_RECORDS = [
-  {id:'DIV-CIV', name:'Civil', abbr:'CIV'},
-  {id:'DIV-INF', name:'Infrastructure', abbr:'INF'},
-  {id:'DIV-MEP', name:'MEP', abbr:'MEP'},
-  {id:'DIV-OG', name:'Oil & Gas', abbr:'OG'},
-  {id:'DIV-PLT', name:'Plant & Workshops', abbr:'PLT'},
+  {id:'DIV-ODC', name:'Oil & Gas — ODC', abbr:'ODC'},
 ];
 const DIVISIONS = DIVISION_RECORDS.map(d=>d.name);
 function syncDivisionNames(){ DIVISIONS.length=0; DIVISIONS.push(...DIVISION_RECORDS.map(d=>d.name)); }
 
 const PROJECTS = [
-  {id:'PRJ-CIV-01', division:'Civil', name:'Duqm Refinery Expansion — Pkg 3', site:'Duqm Industrial Area'},
-  {id:'PRJ-INF-01', division:'Infrastructure', name:'Sohar Port Access Road', site:'Sohar Freezone'},
-  {id:'PRJ-MEP-01', division:'MEP', name:'Muscat Grand Mall Fit-out', site:'Muscat — Ghubra'},
-  {id:'PRJ-OG-01',  division:'Oil & Gas', name:'Fahud Wellpad Tie-in Works', site:'Fahud Field'},
-  {id:'PRJ-PLT-01', division:'Plant & Workshops', name:'Central Workshop Upgrade', site:'Rusayl Workshop Yard'},
+  {id:'YARD-AMAL', division:'Oil & Gas — ODC', name:'ODC / Projects / MPP3', site:'Amal Industrial Yard'},
+  {id:'YARD-NIMR', division:'Oil & Gas — ODC', name:'ODC Field Operations', site:'Nimr Industrial Yard'},
+  {id:'YARD-MARMUL', division:'Oil & Gas — ODC', name:'ODC Field Operations', site:'Marmul Industrial Yard'},
+  {id:'YARD-ATNM', division:'Oil & Gas — ODC', name:'ATNM Yard & Camp Operations', site:'ATNM Industrial Yard'},
 ];
 
+// PTW Classes per ATNM-HSE-SWP-23 §8 — replaces the old hazard-type permit
+// list. Hazard-specific work (excavation, confined space, isolation, etc.) is
+// now handled as Certificates attached to a Class B permit (see CERTIFICATES
+// below), not as the permit classification itself.
 const PERMIT_TYPES = [
-  {code:'GPTW', name:'General / Cold Work', color:'#2E86DE'},
-  {code:'HWP',  name:'Hot Work', color:'#EF4444'},
-  {code:'EXC',  name:'Excavation', color:'#9A6B3E'},
-  {code:'CSE',  name:'Confined Space', color:'#8E5FB0'},
-  {code:'ELEC', name:'Electrical Work', color:'#D9C23A'},
-  {code:'LIFT', name:'Lifting', color:'#22C55E'},
-  {code:'WAH',  name:'Work at Height', color:'#FF7A1A'},
-  {code:'BC',   name:'Breaking Containment', color:'#3FA6A0'},
-  {code:'PT',   name:'Pressure Testing', color:'#3FC4C4'},
-  {code:'RAD',  name:'Radiography', color:'#C43FA6'},
+  {code:'CLASSB',  name:'Class B PTW — Medium Risk', short:'Class B', color:'#3E5FC4'},
+  {code:'NOPTW',   name:'No-PTW Job Form — Low Risk', short:'No-PTW', color:'#3E9151'},
+  {code:'TASKSOP', name:'Task SOP / Notification of Work', short:'Task SOP', color:'#DE7F3B'},
 ];
 
-const RISK_LEVELS = [
-  {code:'R1', name:'Controlled', approval:'Authorized Project Representative'},
-  {code:'R2', name:'Significant', approval:'Project / Construction Management'},
-  {code:'R3', name:'High', approval:'Project Manager + HSE Concurrence'},
-  {code:'R4', name:'Critical', approval:'Senior Authority + HSE + Specialist Review'},
+// Certificates attachable to a permit (Appendices 18, 20–24, 30) — selected
+// in addition to, not instead of, the PTW class.
+const CERTIFICATES_LIB = [
+  'Excavation Certificate','Confined Space Entry Certificate','Electrical Isolation / De-isolation Certificate',
+  'Mechanical Isolation / De-isolation Certificate','Radiography Certificate',
+  'Clearance Certificate — Work in Vicinity / Passage under OHL','Vehicle Entry Checklist','Lift Plan'
 ];
 
+// Activities requiring PTW consideration — condensed from Appendix 5 (PTW
+// type and controls for activities in each type of work area).
 const HAZARDS_LIB = [
-  'Working at height / fall potential','Falling objects','Hot work sparks / ignition source','Confined space atmosphere',
-  'Excavation collapse','Underground services strike','Electrical shock / arc flash','Manual handling injury',
-  'Line of fire','Lifting / dropped load','Mobile plant & vehicle movement','Noise exposure',
-  'Hazardous substances / chemicals','Heat stress / weather exposure','SIMOPS — adjacent simultaneous activity'
+  'Hot Work — Welding (gas / oxy-acetylene cutting)','Hot Work — Welding (arc)','Hot Work — Grinding / Grit Blasting',
+  'Confined Space Entry — existing vessel / cellar / RV pit','Confined Space Entry — new construction / excavation below 1.5m',
+  'Handling substances hazardous to health (toxic chemicals / asbestos)','Use of radioactive sources (NORM / radiography)',
+  'Power/hand tools that may create a spark','Painting (hand/spray) / STOPPAQ','Isolation and De-isolation (yard)',
+  'Beam pump / PCP activities','Polyethylene lining of pipelines/flowlines','Non-routine lifting activities (Class B required)',
+  'Work at height (fall potential > 2m)','Scaffolding erection / dismantling',
+  'Cranes & heavy machinery near live hydrocarbon / HP steam / OHL','Pressure testing of plant and equipment',
+  'Use of temporary diesel engines in hazardous areas','Use of intrinsically safe test / portable equipment',
+  'Excavation / trenching','Night-time working','SIMOPS — adjacent simultaneous activity'
 ];
 
 const CONTROLS_LIB = {
-  'Working at height / fall potential':['Full body harness with double lanyard','Inspected access scaffold / MEWP','Edge protection & toe boards','Rescue plan in place'],
-  'Falling objects':['Exclusion zone barricaded below','Tool lanyards / tethering','Debris netting'],
-  'Hot work sparks / ignition source':['Fire watch with extinguisher','Gas test before & during work','Fire blanket / screening','Combustibles removed 10m radius'],
-  'Confined space atmosphere':['Continuous gas monitoring','Standby attendant at entry point','Rescue & retrieval equipment ready','Forced ventilation running'],
-  'Excavation collapse':['Shoring / battering to design','Daily excavation inspection','Spoil set back min 1m','Ladder access every 8m'],
-  'Underground services strike':['Cable / utility scan (CAT scan) complete','Permit to break ground cross-checked','Hand digging within 0.5m of services'],
-  'Electrical shock / arc flash':['Positive isolation & LOTO applied','Verified dead before work','Insulated tools used','Competent electrician assigned'],
-  'Manual handling injury':['Mechanical aids used where possible','Team lift for loads >20kg','Task rotation applied'],
-  'Line of fire':['No work above / below others','Positioning briefed in TBT','Physical barriers where practical'],
-  'Lifting / dropped load':['Lift plan approved','Certified rigging & lifting gear','Exclusion zone under load','Banksman signals only'],
-  'Mobile plant & vehicle movement':['Banksman for reversing','Segregation of pedestrians & plant','Speed limit enforced'],
-  'Noise exposure':['Hearing protection mandatory','Noise zone signage'],
-  'Hazardous substances / chemicals':['MSDS available on site','Spill kit available','Appropriate PPE / respiratory protection'],
-  'Heat stress / weather exposure':['Work-rest cycle applied','Hydration point available','Heat stress buddy system'],
-  'SIMOPS — adjacent simultaneous activity':['SIMOPS review completed','Cross-notification to adjacent crews','Joint toolbox talk where required'],
+  'Hot Work — Welding (gas / oxy-acetylene cutting)':['Fire watch with extinguisher','Gas test before & during work','Combustibles removed 10m radius'],
+  'Hot Work — Welding (arc)':['Fire watch with extinguisher','Gas test before & during work','Fire blanket / screening'],
+  'Hot Work — Grinding / Grit Blasting':['Fire watch with extinguisher','Spark containment / screening','Combustibles removed 10m radius'],
+  'Confined Space Entry — existing vessel / cellar / RV pit':['Continuous gas monitoring','Standby attendant at entry point','Rescue & retrieval equipment ready','Forced ventilation running'],
+  'Confined Space Entry — new construction / excavation below 1.5m':['Continuous gas monitoring','Standby attendant at entry point','Shoring / battering to design','Ladder access every 8m'],
+  'Handling substances hazardous to health (toxic chemicals / asbestos)':['MSDS available on site','Spill kit available','Appropriate PPE / respiratory protection'],
+  'Use of radioactive sources (NORM / radiography)':['Radiation Protection Supervisor (RPS) present','Exclusion zone barricaded','Dosimetry worn'],
+  'Power/hand tools that may create a spark':['Gas test before work','Spark-resistant tools where required','Fire watch nearby'],
+  'Painting (hand/spray) / STOPPAQ':['Adequate ventilation','Appropriate respiratory PPE','Ignition sources removed'],
+  'Isolation and De-isolation (yard)':['Positive isolation & LOTO applied','Verified dead/de-energized before work','Isolation Certificate completed'],
+  'Beam pump / PCP activities':['Mechanical isolation confirmed','Line of fire assessed','Competent crew assigned'],
+  'Polyethylene lining of pipelines/flowlines':['Ventilation for fumes','Hot work controls where fusion welding used'],
+  'Non-routine lifting activities (Class B required)':['Lift plan approved','Certified rigging & lifting gear','Exclusion zone under load','Banksman signals only'],
+  'Work at height (fall potential > 2m)':['Full body harness with double lanyard','Inspected access scaffold / MEWP','Edge protection & toe boards','Rescue plan in place'],
+  'Scaffolding erection / dismantling':['Competent scaffolder','Tagging system in use','Exclusion zone below'],
+  'Cranes & heavy machinery near live hydrocarbon / HP steam / OHL':['Banksman for reversing','Segregation of pedestrians & plant','OHL clearance certificate where applicable'],
+  'Pressure testing of plant and equipment':['Exclusion zone established','Test pressure/hold time per procedure','Relief protection in place'],
+  'Use of temporary diesel engines in hazardous areas':['Gas test before use','Spark arrestor fitted','Continuous gas monitoring during use'],
+  'Use of intrinsically safe test / portable equipment':['Equipment certified IS-rated','Gas test before use'],
+  'Excavation / trenching':['GPR / CAT scan complete','Shoring / battering to design','Spoil set back min 1m','Daily excavation inspection'],
+  'Night-time working':['Adequate lighting provided','Journey management in place','Additional supervision arranged'],
+  'SIMOPS — adjacent simultaneous activity':['SIMOPS review completed','Cross-notification to adjacent crews','Joint toolbox talk / TRIC where required'],
 };
 
 // ===================== USERS =====================
 const USERS = [
-  {id:'ENG-2201', name:'Rashid Al Balushi', designation:'Site Engineer', division:'Civil', role:'applicant', project:'PRJ-CIV-01', email:'rashid.albalushi@altasnim.com', status:'Active'},
-  {id:'ENG-2245', name:'Priya Nair', designation:'MEP Engineer', division:'MEP', role:'applicant', project:'PRJ-MEP-01', email:'priya.nair@altasnim.com', status:'Active'},
-  {id:'ENG-2270', name:'Salim Al Habsi', designation:'Field Engineer', division:'Oil & Gas', role:'applicant', project:'PRJ-OG-01', email:'salim.alhabsi@altasnim.com', status:'Active'},
-  {id:'ENG-2288', name:'Waleed Al Amri', designation:'Site Engineer', division:'Infrastructure', role:'applicant', project:'PRJ-INF-01', email:'waleed.alamri@altasnim.com', status:'Active'},
-  {id:'PM-1001', name:'Khalid Al Rawahi', designation:'Project Manager', division:'Civil', role:'authorizer', project:'PRJ-CIV-01', email:'khalid.alrawahi@altasnim.com', status:'Active'},
-  {id:'CM-1050', name:'Anil Kumar', designation:'Construction Manager', division:'Infrastructure', role:'authorizer', project:'PRJ-INF-01', email:'anil.kumar@altasnim.com', status:'Active'},
-  {id:'PM-1075', name:'Hamed Al Shukaili', designation:'Project Manager', division:'Oil & Gas', role:'authorizer', project:'PRJ-OG-01', email:'hamed.alshukaili@altasnim.com', status:'Active'},
-  {id:'PM-1090', name:'Faisal Al Maawali', designation:'Project Manager', division:'MEP', role:'authorizer', project:'PRJ-MEP-01', email:'faisal.almaawali@altasnim.com', status:'Active'},
-  {id:'HSE-3001', name:'Fatma Al Kindi', designation:'Senior HSE Adviser', division:'Civil', role:'hse', project:'PRJ-CIV-01', email:'fatma.alkindi@altasnim.com', status:'Active'},
-  {id:'HSE-3020', name:'Suresh Menon', designation:'HSE Adviser', division:'Oil & Gas', role:'hse', project:'PRJ-OG-01', email:'suresh.menon@altasnim.com', status:'Active'},
-  {id:'HSE-3033', name:'Aisha Al Zadjali', designation:'HSE Adviser', division:'Infrastructure', role:'hse', project:'PRJ-INF-01', email:'aisha.alzadjali@altasnim.com', status:'Active'},
-  {id:'FRM-4010', name:'Mohammed Al Farsi', designation:'General Foreman', division:'Civil', role:'holder', project:'PRJ-CIV-01', email:'mohammed.alfarsi@altasnim.com', status:'Active'},
-  {id:'FRM-4033', name:'Ravi Shankar', designation:'Foreman', division:'MEP', role:'holder', project:'PRJ-MEP-01', email:'ravi.shankar@altasnim.com', status:'Active'},
-  {id:'FRM-4055', name:'Juma Al Hinai', designation:'Foreman', division:'Oil & Gas', role:'holder', project:'PRJ-OG-01', email:'juma.alhinai@altasnim.com', status:'Active'},
-  {id:'FRM-4061', name:'Basheer Ahmed', designation:'Foreman', division:'Infrastructure', role:'holder', project:'PRJ-INF-01', email:'basheer.ahmed@altasnim.com', status:'Active'},
-  {id:'ADM-5000', name:'Zahra Al Lawati', designation:'System Administrator', division:'All', role:'admin', project:null, email:'zahra.allawati@altasnim.com', status:'Active'},
-  {id:'MGT-6000', name:'Yousuf Al Balushi', designation:'Operations Director', division:'All', role:'viewer', project:null, email:'yousuf.albalushi@altasnim.com', status:'Active'},
+  {id:'PA-2201', name:'Rashid Al Balushi', designation:'Discipline Supervisor (Permit Applicant)', division:'Oil & Gas — ODC', role:'applicant', project:'YARD-AMAL', email:'rashid.albalushi@altasnim.com', status:'Active'},
+  {id:'PA-2245', name:'Priya Nair', designation:'Discipline Supervisor (Permit Applicant)', division:'Oil & Gas — ODC', role:'applicant', project:'YARD-ATNM', email:'priya.nair@altasnim.com', status:'Active'},
+  {id:'PA-2270', name:'Salim Al Habsi', designation:'Discipline Supervisor (Permit Applicant)', division:'Oil & Gas — ODC', role:'applicant', project:'YARD-NIMR', email:'salim.alhabsi@altasnim.com', status:'Active'},
+  {id:'PA-2288', name:'Waleed Al Amri', designation:'Discipline Supervisor (Permit Applicant)', division:'Oil & Gas — ODC', role:'applicant', project:'YARD-MARMUL', email:'waleed.alamri@altasnim.com', status:'Active'},
+  {id:'AUTH-1001', name:'Khalid Al Rawahi', designation:'PTW Authorizer', division:'Oil & Gas — ODC', role:'authorizer', project:'YARD-AMAL', email:'khalid.alrawahi@altasnim.com', status:'Active'},
+  {id:'AUTH-1050', name:'Anil Kumar', designation:'PTW Authorizer', division:'Oil & Gas — ODC', role:'authorizer', project:'YARD-ATNM', email:'anil.kumar@altasnim.com', status:'Active'},
+  {id:'AUTH-1075', name:'Hamed Al Shukaili', designation:'PTW Authorizer', division:'Oil & Gas — ODC', role:'authorizer', project:'YARD-NIMR', email:'hamed.alshukaili@altasnim.com', status:'Active'},
+  {id:'AUTH-1090', name:'Faisal Al Maawali', designation:'PTW Authorizer', division:'Oil & Gas — ODC', role:'authorizer', project:'YARD-MARMUL', email:'faisal.almaawali@altasnim.com', status:'Active'},
+  {id:'ISS-5010', name:'Nasser Al Rashdi', designation:'PTW Issuer (Area Authority)', division:'Oil & Gas — ODC', role:'issuer', project:'YARD-AMAL', email:'nasser.alrashdi@altasnim.com', status:'Active'},
+  {id:'ISS-5020', name:'Sunil Varma', designation:'PTW Issuer (Area Authority)', division:'Oil & Gas — ODC', role:'issuer', project:'YARD-NIMR', email:'sunil.varma@altasnim.com', status:'Active'},
+  {id:'ISS-5030', name:'Badar Al Shanfari', designation:'PTW Issuer (Area Authority)', division:'Oil & Gas — ODC', role:'issuer', project:'YARD-ATNM', email:'badar.alshanfari@altasnim.com', status:'Active'},
+  {id:'HSE-3001', name:'Fatma Al Kindi', designation:'Senior HSE Advisor', division:'Oil & Gas — ODC', role:'hse', project:'YARD-AMAL', email:'fatma.alkindi@altasnim.com', status:'Active'},
+  {id:'HSE-3020', name:'Suresh Menon', designation:'HSE Advisor', division:'Oil & Gas — ODC', role:'hse', project:'YARD-NIMR', email:'suresh.menon@altasnim.com', status:'Active'},
+  {id:'HSE-3033', name:'Aisha Al Zadjali', designation:'HSE Advisor', division:'Oil & Gas — ODC', role:'hse', project:'YARD-ATNM', email:'aisha.alzadjali@altasnim.com', status:'Active'},
+  {id:'PH-4010', name:'Mohammed Al Farsi', designation:'Licensed Permit Holder', division:'Oil & Gas — ODC', role:'holder', project:'YARD-AMAL', email:'mohammed.alfarsi@altasnim.com', status:'Active'},
+  {id:'PH-4033', name:'Ravi Shankar', designation:'Licensed Permit Holder', division:'Oil & Gas — ODC', role:'holder', project:'YARD-ATNM', email:'ravi.shankar@altasnim.com', status:'Active'},
+  {id:'PH-4055', name:'Juma Al Hinai', designation:'Licensed Permit Holder', division:'Oil & Gas — ODC', role:'holder', project:'YARD-NIMR', email:'juma.alhinai@altasnim.com', status:'Active'},
+  {id:'PH-4061', name:'Basheer Ahmed', designation:'Licensed Permit Holder', division:'Oil & Gas — ODC', role:'holder', project:'YARD-MARMUL', email:'basheer.ahmed@altasnim.com', status:'Active'},
+  {id:'ADM-5000', name:'Zahra Al Lawati', designation:'HSE Manager (PTW System Custodian)', division:'Oil & Gas — ODC', role:'admin', project:null, email:'zahra.allawati@altasnim.com', status:'Active'},
+  {id:'MGT-6000', name:'Yousuf Al Balushi', designation:'Contract Manager', division:'Oil & Gas — ODC', role:'viewer', project:null, email:'yousuf.albalushi@altasnim.com', status:'Active'},
 ];
 
 // Crew / employee master pool
@@ -521,185 +528,209 @@ function iso(d){ return d.toISOString(); }
 function hoursFromNow(h){ let d=new Date(now.getTime()+h*3600*1000); return d; }
 
 let PERMITS = [
-  // 1. Healthy ACTIVE hot work permit
+  // 1. Healthy ACTIVE Class B hot work permit — Amal Yard
   {
-    id:'P-1001', number:'ATNM-CIV-PRJ01-HWP-2026-00118', division:'Civil', project:'PRJ-CIV-01', site:'Duqm Industrial Area',
-    area:'Process Unit 3', location:'Pipe rack PR-14, Level 2',
+    id:'P-1001', number:'ATNM-ODC-AMAL-CLASSB-2026-00118', division:'Oil & Gas — ODC', project:'YARD-AMAL', site:'Amal Industrial Yard',
+    area:'Fabrication Bay', location:'Pipe rack PR-14, Level 2',
     workDescription:'Welding of support brackets on pipe rack PR-14 for new flare line tie-in.',
-    equipment:'Pipe Rack PR-14', workOrder:'WO-55210', raRef:'RA-CIV-0221', jsaRef:'JSA-CIV-0221',
-    permitType:'HWP', riskLevel:'R2',
-    hazards:['Hot work sparks / ignition source','Working at height / fall potential','Falling objects'],
-    applicant:'ENG-2201', authorizer:'PM-1001', hseAdviser:'HSE-3001', holder:'FRM-4010',
+    equipment:'Pipe Rack PR-14', workOrder:'WO-55210', raRef:'RA-ODC-0221', jsaRef:'JSA-ODC-0221',
+    permitType:'CLASSB',
+    hazards:['Hot Work — Welding (arc)','Work at height (fall potential > 2m)'],
+    certificates:[],
+    applicant:'PA-2201', authorizer:'AUTH-1001', ptwIssuer:'ISS-5010', hseAdviser:'HSE-3001', holder:'PH-4010',
     crewIds:['EMP-8001','EMP-8002','EMP-8010'],
     status:'Active',
     startDate:todayStr(), startTime:'07:00', endDate:todayStr(), endTime:'18:00',
     validFrom: hoursFromNow(-2), validTo: hoursFromNow(4),
-    fieldVerification:{by:'Rashid Al Balushi', id:'ENG-2201', date:todayStr(), time:'06:20', confirmed:true},
+    fieldVerification:{by:'Rashid Al Balushi', id:'PA-2201', date:todayStr(), time:'06:20', confirmed:true},
+    issuerValidation:{done:true, by:'Nasser Al Rashdi', date:todayStr(), time:'06:45'},
     history:[],
     tbt:{done:true, at:'06:55', crewCount:3, languages:['English','Arabic','Hindi']},
+    tricLog:[],
     startWorkCheck:{done:true, result:'START WORK'},
-    dailyVisits:[{date:todayStr(), time:'10:10', by:'Rashid Al Balushi', outcome:'SATISFACTORY', comments:'Housekeeping good, fire watch in position.'}],
+    dailyVisits:[{date:todayStr(), time:'10:10', by:'Nasser Al Rashdi', outcome:'SATISFACTORY', comments:'Housekeeping good, fire watch in position. PTW revalidated.'}],
     hseInspections:[{date:todayStr(), time:'11:00', by:'Fatma Al Kindi', classification:'SAFE', category:'Hot Work', observation:'Fire extinguisher present, gas test log up to date, fire watch alert.', action:'', responsible:'', targetDate:'', status:'Closed'}],
     suspension:null, revalidations:[], handback:null, closure:null, simopsWith:null,
   },
-  // 2. Confined space, expiring soon, unsafe observation raised
+  // 2. Class B confined space, expiring soon, unsafe observation raised — Nimr Yard
   {
-    id:'P-1002', number:'ATNM-OG-PRJ01-CSE-2026-00092', division:'Oil & Gas', project:'PRJ-OG-01', site:'Fahud Field',
+    id:'P-1002', number:'ATNM-ODC-NIMR-CLASSB-2026-00092', division:'Oil & Gas — ODC', project:'YARD-NIMR', site:'Nimr Industrial Yard',
     area:'Separator Skid', location:'Vessel V-204 interior',
     workDescription:'Internal inspection and cleaning of separator vessel V-204 prior to re-commissioning.',
-    equipment:'Vessel V-204', workOrder:'WO-55388', raRef:'RA-OG-0110', jsaRef:'JSA-OG-0110',
-    permitType:'CSE', riskLevel:'R4',
-    hazards:['Confined space atmosphere','Hazardous substances / chemicals','Manual handling injury'],
-    applicant:'ENG-2270', authorizer:'PM-1075', hseAdviser:'HSE-3020', holder:'FRM-4055',
+    equipment:'Vessel V-204', workOrder:'WO-55388', raRef:'RA-ODC-0110', jsaRef:'JSA-ODC-0110',
+    permitType:'CLASSB',
+    hazards:['Confined Space Entry — existing vessel / cellar / RV pit','Handling substances hazardous to health (toxic chemicals / asbestos)'],
+    certificates:['Confined Space Entry Certificate'],
+    applicant:'PA-2270', authorizer:'AUTH-1075', ptwIssuer:'ISS-5020', hseAdviser:'HSE-3020', holder:'PH-4055',
     crewIds:['EMP-8007','EMP-8008','EMP-8015'],
     status:'Active',
     startDate:todayStr(), startTime:'08:00', endDate:todayStr(), endTime:'14:00',
     validFrom: hoursFromNow(-5.5), validTo: hoursFromNow(0.45),
-    fieldVerification:{by:'Salim Al Habsi', id:'ENG-2270', date:todayStr(), time:'07:15', confirmed:true},
+    fieldVerification:{by:'Salim Al Habsi', id:'PA-2270', date:todayStr(), time:'07:15', confirmed:true},
+    issuerValidation:{done:true, by:'Sunil Varma', date:todayStr(), time:'07:40'},
     history:[],
     tbt:{done:true, at:'07:50', crewCount:3, languages:['English','Hindi']},
+    tricLog:[{date:todayStr(), time:'11:45', by:'Juma Al Hinai', newHazard:'Slight residue odour noted on entry', additionalControl:'Extended forced ventilation by 15 minutes before re-entry'}],
     startWorkCheck:{done:true, result:'START WORK'},
-    dailyVisits:[{date:todayStr(), time:'09:40', by:'Salim Al Habsi', outcome:'IMPROVEMENT REQUIRED', comments:'Gas monitor calibration sticker not visible — corrected on site.'}],
-    hseInspections:[{date:todayStr(), time:'12:20', by:'Suresh Menon', classification:'UNSAFE', category:'Confined Space', observation:'Standby attendant left entry point unattended for approx. 5 minutes while entrant was inside vessel.', action:'Stop work, brief attendant on continuous presence requirement, reinforce in TBT refresh.', responsible:'Juma Al Hinai', targetDate:todayStr(), status:'Open'}],
+    dailyVisits:[{date:todayStr(), time:'09:40', by:'Sunil Varma', outcome:'IMPROVEMENT REQUIRED', comments:'Gas monitor calibration sticker not visible — corrected on site.'}],
+    hseInspections:[{date:todayStr(), time:'12:20', by:'Suresh Menon', classification:'UNSAFE', category:'Confined Space', observation:'Standby attendant left entry point unattended for approx. 5 minutes while entrant was inside vessel.', action:'Stop work, brief attendant on continuous presence requirement, reinforce in TRIC card.', responsible:'Juma Al Hinai', targetDate:todayStr(), status:'Open'}],
     suspension:null, revalidations:[], handback:null, closure:null, simopsWith:null,
   },
-  // 3a. SIMOPS pair - excavation
+  // 3a. SIMOPS pair — Class B excavation — ATNM Yard
   {
-    id:'P-1003', number:'ATNM-INF-PRJ01-EXC-2026-00061', division:'Infrastructure', project:'PRJ-INF-01', site:'Sohar Freezone',
-    area:'Access Road Ch.2+400', location:'Trench alongside Road Ch.2+400 to 2+460',
-    workDescription:'Excavation for stormwater drainage trench along access road.',
-    equipment:'Excavator EXC-07', workOrder:'WO-55401', raRef:'RA-INF-0075', jsaRef:'JSA-INF-0075',
-    permitType:'EXC', riskLevel:'R3',
-    hazards:['Excavation collapse','Underground services strike','Mobile plant & vehicle movement','SIMOPS — adjacent simultaneous activity'],
-    applicant:'ENG-2288', authorizer:'CM-1050', hseAdviser:'HSE-3033', holder:'FRM-4061',
+    id:'P-1003', number:'ATNM-ODC-ATNM-CLASSB-2026-00061', division:'Oil & Gas — ODC', project:'YARD-ATNM', site:'ATNM Industrial Yard',
+    area:'Yard Utility Corridor', location:'Trench alongside Access Road Ch.2+400 to 2+460',
+    workDescription:'Excavation for stormwater drainage trench along yard access road.',
+    equipment:'Excavator EXC-07', workOrder:'WO-55401', raRef:'RA-ODC-0075', jsaRef:'JSA-ODC-0075',
+    permitType:'CLASSB',
+    hazards:['Excavation / trenching','SIMOPS — adjacent simultaneous activity'],
+    certificates:['Excavation Certificate'],
+    applicant:'PA-2245', authorizer:'AUTH-1050', ptwIssuer:'ISS-5030', hseAdviser:'HSE-3033', holder:'PH-4033',
     crewIds:['EMP-8012','EMP-8013','EMP-8011'],
     status:'Active',
     startDate:todayStr(), startTime:'07:30', endDate:todayStr(), endTime:'17:00',
     validFrom: hoursFromNow(-3), validTo: hoursFromNow(3.5),
-    fieldVerification:{by:'Waleed Al Amri', id:'ENG-2288', date:todayStr(), time:'07:00', confirmed:true},
+    fieldVerification:{by:'Priya Nair', id:'PA-2245', date:todayStr(), time:'07:00', confirmed:true},
+    issuerValidation:{done:true, by:'Badar Al Shanfari', date:todayStr(), time:'07:20'},
     history:[],
     tbt:{done:true, at:'07:25', crewCount:3, languages:['English','Hindi']},
+    tricLog:[],
     startWorkCheck:{done:true, result:'START WORK'},
-    dailyVisits:[{date:todayStr(), time:'10:50', by:'Waleed Al Amri', outcome:'SATISFACTORY', comments:'Trench shoring in place, spoil set back correctly.'}],
+    dailyVisits:[{date:todayStr(), time:'10:50', by:'Badar Al Shanfari', outcome:'SATISFACTORY', comments:'Trench shoring in place, spoil set back correctly.'}],
     hseInspections:[], suspension:null, revalidations:[], handback:null, closure:null,
     simopsWith:'P-1004',
   },
-  // 3b. SIMOPS pair - lifting, overlapping same location/time
+  // 3b. SIMOPS pair — Class B lifting, overlapping same location/time — ATNM Yard
   {
-    id:'P-1004', number:'ATNM-INF-PRJ01-LIFT-2026-00062', division:'Infrastructure', project:'PRJ-INF-01', site:'Sohar Freezone',
-    area:'Access Road Ch.2+400', location:'Trench alongside Road Ch.2+400 to 2+460',
+    id:'P-1004', number:'ATNM-ODC-ATNM-CLASSB-2026-00062', division:'Oil & Gas — ODC', project:'YARD-ATNM', site:'ATNM Industrial Yard',
+    area:'Yard Utility Corridor', location:'Trench alongside Access Road Ch.2+400 to 2+460',
     workDescription:'Lifting and placement of precast drainage culvert sections into trench.',
-    equipment:'Mobile Crane 25T', workOrder:'WO-55402', raRef:'RA-INF-0076', jsaRef:'JSA-INF-0076',
-    permitType:'LIFT', riskLevel:'R3',
-    hazards:['Lifting / dropped load','Line of fire','Mobile plant & vehicle movement','SIMOPS — adjacent simultaneous activity'],
-    applicant:'ENG-2288', authorizer:'CM-1050', hseAdviser:'HSE-3033', holder:'FRM-4061',
+    equipment:'Mobile Crane 25T', workOrder:'WO-55402', raRef:'RA-ODC-0076', jsaRef:'JSA-ODC-0076',
+    permitType:'CLASSB',
+    hazards:['Non-routine lifting activities (Class B required)','Cranes & heavy machinery near live hydrocarbon / HP steam / OHL','SIMOPS — adjacent simultaneous activity'],
+    certificates:['Lift Plan'],
+    applicant:'PA-2245', authorizer:'AUTH-1050', ptwIssuer:'ISS-5030', hseAdviser:'HSE-3033', holder:'PH-4033',
     crewIds:['EMP-8003','EMP-8004','EMP-8005'],
     status:'Active',
     startDate:todayStr(), startTime:'09:00', endDate:todayStr(), endTime:'15:00',
     validFrom: hoursFromNow(-1), validTo: hoursFromNow(5),
-    fieldVerification:{by:'Waleed Al Amri', id:'ENG-2288', date:todayStr(), time:'08:35', confirmed:true},
+    fieldVerification:{by:'Priya Nair', id:'PA-2245', date:todayStr(), time:'08:35', confirmed:true},
+    issuerValidation:{done:true, by:'Badar Al Shanfari', date:todayStr(), time:'08:50'},
     history:[],
     tbt:{done:true, at:'08:55', crewCount:3, languages:['English']},
+    tricLog:[],
     startWorkCheck:{done:true, result:'START WORK'},
     dailyVisits:[], hseInspections:[], suspension:null, revalidations:[], handback:null, closure:null,
     simopsWith:'P-1003',
   },
-  // 4. Suspended - weather
+  // 4. Suspended — weather — Class B scaffolding, Amal Yard
   {
-    id:'P-1005', number:'ATNM-CIV-PRJ01-WAH-2026-00119', division:'Civil', project:'PRJ-CIV-01', site:'Duqm Industrial Area',
+    id:'P-1005', number:'ATNM-ODC-AMAL-CLASSB-2026-00119', division:'Oil & Gas — ODC', project:'YARD-AMAL', site:'Amal Industrial Yard',
     area:'Tank Farm', location:'Tank TK-08 external scaffold',
     workDescription:'Scaffold erection on external shell of Tank TK-08 for insulation works.',
-    equipment:'Tank TK-08', workOrder:'WO-55219', raRef:'RA-CIV-0230', jsaRef:'JSA-CIV-0230',
-    permitType:'WAH', riskLevel:'R2',
-    hazards:['Working at height / fall potential','Falling objects','Heat stress / weather exposure'],
-    applicant:'ENG-2201', authorizer:'PM-1001', hseAdviser:'HSE-3001', holder:'FRM-4010',
+    equipment:'Tank TK-08', workOrder:'WO-55219', raRef:'RA-ODC-0230', jsaRef:'JSA-ODC-0230',
+    permitType:'CLASSB',
+    hazards:['Scaffolding erection / dismantling','Work at height (fall potential > 2m)'],
+    certificates:[],
+    applicant:'PA-2201', authorizer:'AUTH-1001', ptwIssuer:'ISS-5010', hseAdviser:'HSE-3001', holder:'PH-4010',
     crewIds:['EMP-8006','EMP-8011'],
     status:'Suspended',
     startDate:todayStr(), startTime:'07:00', endDate:todayStr(), endTime:'16:00',
     validFrom: hoursFromNow(-4), validTo: hoursFromNow(2),
-    fieldVerification:{by:'Rashid Al Balushi', id:'ENG-2201', date:todayStr(), time:'06:40', confirmed:true},
+    fieldVerification:{by:'Rashid Al Balushi', id:'PA-2201', date:todayStr(), time:'06:40', confirmed:true},
+    issuerValidation:{done:true, by:'Nasser Al Rashdi', date:todayStr(), time:'06:50'},
     history:[],
     tbt:{done:true, at:'06:55', crewCount:2, languages:['English','Hindi']},
+    tricLog:[],
     startWorkCheck:{done:true, result:'START WORK'},
-    dailyVisits:[{date:todayStr(), time:'09:15', by:'Rashid Al Balushi', outcome:'SATISFACTORY', comments:'Scaffold tagged, edge protection complete.'}],
+    dailyVisits:[{date:todayStr(), time:'09:15', by:'Nasser Al Rashdi', outcome:'SATISFACTORY', comments:'Scaffold tagged, edge protection complete.'}],
     hseInspections:[],
     suspension:{reason:'High wind speed exceeding scaffold work limit (>38 km/h sustained)', date:todayStr(), time:'13:05', by:'Fatma Al Kindi'},
     revalidations:[], handback:null, closure:null, simopsWith:null,
   },
-  // 5. Closed permit
+  // 5. Closed permit — No-PTW electrical job, ATNM Yard
   {
-    id:'P-0990', number:'ATNM-MEP-PRJ01-ELEC-2026-00075', division:'MEP', project:'PRJ-MEP-01', site:'Muscat — Ghubra',
-    area:'Level 2 Retail Wing', location:'DB Panel L2-DB-04',
-    workDescription:'Termination and testing of final sub-circuits at DB Panel L2-DB-04.',
-    equipment:'DB Panel L2-DB-04', workOrder:'WO-54980', raRef:'RA-MEP-0180', jsaRef:'JSA-MEP-0180',
-    permitType:'ELEC', riskLevel:'R2',
-    hazards:['Electrical shock / arc flash'],
-    applicant:'ENG-2245', authorizer:'PM-1090', hseAdviser:null, holder:'FRM-4033',
+    id:'P-0990', number:'ATNM-ODC-ATNM-NOPTW-2026-00075', division:'Oil & Gas — ODC', project:'YARD-ATNM', site:'ATNM Industrial Yard',
+    area:'Workshop Electrical Room', location:'DB Panel WS-DB-04',
+    workDescription:'Termination and testing of final sub-circuits at DB Panel WS-DB-04.',
+    equipment:'DB Panel WS-DB-04', workOrder:'WO-54980', raRef:'RA-ODC-0180', jsaRef:'JSA-ODC-0180',
+    permitType:'NOPTW',
+    hazards:['Isolation and De-isolation (yard)'],
+    certificates:['Electrical Isolation / De-isolation Certificate'],
+    applicant:'PA-2245', authorizer:'AUTH-1050', ptwIssuer:null, hseAdviser:null, holder:'PH-4033',
     crewIds:['EMP-8009','EMP-8014'],
     status:'Closed',
     startDate:dayOffset(-2), startTime:'08:00', endDate:dayOffset(-2), endTime:'17:00',
     validFrom:new Date(now.getTime()-2*86400000+8*3600000), validTo:new Date(now.getTime()-2*86400000+17*3600000),
-    fieldVerification:{by:'Priya Nair', id:'ENG-2245', date:dayOffset(-2), time:'07:40', confirmed:true},
+    fieldVerification:{by:'Priya Nair', id:'PA-2245', date:dayOffset(-2), time:'07:40', confirmed:true},
+    issuerValidation:null,
     history:[],
     tbt:{done:true, at:'07:55', crewCount:2, languages:['English','Hindi']},
+    tricLog:[],
     startWorkCheck:{done:true, result:'START WORK'},
     dailyVisits:[{date:dayOffset(-2), time:'11:00', by:'Priya Nair', outcome:'SATISFACTORY', comments:'LOTO verified, panel de-energized, tested dead confirmed.'}],
     hseInspections:[{date:dayOffset(-2), time:'13:00', by:'Fatma Al Kindi', classification:'SAFE', category:'Electrical', observation:'Isolation correctly applied and tagged, PPE compliant.', action:'', responsible:'', targetDate:'', status:'Closed'}],
     suspension:null, revalidations:[],
     handback:{by:'Ravi Shankar', date:dayOffset(-2), time:'16:40', complete:true, notes:'All circuits tested and labelled, tools removed, site clean.'},
-    closure:{by:'Faisal Al Maawali', date:dayOffset(-2), time:'17:10', outcome:'ACCEPT HANDOVER'},
+    closure:{by:'Anil Kumar', date:dayOffset(-2), time:'17:10', outcome:'ACCEPT HANDOVER'},
     simopsWith:null,
   },
-  // 6. Submitted - awaiting authorization
+  // 6. Submitted — awaiting PTW Authorizer — Class B excavation, Amal Yard
   {
-    id:'P-1006', number:'ATNM-CIV-PRJ01-EXC-2026-00120', division:'Civil', project:'PRJ-CIV-01', site:'Duqm Industrial Area',
+    id:'P-1006', number:'ATNM-ODC-AMAL-CLASSB-2026-00120', division:'Oil & Gas — ODC', project:'YARD-AMAL', site:'Amal Industrial Yard',
     area:'Utility Corridor', location:'Trench Ch.0+150 to 0+220',
     workDescription:'Excavation for new firewater line tie-in near existing 6-inch gas line.',
-    equipment:'Excavator EXC-11', workOrder:'WO-55440', raRef:'RA-CIV-0245', jsaRef:'JSA-CIV-0245',
-    permitType:'EXC', riskLevel:'R3',
-    hazards:['Excavation collapse','Underground services strike'],
-    applicant:'ENG-2201', authorizer:'PM-1001', hseAdviser:'HSE-3001', holder:'FRM-4010',
+    equipment:'Excavator EXC-11', workOrder:'WO-55440', raRef:'RA-ODC-0245', jsaRef:'JSA-ODC-0245',
+    permitType:'CLASSB',
+    hazards:['Excavation / trenching'],
+    certificates:['Excavation Certificate'],
+    applicant:'PA-2201', authorizer:'AUTH-1001', ptwIssuer:'ISS-5010', hseAdviser:'HSE-3001', holder:'PH-4010',
     crewIds:['EMP-8012','EMP-8010'],
     status:'Submitted',
     startDate:todayStr(), startTime:'13:00', endDate:tomorrowStr(), endTime:'17:00',
     validFrom:null, validTo:null,
-    fieldVerification:{by:'Rashid Al Balushi', id:'ENG-2201', date:todayStr(), time:'08:10', confirmed:true},
-    history:[{action:'Submitted', by:'Rashid Al Balushi', date:todayStr(), time:'08:20', comments:'Submitted for authorization — CAT scan attached.'}],
-    tbt:null, startWorkCheck:null, dailyVisits:[], hseInspections:[], suspension:null, revalidations:[], handback:null, closure:null, simopsWith:null,
+    fieldVerification:{by:'Rashid Al Balushi', id:'PA-2201', date:todayStr(), time:'08:10', confirmed:true},
+    issuerValidation:null,
+    history:[{action:'Submitted', by:'Rashid Al Balushi', date:todayStr(), time:'08:20', comments:'Submitted for authorization — GPR/CAT scan attached.'}],
+    tbt:null, tricLog:[], startWorkCheck:null, dailyVisits:[], hseInspections:[], suspension:null, revalidations:[], handback:null, closure:null, simopsWith:null,
   },
-  // 7. Under HSE review
+  // 7. Under Review — awaiting PTW Issuer validation — Class B confined space, Nimr Yard
   {
-    id:'P-1007', number:'ATNM-OG-PRJ01-CSE-2026-00093', division:'Oil & Gas', project:'PRJ-OG-01', site:'Fahud Field',
+    id:'P-1007', number:'ATNM-ODC-NIMR-CLASSB-2026-00093', division:'Oil & Gas — ODC', project:'YARD-NIMR', site:'Nimr Industrial Yard',
     area:'Knock-out Drum Area', location:'KO Drum D-301',
     workDescription:'Confined space entry for internal coating inspection of KO Drum D-301.',
-    equipment:'KO Drum D-301', workOrder:'WO-55391', raRef:'RA-OG-0114', jsaRef:'JSA-OG-0114',
-    permitType:'CSE', riskLevel:'R4',
-    hazards:['Confined space atmosphere','Hazardous substances / chemicals'],
-    applicant:'ENG-2270', authorizer:'PM-1075', hseAdviser:'HSE-3020', holder:'FRM-4055',
+    equipment:'KO Drum D-301', workOrder:'WO-55391', raRef:'RA-ODC-0114', jsaRef:'JSA-ODC-0114',
+    permitType:'CLASSB',
+    hazards:['Confined Space Entry — existing vessel / cellar / RV pit','Handling substances hazardous to health (toxic chemicals / asbestos)'],
+    certificates:['Confined Space Entry Certificate'],
+    applicant:'PA-2270', authorizer:'AUTH-1075', ptwIssuer:'ISS-5020', hseAdviser:'HSE-3020', holder:'PH-4055',
     crewIds:['EMP-8007','EMP-8008'],
     status:'Under Review',
     startDate:tomorrowStr(), startTime:'07:00', endDate:tomorrowStr(), endTime:'15:00',
     validFrom:null, validTo:null,
-    fieldVerification:{by:'Salim Al Habsi', id:'ENG-2270', date:todayStr(), time:'14:00', confirmed:true},
-    history:[{action:'Submitted', by:'Salim Al Habsi', date:todayStr(), time:'14:10', comments:''},{action:'Authorized', by:'Hamed Al Shukaili', date:todayStr(), time:'15:00', comments:'Forwarded for mandatory HSE concurrence — R4 confined space.'}],
-    tbt:null, startWorkCheck:null, dailyVisits:[], hseInspections:[], suspension:null, revalidations:[], handback:null, closure:null, simopsWith:null,
+    fieldVerification:{by:'Salim Al Habsi', id:'PA-2270', date:todayStr(), time:'14:00', confirmed:true},
+    issuerValidation:null,
+    history:[{action:'Submitted', by:'Salim Al Habsi', date:todayStr(), time:'14:10', comments:''},{action:'Authorized — Forwarded for PTW Issuer Validation', by:'Hamed Al Shukaili', date:todayStr(), time:'15:00', comments:'Class B confined space entry — site examination required before validation.'}],
+    tbt:null, tricLog:[], startWorkCheck:null, dailyVisits:[], hseInspections:[], suspension:null, revalidations:[], handback:null, closure:null, simopsWith:null,
   },
-  // 8. Expired
+  // 8. Expired — Task SOP routine job, ATNM Yard
   {
-    id:'P-0975', number:'ATNM-PLT-PRJ01-GPTW-2026-00040', division:'Plant & Workshops', project:'PRJ-PLT-01', site:'Rusayl Workshop Yard',
+    id:'P-0975', number:'ATNM-ODC-ATNM-TASKSOP-2026-00040', division:'Oil & Gas — ODC', project:'YARD-ATNM', site:'ATNM Industrial Yard',
     area:'Fabrication Bay 2', location:'Bay 2 workbench area',
-    workDescription:'General fabrication and grinding of steel brackets.',
-    equipment:'Workbench Bay 2', workOrder:'WO-54700', raRef:'RA-PLT-0040', jsaRef:'JSA-PLT-0040',
-    permitType:'GPTW', riskLevel:'R1',
-    hazards:['Manual handling injury','Noise exposure'],
-    applicant:'ENG-2201', authorizer:'PM-1001', hseAdviser:null, holder:'FRM-4010',
+    workDescription:'General fabrication and grinding of steel brackets (Task SOP — pre-approved RA ATNM-MEC-YD-006).',
+    equipment:'Workbench Bay 2', workOrder:'WO-54700', raRef:'ATNM-MEC-YD-006', jsaRef:'—',
+    permitType:'TASKSOP',
+    hazards:['Hot Work — Grinding / Grit Blasting'],
+    certificates:[],
+    applicant:'PA-2201', authorizer:'AUTH-1001', ptwIssuer:null, hseAdviser:null, holder:'PH-4010',
     crewIds:['EMP-8010'],
     status:'Expired',
     startDate:dayOffset(-1), startTime:'07:00', endDate:dayOffset(-1), endTime:'15:00',
     validFrom:new Date(now.getTime()-1*86400000+7*3600000), validTo:new Date(now.getTime()-1*86400000+15*3600000),
-    fieldVerification:{by:'Rashid Al Balushi', id:'ENG-2201', date:dayOffset(-1), time:'06:45', confirmed:true},
-    history:[], tbt:{done:true, at:'06:55', crewCount:1, languages:['English']}, startWorkCheck:{done:true, result:'START WORK'},
-    dailyVisits:[{date:dayOffset(-1), time:'10:00', by:'Rashid Al Balushi', outcome:'SATISFACTORY', comments:'Routine works, no issues.'}],
+    fieldVerification:{by:'Rashid Al Balushi', id:'PA-2201', date:dayOffset(-1), time:'06:45', confirmed:true},
+    issuerValidation:null,
+    history:[], tbt:{done:true, at:'06:55', crewCount:1, languages:['English']}, tricLog:[], startWorkCheck:{done:true, result:'START WORK'},
+    dailyVisits:[{date:dayOffset(-1), time:'10:00', by:'Mohammed Al Farsi', outcome:'SATISFACTORY', comments:'Routine works, no issues. Holder self-revalidated.'}],
     hseInspections:[], suspension:null, revalidations:[], handback:null, closure:null, simopsWith:null,
   },
 ];
@@ -712,12 +743,12 @@ function dayOffset(n){ let d=new Date(now.getTime()+n*86400000); return d.toISOS
 let ACTIONS = [
   {id:'ACT-001', source:'P-1002', description:'Retrain confined space attendant on continuous presence requirement', responsible:'Juma Al Hinai', targetDate:todayStr(), status:'Open', raisedBy:'Suresh Menon'},
   {id:'ACT-002', source:'P-1005', description:'Install wind speed alarm at scaffold work locations', responsible:'Mohammed Al Farsi', targetDate:tomorrowStr(), status:'Open', raisedBy:'Fatma Al Kindi'},
-  {id:'ACT-003', source:'P-0990', description:'Update as-built drawing for DB Panel L2-DB-04', responsible:'Ravi Shankar', targetDate:dayOffset(-1), status:'Closed', raisedBy:'Fatma Al Kindi'},
+  {id:'ACT-003', source:'P-0990', description:'Update as-built drawing for DB Panel WS-DB-04', responsible:'Ravi Shankar', targetDate:dayOffset(-1), status:'Closed', raisedBy:'Fatma Al Kindi'},
 ];
 
 let NOTIFICATIONS = [
-  {id:1, text:'SIMOPS Alert — P-1003 and P-1004 overlapping at Sohar Freezone Ch.2+400', time:'09:05', type:'danger'},
-  {id:2, text:'HSE Verification required — P-1007 pending concurrence', time:'15:02', type:'amber'},
+  {id:1, text:'SIMOPS Alert — P-1003 and P-1004 overlapping at ATNM Industrial Yard Ch.2+400', time:'09:05', type:'danger'},
+  {id:2, text:'PTW Issuer Validation required — P-1007 pending on-site examination', time:'15:02', type:'amber'},
   {id:3, text:'Permit P-1002 expiring in under 30 minutes', time:'now', type:'amber'},
 ];
 
@@ -731,13 +762,12 @@ function CU(){ return user(STATE.userId); }
 
 const STATUS_CLASS = {'Draft':'draft','Submitted':'submitted','Under Review':'review','Returned':'returned','Approved':'approved','Issued':'issued','Active':'active','Suspended':'suspended','Revalidation Required':'revalidation','Expired':'expired','Work Complete':'complete','Awaiting Handback':'handback','Closed':'closed','Rejected':'rejected','Cancelled':'cancelled'};
 function PT(code){ return PERMIT_TYPES.find(p=>p.code===code); }
-function RL(code){ return RISK_LEVELS.find(r=>r.code===code); }
 function PROJ(id){ return PROJECTS.find(p=>p.id===id); }
 function permitById(id){ return PERMITS.find(p=>p.id===id); }
 
 function statusPill(status){ return `<span class="pill pill-${STATUS_CLASS[status]||'draft'}"><i class="pill-dot"></i>${status}</span>`; }
-function typeChip(code){ const t=PT(code); if(!t) return ''; return `<span class="chip" style="background:${t.color}22;color:${t.color};border-color:${t.color}55">${t.code}</span>`; }
-function riskChip(code){ const r=RL(code); if(!r) return ''; return `<span class="chip risk-${code}">${code} · ${r.name}</span>`; }
+function typeChip(code){ const t=PT(code); if(!t) return ''; return `<span class="chip" style="background:${t.color}1F;color:${t.color};border-color:${t.color}55">${t.short||t.name}</span>`; }
+function certChips(list){ return (list||[]).map(c=>`<span class="chip" style="background:var(--panel3);color:var(--text-dim);margin:0 4px 4px 0;">${c}</span>`).join(''); }
 function initials(name){ return name.split(' ').map(n=>n[0]).slice(0,2).join('').toUpperCase(); }
 function fmtDT(d){ if(!d) return '—'; const dt=(d instanceof Date)?d:new Date(d); return dt.toLocaleDateString('en-GB',{day:'2-digit',month:'short'})+' '+dt.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}); }
 function fmtTime(d){ if(!d) return '—'; const dt=(d instanceof Date)?d:new Date(d); return dt.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}); }
@@ -789,7 +819,7 @@ function saveConnectFromLogin(){
   CONFIG.apiUrl=url; storeApiUrl(url); SYNC_STATE={connected:false,syncing:false,lastSync:null,lastError:null};
   closeModal(); renderLoginConnStatus(); toast('Google Sheet URL saved. Sign in to verify the connection.');
 }
-function roleLabel(r){ return {applicant:'Applicant',authorizer:'Authorizer',hse:'HSE Adviser',holder:'Permit Holder',admin:'System Admin',viewer:'Management'}[r]||r; }
+function roleLabel(r){ return {applicant:'Permit Applicant',authorizer:'PTW Authorizer',issuer:'PTW Issuer',hse:'HSE Advisor',holder:'Permit Holder',admin:'HSE Manager (Admin)',viewer:'Contract Manager'}[r]||r; }
 
 function showLoginError(msg){
   const el=document.getElementById('loginError');
@@ -930,7 +960,7 @@ const NAV = [
     {key:'simops', label:'SIMOPS Alerts', icon:'⚠', roles:'all', badge:()=>simopsPairs().length},
   ]},
   {group:'FIELD & ASSURANCE', items:[
-    {key:'toolbox', label:'Toolbox Talks', icon:'♪', roles:['applicant','holder','admin']},
+    {key:'toolbox', label:'TRIC Cards & Briefings', icon:'♪', roles:['applicant','holder','admin']},
     {key:'hsereport', label:'HSE PTW Reporting', icon:'✎', roles:['hse','admin']},
     {key:'observations', label:'Observations', icon:'◎', roles:'all'},
     {key:'actions', label:'Corrective Actions', icon:'✔', roles:'all', badge:()=>ACTIONS.filter(a=>a.status==='Open').length},
@@ -1096,16 +1126,29 @@ function renderDashboard(){
   } else if(u.role==='hse'){
     const relevant = PERMITS.filter(p=>p.hseAdviser===u.id);
     const inspectedToday = relevant.filter(p=>(p.hseInspections||[]).some(o=>o.date===todayStr())).length;
-    const pendingConc = PERMITS.filter(p=>p.status==='Under Review' && p.hseAdviser===u.id);
+    const notInspected = relevant.filter(p=>['Active','Suspended','Issued'].includes(p.status) && !(p.hseInspections||[]).length);
     const openActs = ACTIONS.filter(a=>a.status==='Open').length;
     roleBlock = `<div class="grid g-4" style="margin-bottom:18px;">
       <div class="kpi k-safe"><div class="kv">${relevant.filter(p=>p.status==='Active').length}</div><div class="kl">ACTIVE PERMITS ASSIGNED</div></div>
       <div class="kpi"><div class="kv">${inspectedToday}</div><div class="kl">INSPECTED TODAY</div></div>
-      <div class="kpi k-amber"><div class="kv">${pendingConc.length}</div><div class="kl">AWAITING HSE CONCURRENCE</div></div>
+      <div class="kpi k-amber"><div class="kv">${notInspected.length}</div><div class="kl">NOT YET INSPECTED</div></div>
       <div class="kpi k-danger"><div class="kv">${openActs}</div><div class="kl">OPEN CORRECTIVE ACTIONS</div></div>
     </div>
-    <div class="card"><h3>Awaiting HSE Concurrence</h3>${permitMiniTable(pendingConc)}</div>
-    <div class="card"><h3>Log a Field Observation</h3><p style="font-size:12.5px;color:var(--text-dim);">Use the PTW Reporting Form to record Safe / Unsafe observations against an active permit.</p><button class="btn btn-amber" onclick="go('hsereport')">✎ New PTW Report</button></div>`;
+    <div class="card"><h3>Live Permits Awaiting Field Assurance</h3>${permitMiniTable(notInspected)}</div>
+    <div class="card"><h3>Log a Field Observation</h3><p style="font-size:12.5px;color:var(--text-dim);">HSE Advisor is an assurance and audit function (PTW monitoring, Level 3 Audit) — it does not gate permit activation. Use the PTW Reporting Form to record Safe / Unsafe observations against a live permit.</p><button class="btn btn-amber" onclick="go('hsereport')">✎ New PTW Report</button></div>`;
+  } else if(u.role==='issuer'){
+    const assigned = PERMITS.filter(p=>p.ptwIssuer===u.id);
+    const pendingValidation = assigned.filter(p=>p.status==='Under Review');
+    const activeToValidate = assigned.filter(p=>p.status==='Active');
+    const revalToday = activeToValidate.filter(p=>(p.dailyVisits||[]).some(v=>v.date===todayStr()));
+    roleBlock = `<div class="grid g-4" style="margin-bottom:18px;">
+      <div class="kpi k-amber"><div class="kv">${pendingValidation.length}</div><div class="kl">AWAITING PTW ISSUER VALIDATION</div></div>
+      <div class="kpi k-safe"><div class="kv">${activeToValidate.length}</div><div class="kl">ACTIVE CLASS B PERMITS</div></div>
+      <div class="kpi ${revalToday.length<activeToValidate.length?'k-danger':'k-safe'}"><div class="kv">${revalToday.length}/${activeToValidate.length}</div><div class="kl">DAILY REVALIDATIONS DONE</div></div>
+      <div class="kpi"><div class="kv">${assigned.length}</div><div class="kl">TOTAL ASSIGNED</div></div>
+    </div>
+    <div class="card"><h3>Awaiting On-Site Validation</h3>${permitMiniTable(pendingValidation)}</div>
+    <div class="card"><h3>Active Permits Requiring Daily Revalidation</h3>${permitMiniTable(activeToValidate)}</div>`;
   } else if(u.role==='authorizer'){
     const pend = PERMITS.filter(p=>p.status==='Submitted' && p.authorizer===u.id);
     roleBlock = `<div class="grid g-4" style="margin-bottom:18px;">
@@ -1134,14 +1177,19 @@ function todayHuman(){ return now.toLocaleDateString('en-GB',{weekday:'long',day
 
 function permitMiniTable(list){
   if(!list.length) return `<div class="empty"><div class="ic">—</div>Nothing to show right now.</div>`;
-  return `<div class="tablewrap"><table><thead><tr><th>Permit No.</th><th>Type</th><th>Risk</th><th>Location</th><th>Status</th><th>Valid Until</th><th></th></tr></thead><tbody>
-  ${list.map(p=>`<tr><td class="tbl-link" onclick="go('detail','${p.id}')">${p.number}</td><td>${typeChip(p.permitType)}</td><td>${riskChip(p.riskLevel)}</td><td>${p.location}</td><td>${statusPill(p.status)}</td><td>${p.validTo?fmtTime(p.validTo):'—'}</td><td><button class="btn btn-sm" onclick="go('detail','${p.id}')">Open</button></td></tr>`).join('')}
+  return `<div class="tablewrap"><table><thead><tr><th>Permit No.</th><th>Type</th><th>Location</th><th>Status</th><th>Valid Until</th><th></th></tr></thead><tbody>
+  ${list.map(p=>`<tr><td class="tbl-link" onclick="go('detail','${p.id}')">${p.number}</td><td>${typeChip(p.permitType)}</td><td>${p.location}</td><td>${statusPill(p.status)}</td><td>${p.validTo?fmtTime(p.validTo):'—'}</td><td><button class="btn btn-sm" onclick="go('detail','${p.id}')">Open</button></td></tr>`).join('')}
   </tbody></table></div>`;
 }
 // ===================== CONFIG (Admin-adjustable) =====================
 let CONFIG = { crewLimit:20, expiryWarningMinutes:30, revalidationLimitHours:4, apiUrl:'',
   weights:{quality:20, field:20, controls:25, crew:15, hseObs:10, action:10},
-  competency:{HWP:['Welder','Fire Watch'], CSE:['Confined Space Attendant','Gas Tester'], LIFT:['Rigger','Crane Operator','Banksman'], ELEC:['Electrician'], WAH:['Scaffolder']}
+  competency:{CLASSB:['Licensed Permit Holder','HSELFS Course'], NOPTW:['HSELFS Course'], TASKSOP:['HSELFS Course']},
+  ptwClasses:{
+    CLASSB:  {maxDays:28, extensionDays:7, notice:'48 hours', approval:'PTW Authorizer authorizes; PTW Issuer validates on-site and revalidates daily'},
+    NOPTW:   {maxDays:28, extensionDays:0, notice:'24 hours', approval:'PTW Authorizer signs for work tracking; no PTW Issuer step'},
+    TASKSOP: {maxDays:7,  extensionDays:0, notice:'Included in 14-day plan', approval:'Authorised by the Responsible Supervisor; Permit Holder revalidates daily'},
+  }
 };
 let permitSeq = 200;
 let SYNC_STATE = { connected:false, syncing:false, lastSync:null, lastError:null };
@@ -1196,7 +1244,6 @@ async function syncFromSheet(showToast){
     if(data.divisions && data.divisions.length){ DIVISION_RECORDS.length=0; DIVISION_RECORDS.push(...data.divisions); syncDivisionNames(); }
     if(data.projects && data.projects.length){ PROJECTS.length=0; PROJECTS.push(...data.projects); }
     if(data.permitTypes && data.permitTypes.length){ PERMIT_TYPES.length=0; PERMIT_TYPES.push(...data.permitTypes); }
-    if(data.riskLevels && data.riskLevels.length){ RISK_LEVELS.length=0; RISK_LEVELS.push(...data.riskLevels); }
     if(data.hazards && data.hazards.length){ HAZARDS_LIB.length=0; HAZARDS_LIB.push(...data.hazards.map(h=>h.name)); }
     SYNC_STATE.connected = true; SYNC_STATE.lastError=null; SYNC_STATE.lastSync = new Date();
     if(showToast!==false) toast('Connected to Google Sheet — data synced.');
@@ -1259,10 +1306,10 @@ function newWizard(){
   return {step:1,
     verifyChecks:{location:false,equipment:false,scope:false,hazards:false,access:false,nearby:false,condition:false,isolation:false,barricading:false,emergency:false,simops:false},
     verifyConfirm:false, verifyDate:todayStr(), verifyTime: now.toTimeString().slice(0,5),
-    division:'Civil', project:'PRJ-CIV-01', area:'', location:'',
+    division:DIVISIONS[0], project:PROJECTS[0]?PROJECTS[0].id:'', area:'', location:'',
     workDescription:'', equipment:'', workOrder:'', startDate:todayStr(), startTime:'07:00', endDate:todayStr(), endTime:'17:00',
     methodStatement:'', raRef:'', jsaRef:'',
-    permitType:'', riskLevel:'', hazards:[], controls:[], customControl:'',
+    permitType:'', hazards:[], controls:[], customControl:'', certificates:[],
     holder:'', crewIds:[],
     attachments:{ra:true,jsa:true,method:true,drawings:false,photos:true,certs:false,lift:false},
     submitted:false};
@@ -1276,7 +1323,7 @@ function wzNext(){
   const w=wz();
   if(w.step===1){ const allChecked = Object.values(w.verifyChecks).every(Boolean); if(!allChecked || !w.verifyConfirm){ toast('Complete all field verification checks and the confirmation statement before continuing.','danger'); return; } }
   if(w.step===2){ if(!w.location || !w.workDescription){ toast('Location and Work Description are required.','danger'); return; } }
-  if(w.step===3){ if(!w.permitType || !w.riskLevel || w.hazards.length===0){ toast('Select a Permit Type, Risk Level and at least one Hazard.','danger'); return; }
+  if(w.step===3){ if(!w.permitType || w.hazards.length===0){ toast('Select a PTW Class and at least one activity/hazard.','danger'); return; }
     if(!w.controls.length){ w.controls = [...new Set(w.hazards.flatMap(h=>CONTROLS_LIB[h]||[]))]; } }
   if(w.step===5){ if(!w.holder){ toast('Select a Permit Holder before continuing.','danger'); return; } }
   w.step = Math.min(7, w.step+1); renderView();
@@ -1286,33 +1333,36 @@ function wzAddCrew(empId){ const w=wz(); if(w.crewIds.includes(empId)) return; i
 function wzRemoveCrew(empId){ const w=wz(); w.crewIds = w.crewIds.filter(i=>i!==empId); renderView(); }
 function wzToggleControl(c){ const w=wz(); const i=w.controls.indexOf(c); if(i>-1) w.controls.splice(i,1); else w.controls.push(c); renderView(); }
 function wzAddCustomControl(){ const w=wz(); const v=document.getElementById('customControlInput').value.trim(); if(v){ w.controls.push(v); w.customControl=''; renderView(); } }
+function wzToggleCert(c){ const w=wz(); const i=w.certificates.indexOf(c); if(i>-1) w.certificates.splice(i,1); else w.certificates.push(c); renderView(); }
 
 function submitPermit(){
   const w=wz(), u=CU();
   permitSeq++;
   const proj = PROJ(w.project);
-  const number = `ATNM-${abbr(w.division)}-${w.project.split('-').pop()}-${w.permitType}-2026-${String(permitSeq).padStart(5,'0')}`;
+  const number = `ATNM-ODC-${(proj.site||'').replace(/[^A-Za-z]/g,'').slice(0,4).toUpperCase()}-${w.permitType}-2026-${String(permitSeq).padStart(5,'0')}`;
   const holderU = user(w.holder);
   const authorizerId = USERS.find(x=>x.role==='authorizer' && x.project===w.project)?.id || USERS.find(x=>x.role==='authorizer').id;
-  const needsHse = ['R3','R4'].includes(w.riskLevel);
-  const hseId = needsHse ? (USERS.find(x=>x.role==='hse' && x.project===w.project)?.id || USERS.find(x=>x.role==='hse').id) : null;
+  const needsIssuer = w.permitType === 'CLASSB';
+  const issuerId = needsIssuer ? (USERS.find(x=>x.role==='issuer' && x.project===w.project)?.id || USERS.find(x=>x.role==='issuer').id) : null;
+  const hseId = USERS.find(x=>x.role==='hse' && x.project===w.project)?.id || null;
   const p = {
     id:'P-'+(1000+permitSeq), number, division:w.division, project:w.project, site:proj.site, area:w.area, location:w.location,
     workDescription:w.workDescription, equipment:w.equipment, workOrder:w.workOrder, raRef:w.raRef, jsaRef:w.jsaRef,
-    permitType:w.permitType, riskLevel:w.riskLevel, hazards:w.hazards, controls:w.controls,
-    applicant:u.id, authorizer:authorizerId, hseAdviser:hseId, holder:w.holder, crewIds:[...w.crewIds],
+    permitType:w.permitType, hazards:w.hazards, controls:w.controls, certificates:[...w.certificates],
+    applicant:u.id, authorizer:authorizerId, ptwIssuer:issuerId, hseAdviser:hseId, holder:w.holder, crewIds:[...w.crewIds],
     status:'Submitted',
     startDate:w.startDate, startTime:w.startTime, endDate:w.endDate, endTime:w.endTime,
     validFrom:null, validTo:null,
     fieldVerification:{by:u.name, id:u.id, date:w.verifyDate, time:w.verifyTime, confirmed:true},
-    history:[{action:'Field Verification Completed', by:u.name, date:w.verifyDate, time:w.verifyTime, comments:'Applicant confirmed physical worksite verification.'},
+    issuerValidation:null,
+    history:[{action:'Field Verification Completed', by:u.name, date:w.verifyDate, time:w.verifyTime, comments:'Applicant confirmed physical worksite verification (Job HSE Plan).'},
               {action:'Submitted', by:u.name, date:todayStr(), time:now.toTimeString().slice(0,5), comments:'Submitted for authorization.'}],
-    tbt:null, startWorkCheck:null, dailyVisits:[], hseInspections:[], suspension:null, revalidations:[], handback:null, closure:null, simopsWith:null,
+    tbt:null, tricLog:[], startWorkCheck:null, dailyVisits:[], hseInspections:[], suspension:null, revalidations:[], handback:null, closure:null, simopsWith:null,
   };
   PERMITS.unshift(p);
   toast('Permit '+number+' submitted for authorization.','');
   persistPermit(p);
-  notifyEmail(authorizerId, 'ATNM ePTW — Authorization Required: '+number, 'A new permit has been submitted and needs your authorization.\n\nPermit: '+number+'\nWork: '+w.workDescription+'\nLocation: '+w.location+'\nRisk: '+w.riskLevel+'\nApplicant: '+u.name+'\n\nOpen ATNM ePTW to review.');
+  notifyEmail(authorizerId, 'ATNM ePTW — Authorization Required: '+number, 'A new permit has been submitted and needs your authorization.\n\nPermit: '+number+'\nWork: '+w.workDescription+'\nLocation: '+w.location+'\nClass: '+(PT(w.permitType)?PT(w.permitType).name:w.permitType)+'\nApplicant: '+u.name+'\n\nOpen ATNM ePTW to review.');
   STATE.wizard=null;
   go('detail', p.id);
 }
@@ -1400,13 +1450,11 @@ function wzStep2(){
 }
 function wzStep3(){
   const w=wz();
-  return `<div class="card"><h3>Permit Type <span class="req">*</span></h3>
-  <div class="hazard-grid">${PERMIT_TYPES.map(t=>`<label class="hz ${w.permitType===t.code?'checked':''}" style="${w.permitType===t.code?`border-color:${t.color}`:''}"><input type="radio" name="ptype" ${w.permitType===t.code?'checked':''} onchange="wz().permitType='${t.code}';renderView()"><span><b style="color:${t.color}">${t.code}</b><br>${t.name}</span></label>`).join('')}</div>
+  return `<div class="card"><h3>PTW Class <span class="req">*</span> <small>Per ATNM-HSE-SWP-23 §8</small></h3>
+  <div class="hazard-grid">${PERMIT_TYPES.map(t=>{const info=CONFIG.ptwClasses[t.code];return `<label class="hz ${w.permitType===t.code?'checked':''}" style="${w.permitType===t.code?`border-color:${t.color}`:''}"><input type="radio" name="ptype" ${w.permitType===t.code?'checked':''} onchange="wz().permitType='${t.code}';renderView()"><span><b style="color:${t.color}">${t.short}</b><br>${t.name}<br><span style="color:var(--text-faint);font-size:11px;">Max ${info.maxDays} days${info.extensionDays?' (+'+info.extensionDays+'d ext.)':''} · ${info.notice} notice</span></span></label>`;}).join('')}</div>
+  ${w.permitType?`<p class="small-note" style="margin-top:10px;">${CONFIG.ptwClasses[w.permitType].approval}</p>`:''}
   </div>
-  <div class="card"><h3>Risk / Criticality Level <span class="req">*</span></h3>
-  <div class="grid g-4">${RISK_LEVELS.map(r=>`<label class="hz ${w.riskLevel===r.code?'checked':''}"><input type="radio" name="rlevel" ${w.riskLevel===r.code?'checked':''} onchange="wz().riskLevel='${r.code}';renderView()"><span><b>${r.code} — ${r.name}</b><br><span style="color:var(--text-faint);font-size:11px;">${r.approval}</span></span></label>`).join('')}</div>
-  </div>
-  <div class="card"><h3>Hazards <span class="req">*</span> <small>Select all that apply to this work</small></h3>
+  <div class="card"><h3>Activities &amp; Hazards <span class="req">*</span> <small>Per Appendix 5 — select all that apply to this work</small></h3>
   <div class="hazard-grid">${HAZARDS_LIB.map(h=>`<label class="hz ${w.hazards.includes(h)?'checked':''}"><input type="checkbox" ${w.hazards.includes(h)?'checked':''} onchange="wzToggleArr('hazards','${h.replace(/'/g,"\\'")}'); wz().controls=[]; renderView()"><span>${h}</span></label>`).join('')}</div>
   </div>
   ${wzNav()}`;
@@ -1415,13 +1463,16 @@ function wzStep4(){
   const w=wz();
   if(!w.controls.length && w.hazards.length) w.controls=[...new Set(w.hazards.flatMap(h=>CONTROLS_LIB[h]||[]))];
   const suggested = [...new Set(w.hazards.flatMap(h=>CONTROLS_LIB[h]||[]))];
-  return `<div class="card"><h3>Critical Controls <small>Auto-generated from selected hazards — review and confirm</small></h3>
-  ${suggested.map(c=>`<div class="check-row"><label class="toggle"><input type="checkbox" ${w.controls.includes(c)?'checked':''} onchange="wzToggleControl('${c.replace(/'/g,"\\'")}')"><span class="tr"></span></label><span style="font-size:12.5px;">${c}</span></div>`).join('') || '<p style="color:var(--text-faint);font-size:12.5px;">Select hazards in the previous step to generate controls.</p>'}
+  return `<div class="card"><h3>Job HSE Plan — Controls <small>Auto-generated from selected activities — review and confirm</small></h3>
+  ${suggested.map(c=>`<div class="check-row"><label class="toggle"><input type="checkbox" ${w.controls.includes(c)?'checked':''} onchange="wzToggleControl('${c.replace(/'/g,"\\'")}')"><span class="tr"></span></label><span style="font-size:12.5px;">${c}</span></div>`).join('') || '<p style="color:var(--text-faint);font-size:12.5px;">Select activities/hazards in the previous step to generate controls.</p>'}
   ${w.controls.filter(c=>!suggested.includes(c)).map(c=>`<div class="check-row"><label class="toggle"><input type="checkbox" checked onchange="wzToggleControl('${c.replace(/'/g,"\\'")}')"><span class="tr"></span></label><span style="font-size:12.5px;">${c} <span class="badge-role">Custom</span></span></div>`).join('')}
   <div class="form-row" style="margin-top:14px;align-items:flex-end;">
     <div class="field"><label>Add Additional Control</label><input id="customControlInput" placeholder="e.g. Specialist standby rescue team on site"></div>
     <button class="btn" style="height:38px;" onclick="wzAddCustomControl()">+ Add Control</button>
   </div>
+  </div>
+  <div class="card"><h3>Certificates Required <small>Attached to the PTW — Appendices 18, 20–24, 30</small></h3>
+  <div class="hazard-grid">${CERTIFICATES_LIB.map(c=>`<label class="hz ${w.certificates.includes(c)?'checked':''}"><input type="checkbox" ${w.certificates.includes(c)?'checked':''} onchange="wzToggleCert('${c.replace(/'/g,"\\'")}')"><span>${c}</span></label>`).join('')}</div>
   </div>
   ${wzNav()}`;
 }
@@ -1467,15 +1518,17 @@ function wzStep7(){
   <div class="section-title">Project &amp; Work</div>
   <p style="font-size:12.5px;color:var(--text-dim);"><b style="color:var(--text)">${w.division}</b> · ${proj?proj.name:''} · ${proj?proj.site:''}<br>${w.area?w.area+' — ':''}${w.location}<br>${w.workDescription}</p>
   <div class="section-title">Classification</div>
-  ${typeChip(w.permitType)} ${riskChip(w.riskLevel)}
+  ${typeChip(w.permitType)}
   <div class="section-title">Hazards &amp; Controls</div>
   <p style="font-size:12.5px;color:var(--text-dim);">${w.hazards.join(', ')}</p>
   <ul style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;padding-left:18px;">${w.controls.map(c=>`<li>${c}</li>`).join('')}</ul>
+  <div class="section-title">Certificates</div>
+  <p style="font-size:12.5px;color:var(--text-dim);">${w.certificates.length?w.certificates.join(', '):'None selected'}</p>
   <div class="section-title">Holder &amp; Crew</div>
   <p style="font-size:12.5px;color:var(--text-dim);">Permit Holder: <b style="color:var(--text)">${holderU?holderU.name:'—'}</b> · Crew: ${w.crewIds.length} personnel</p>
   <div class="section-title">Field Verification</div>
   <p style="font-size:12.5px;color:var(--text-dim);">Verified by ${CU().name} on ${w.verifyDate} at ${w.verifyTime}. ✓ Confirmed</p>
-  <div class="gate" style="margin-top:16px;"><h4>Ready to Submit</h4><p>This will send the permit to <b>${RL(w.riskLevel)?RL(w.riskLevel).approval:''}</b> for authorization${['R3','R4'].includes(w.riskLevel)?' with mandatory HSE concurrence':''}.</p></div>
+  <div class="gate" style="margin-top:16px;"><h4>Ready to Submit</h4><p>This will send the permit to <b>${CONFIG.ptwClasses[w.permitType]?CONFIG.ptwClasses[w.permitType].approval:''}</b>.</p></div>
   </div>
   <div style="display:flex;justify-content:space-between;"><button class="btn" onclick="wzPrev()">← Back</button><button class="btn btn-amber btn-lg" onclick="submitPermit()">Submit Permit Application</button></div>`;
 }
@@ -1505,11 +1558,11 @@ function renderRegister(){
     <select onchange="STATE.regFilter.type=this.value;renderView()"><option value="">All Permit Types</option>${PERMIT_TYPES.map(t=>`<option value="${t.code}" ${f.type===t.code?'selected':''}>${t.code} — ${t.name}</option>`).join('')}</select>
   </div>
   <div class="tablewrap" style="border-radius:0 0 4px 4px;"><table><thead><tr>
-  <th>Permit No.</th><th>Type</th><th>Risk</th><th>Division / Project</th><th>Location</th><th>Applicant</th><th>Holder</th><th>Status</th><th>Valid Until</th><th></th>
+  <th>Permit No.</th><th>Type</th><th>Division / Project</th><th>Location</th><th>Applicant</th><th>Holder</th><th>Status</th><th>Valid Until</th><th></th>
   </tr></thead><tbody>
   ${list.length? list.map(p=>`<tr>
     <td class="tbl-link" onclick="go('detail','${p.id}')">${p.number}</td>
-    <td>${typeChip(p.permitType)}</td><td>${riskChip(p.riskLevel)}</td>
+    <td>${typeChip(p.permitType)}</td>
     <td>${p.division}<br><span style="color:var(--text-faint);font-size:11px;">${PROJ(p.project)?PROJ(p.project).name:''}</span></td>
     <td>${p.location}</td><td>${user(p.applicant).name}</td><td>${user(p.holder)?user(p.holder).name:'—'}</td>
     <td>${statusPill(p.status)}${p.simopsWith?' <span class=\"pill pill-suspended\">⚠ SIMOPS</span>':''}</td>
@@ -1540,10 +1593,10 @@ function renderLive(){
   const live = PERMITS.filter(p=>['Active','Suspended','Issued'].includes(p.status));
   return `<div class="pagehead"><div><div class="eyebrow">REAL-TIME ASSURANCE</div><h2>Live PTW Control Centre</h2><p class="sub">Auto-refreshing snapshot of every permit in play across Al Tasnim operations.</p></div></div>
   <div class="grid g-4" style="margin-bottom:20px;">${cardsHtml}</div>
-  <div class="tablewrap"><table><thead><tr><th>Permit No.</th><th>Type</th><th>Risk</th><th>Division</th><th>Location</th><th>Applicant</th><th>Holder</th><th>Crew</th><th>Status</th><th>Remaining</th><th>Visit</th><th>HSE</th><th>SIMOPS</th></tr></thead><tbody>
+  <div class="tablewrap"><table><thead><tr><th>Permit No.</th><th>Type</th><th>Division</th><th>Location</th><th>Applicant</th><th>Holder</th><th>Crew</th><th>Status</th><th>Remaining</th><th>Visit</th><th>HSE</th><th>SIMOPS</th></tr></thead><tbody>
   ${live.map(p=>{ const c=countdownStr(p); const visitOk = (p.dailyVisits||[]).length>0; const hseOk=(p.hseInspections||[]).length>0;
     return `<tr onclick="go('detail','${p.id}')" style="cursor:pointer;">
-    <td class="tbl-link">${p.number}</td><td>${typeChip(p.permitType)}</td><td>${riskChip(p.riskLevel)}</td><td>${p.division}</td><td>${p.location}</td>
+    <td class="tbl-link">${p.number}</td><td>${typeChip(p.permitType)}</td><td>${p.division}</td><td>${p.location}</td>
     <td>${user(p.applicant).name}</td><td>${user(p.holder).name}</td><td>${p.crewIds.length}</td><td>${statusPill(p.status)}</td>
     <td class="countdown" style="color:${c.cls==='danger'?'var(--danger)':c.cls==='amber'?'var(--amber)':c.cls==='safe'?'var(--safe)':'var(--text-faint)'}">${c.text}</td>
     <td>${visitOk?'<span style="color:var(--safe)">✓ Done</span>':'<span style="color:var(--warn)">Pending</span>'}</td>
@@ -1573,8 +1626,8 @@ function pushHistory(p, action, comments){ p.history.push({action, by:CU().name,
 function actAuthorize(id, decision, comments){
   const p=permitById(id);
   if(decision==='approve'){
-    if(['R3','R4'].includes(p.riskLevel) && p.hseAdviser){ p.status='Under Review'; pushHistory(p,'Authorized — Forwarded for HSE Concurrence',comments); toast('Permit authorized. Forwarded to HSE for mandatory concurrence.');
-      notifyEmail(p.hseAdviser, 'ATNM ePTW — HSE Concurrence Required: '+p.number, 'Permit '+p.number+' ('+p.workDescription+') has been authorized and needs your HSE concurrence.\n\nLocation: '+p.location+'\nRisk: '+p.riskLevel+'\n\nOpen the permit in ATNM ePTW to review.'); }
+    if(p.permitType==='CLASSB' && p.ptwIssuer){ p.status='Under Review'; pushHistory(p,'Authorized — Forwarded for PTW Issuer Validation',comments); toast('Permit authorized. Forwarded to PTW Issuer for on-site validation.');
+      notifyEmail(p.ptwIssuer, 'ATNM ePTW — PTW Issuer Validation Required: '+p.number, 'Permit '+p.number+' ('+p.workDescription+') has been authorized and needs your on-site validation.\n\nLocation: '+p.location+'\nClass: '+(PT(p.permitType)?PT(p.permitType).name:'')+'\n\nOpen the permit in ATNM ePTW to review.'); }
     else { p.status='Approved'; pushHistory(p,'Approved',comments); toast('Permit approved.');
       notifyEmail(p.applicant, 'ATNM ePTW — Permit Approved: '+p.number, 'Your permit '+p.number+' ('+p.workDescription+') has been approved by '+CU().name+'.'+(comments?'\n\nComments: '+comments:'')); }
   } else if(decision==='return'){ p.status='Returned'; pushHistory(p,'Returned for Correction',comments); toast('Permit returned to applicant.','amber');
@@ -1583,14 +1636,16 @@ function actAuthorize(id, decision, comments){
     notifyEmail(p.applicant, 'ATNM ePTW — Permit Rejected: '+p.number, 'Your permit '+p.number+' was rejected by '+CU().name+'.\n\nComments: '+(comments||'None provided.')); }
   persistPermit(p); closeModal(); renderView();
 }
-function actHse(id, decision, comments){
+// PTW Issuer validation — mandatory site examination step for Class B permits
+// only (§10.11). No-PTW and Task SOP permits skip this step entirely.
+function actIssuerValidate(id, decision, comments){
   const p=permitById(id);
-  if(decision==='concur'){ p.status='Approved'; pushHistory(p,'HSE Concurrence Granted',comments); toast('HSE concurrence recorded. Permit approved.');
-    notifyEmail([p.applicant, p.authorizer], 'ATNM ePTW — HSE Concurrence Granted: '+p.number, 'HSE concurrence was granted by '+CU().name+' for permit '+p.number+'. The permit is now Approved.'); }
-  else if(decision==='return'){ p.status='Returned'; pushHistory(p,'HSE Returned',comments); toast('Returned by HSE.','amber');
-    notifyEmail(p.applicant, 'ATNM ePTW — Permit Returned by HSE: '+p.number, 'HSE ('+CU().name+') returned permit '+p.number+' for correction.\n\nComments: '+(comments||'None provided.')); }
-  else { p.status='Rejected'; pushHistory(p,'HSE Rejected / Stopped',comments); toast('Rejected by HSE.','danger');
-    notifyEmail([p.applicant, p.authorizer], 'ATNM ePTW — Permit Rejected by HSE: '+p.number, 'HSE ('+CU().name+') rejected/stopped permit '+p.number+'.\n\nComments: '+(comments||'None provided.')); }
+  if(decision==='validate'){ p.status='Approved'; p.issuerValidation={done:true, by:CU().name, date:todayStr(), time:nowTime(), comments}; pushHistory(p,'PTW Issuer Validated — Site Examined',comments); toast('PTW Issuer validation recorded. Permit approved.');
+    notifyEmail(p.applicant, 'ATNM ePTW — PTW Issuer Validated: '+p.number, 'PTW Issuer ('+CU().name+') validated permit '+p.number+' on-site. The permit is now Approved.'); }
+  else if(decision==='return'){ p.status='Returned'; pushHistory(p,'Returned by PTW Issuer',comments); toast('Returned by PTW Issuer.','amber');
+    notifyEmail(p.applicant, 'ATNM ePTW — Permit Returned by PTW Issuer: '+p.number, 'PTW Issuer ('+CU().name+') returned permit '+p.number+' for correction.\n\nComments: '+(comments||'None provided.')); }
+  else { p.status='Rejected'; pushHistory(p,'Rejected by PTW Issuer',comments); toast('Rejected by PTW Issuer.','danger');
+    notifyEmail([p.applicant, p.authorizer], 'ATNM ePTW — Permit Rejected by PTW Issuer: '+p.number, 'PTW Issuer ('+CU().name+') rejected permit '+p.number+'.\n\nComments: '+(comments||'None provided.')); }
   persistPermit(p); closeModal(); renderView();
 }
 function actIssue(id){
@@ -1674,11 +1729,11 @@ function openAuthorizeModal(id){
   <button class="btn btn-sm" onclick="actAuthorize('${id}','return',document.getElementById('mComments').value)">Return for Correction</button>
   <button class="btn btn-safe" onclick="actAuthorize('${id}','approve',document.getElementById('mComments').value)">Approve</button>`);
 }
-function openHseModal(id){
-  modalDecision('HSE Concurrence', id, `
-  <button class="btn btn-danger btn-sm" onclick="actHse('${id}','reject',document.getElementById('mComments').value)">Reject / Stop</button>
-  <button class="btn btn-sm" onclick="actHse('${id}','return',document.getElementById('mComments').value)">Return</button>
-  <button class="btn btn-safe" onclick="actHse('${id}','concur',document.getElementById('mComments').value)">Concur</button>`);
+function openIssuerValidateModal(id){
+  modalDecision('PTW Issuer Validation', id, `
+  <button class="btn btn-danger btn-sm" onclick="actIssuerValidate('${id}','reject',document.getElementById('mComments').value)">Reject</button>
+  <button class="btn btn-sm" onclick="actIssuerValidate('${id}','return',document.getElementById('mComments').value)">Return</button>
+  <button class="btn btn-safe" onclick="actIssuerValidate('${id}','validate',document.getElementById('mComments').value)">Validate — Site Examined</button>`);
 }
 function openSuspendModal(id){
   const reasons=['Scope Change','Work Condition Change','Weather','Emergency','Gas Test Failure','Isolation Change','SIMOPS Conflict','Unsafe Condition','Shift Change','Equipment Failure','Permit Expiry'];
@@ -1781,7 +1836,7 @@ function speakTbt(permitId, lang){
 }
 function stopTbtSpeech(){ if('speechSynthesis' in window) window.speechSynthesis.cancel(); }
 // ===================== PERMIT DETAIL =====================
-const DETAIL_TABS = [['overview','Overview'],['approval','Approval & Issue'],['toolbox','Toolbox Talk'],['field','Field Verification'],['hse','HSE & Observations'],['suspend','Suspend / Revalidate'],['handback','Handback & Closure'],['qr','QR Code']];
+const DETAIL_TABS = [['overview','Overview'],['approval','Approval & Issue'],['toolbox','TRIC Card & Briefing'],['field','Field Verification'],['hse','HSE & Observations'],['suspend','Suspend / Revalidate'],['handback','Handback & Closure'],['qr','QR Code']];
 const TIMELINE_STEPS = ['Draft','Submitted','Under Review','Approved','Issued','Active','Work Complete','Awaiting Handback','Closed'];
 
 function renderDetail(){
@@ -1807,7 +1862,7 @@ function renderDetail(){
       ${p.hseAdviser?`<span>HSE: <b>${user(p.hseAdviser).name}</b></span>`:''}
     </div></div>
     <div style="text-align:right;">
-      ${typeChip(p.permitType)} ${riskChip(p.riskLevel)}<br>
+      ${typeChip(p.permitType)}<br>
       <div style="margin-top:8px;">${statusPill(p.status)}</div>
       ${p.status==='Active'?`<div class="countdown" style="margin-top:6px;color:${c.cls==='amber'?'var(--amber)':'var(--safe)'}">${c.text}</div>`:''}
     </div>
@@ -1846,8 +1901,9 @@ function tabOverview(p){
     <ul class="doclist"><li>📄 RA Reference — ${p.raRef||'—'}</li><li>📄 JSA Reference — ${p.jsaRef||'—'}</li></ul>
   </div>
   <div class="card"><h3>Hazards &amp; Critical Controls</h3>
-    <div class="section-title">Hazards</div>${p.hazards.map(h=>`<span class="chip" style="background:var(--panel3);margin:0 6px 6px 0;">${h}</span>`).join('')}
+    <div class="section-title">Activities / Hazards (Job HSE Plan)</div>${p.hazards.map(h=>`<span class="chip" style="background:var(--panel3);margin:0 6px 6px 0;">${h}</span>`).join('')}
     <div class="section-title">Controls</div><ul style="font-size:12.5px;color:var(--text-dim);padding-left:18px;margin:0;">${p.controls.map(c=>`<li>${c}</li>`).join('')}</ul>
+    ${(p.certificates||[]).length?`<div class="section-title">Certificates Attached</div>${p.certificates.map(c=>`<span class="chip" style="background:var(--tangerine-dim);color:var(--tangerine);margin:0 6px 6px 0;">${c}</span>`).join('')}`:''}
   </div>
   </div>
   <div class="card"><h3>Work Crew (${crewList.length}/${CONFIG.crewLimit}) <small>Permit Holder: ${user(p.holder)?user(p.holder).name:'—'}</small></h3>
@@ -1860,33 +1916,33 @@ function tabOverview(p){
 }
 function tabApproval(p){
   const canAuthorize = p.status==='Submitted' && CU().id===p.authorizer;
-  const canHse = p.status==='Under Review' && CU().id===p.hseAdviser;
+  const canIssuerValidate = p.status==='Under Review' && CU().id===p.ptwIssuer;
   const canIssue = p.status==='Approved' && (CU().id===p.applicant || CU().role==='admin');
   const canAccept = p.status==='Issued' && (CU().id===p.holder || CU().role==='admin');
   return `<div class="card"><h3>Digital Approval Workflow</h3>
-  <p style="font-size:12.5px;color:var(--text-dim);">Risk Level <b>${p.riskLevel}</b> requires: <b>${RL(p.riskLevel).approval}</b>.</p>
+  <p style="font-size:12.5px;color:var(--text-dim);"><b>${PT(p.permitType)?PT(p.permitType).name:p.permitType}</b> requires: <b>${CONFIG.ptwClasses[p.permitType]?CONFIG.ptwClasses[p.permitType].approval:''}</b>.</p>
   <div class="grid g-2" style="margin-top:10px;">
-    <div class="card" style="margin:0;background:var(--panel2);"><h3 style="font-size:12.5px;">Applicant</h3><p style="font-size:12.5px;">${user(p.applicant).name}<br><span style="color:var(--text-faint);">${p.fieldVerification?('Field verified '+p.fieldVerification.date+' '+p.fieldVerification.time):'—'}</span></p></div>
-    <div class="card" style="margin:0;background:var(--panel2);"><h3 style="font-size:12.5px;">Authorizer</h3><p style="font-size:12.5px;">${user(p.authorizer).name}<br><span style="color:var(--text-faint);">${p.status==='Submitted'?'Pending decision':(['Approved','Issued','Active','Suspended','Awaiting Handback','Closed','Work Complete'].includes(p.status)?'Authorized':'—')}</span></p></div>
-    ${p.hseAdviser?`<div class="card" style="margin:0;background:var(--panel2);"><h3 style="font-size:12.5px;">HSE Concurrence</h3><p style="font-size:12.5px;">${user(p.hseAdviser).name}<br><span style="color:var(--text-faint);">${p.status==='Under Review'?'Pending concurrence':(['Approved','Issued','Active','Suspended','Awaiting Handback','Closed','Work Complete'].includes(p.status)?'Concurred':'—')}</span></p></div>`:'<div></div>'}
+    <div class="card" style="margin:0;background:var(--panel2);"><h3 style="font-size:12.5px;">Permit Applicant</h3><p style="font-size:12.5px;">${user(p.applicant).name}<br><span style="color:var(--text-faint);">${p.fieldVerification?('Job HSE Plan / worksite examined '+p.fieldVerification.date+' '+p.fieldVerification.time):'—'}</span></p></div>
+    <div class="card" style="margin:0;background:var(--panel2);"><h3 style="font-size:12.5px;">PTW Authorizer</h3><p style="font-size:12.5px;">${user(p.authorizer).name}<br><span style="color:var(--text-faint);">${p.status==='Submitted'?'Pending decision':(['Approved','Issued','Active','Suspended','Awaiting Handback','Closed','Work Complete','Under Review'].includes(p.status)?'Authorized':'—')}</span></p></div>
+    ${p.ptwIssuer?`<div class="card" style="margin:0;background:var(--panel2);"><h3 style="font-size:12.5px;">PTW Issuer</h3><p style="font-size:12.5px;">${user(p.ptwIssuer).name}<br><span style="color:var(--text-faint);">${p.status==='Under Review'?'Pending on-site validation':(p.issuerValidation&&p.issuerValidation.done?'Validated '+p.issuerValidation.date+' '+p.issuerValidation.time:'—')}</span></p></div>`:'<div></div>'}
     <div class="card" style="margin:0;background:var(--panel2);"><h3 style="font-size:12.5px;">Permit Holder</h3><p style="font-size:12.5px;">${user(p.holder)?user(p.holder).name:'—'}<br><span style="color:var(--text-faint);">${['Issued'].includes(p.status)?'Awaiting acceptance':(['Active','Suspended','Awaiting Handback','Closed','Work Complete'].includes(p.status)?'Accepted':'—')}</span></p></div>
   </div>
   <div class="divider"></div>
   ${canAuthorize?`<button class="btn btn-amber" onclick="openAuthorizeModal('${p.id}')">Review &amp; Authorize</button>`:''}
-  ${canHse?`<button class="btn btn-amber" onclick="openHseModal('${p.id}')">HSE Review &amp; Concurrence</button>`:''}
+  ${canIssuerValidate?`<button class="btn btn-amber" onclick="openIssuerValidateModal('${p.id}')">PTW Issuer — Validate On-Site</button>`:''}
   ${canIssue?`<button class="btn btn-safe" onclick="actIssue('${p.id}')">Issue &amp; Transfer to Holder</button>`:''}
   ${canAccept?`<button class="btn btn-safe" onclick="actAccept('${p.id}')">Accept Permit</button>`:''}
-  ${!canAuthorize&&!canHse&&!canIssue&&!canAccept?`<p style="font-size:12px;color:var(--text-faint);">No approval action is currently pending for your role on this permit${['Draft','Submitted','Under Review','Approved','Issued'].includes(p.status)?' (sign in as the relevant approver from Login to demo this step).':'.'}</p>`:''}
+  ${!canAuthorize&&!canIssuerValidate&&!canIssue&&!canAccept?`<p style="font-size:12px;color:var(--text-faint);">No approval action is currently pending for your role on this permit${['Draft','Submitted','Under Review','Approved','Issued'].includes(p.status)?' (sign in as the relevant approver from Login to demo this step).':'.'}</p>`:''}
   </div>`;
 }
 function tabToolbox(p){
   if(!p.tbt){
     const canGen = ['Issued','Approved'].includes(p.status);
-    return `<div class="card"><h3>AI Trilingual Toolbox Talk</h3><p style="font-size:12.5px;color:var(--text-dim);">Generate a job-specific Toolbox Talk from the approved scope, hazards and controls. Available once the permit is issued to the Permit Holder.</p>
-    ${canGen?`<button class="btn btn-amber" onclick="actGenerateTbt('${p.id}',['English','Arabic','Hindi'])">✨ Generate AI Toolbox Talk</button>`:`<p style="font-size:12px;color:var(--text-faint);">Awaiting permit issue.</p>`}</div>`;
+    return `<div class="card"><h3>AI Trilingual TRIC Card &amp; Briefing</h3><p style="font-size:12.5px;color:var(--text-dim);">Generate a job-specific TRIC (Task Risk Identification Card) briefing from the approved Job HSE Plan scope, hazards and controls. Available once the permit is issued to the Permit Holder.</p>
+    ${canGen?`<button class="btn btn-amber" onclick="actGenerateTbt('${p.id}',['English','Arabic','Hindi'])">✨ Generate TRIC Card Briefing</button>`:`<p style="font-size:12px;color:var(--text-faint);">Awaiting permit issue.</p>`}</div>`;
   }
   const lang = STATE.tbtLang;
-  return `<div class="card"><h3>Toolbox Talk <small>Generated ${p.tbt.generatedAt||''}</small></h3>
+  return `<div class="card"><h3>TRIC Card Briefing <small>Generated ${p.tbt.generatedAt||''}</small></h3>
   <div class="tbt-lang">${['English','Arabic','Hindi'].map(l=>`<button class="btn ${lang===l?'btn-amber':''}" onclick="STATE.tbtLang='${l}';renderView()">${l==='Arabic'?'🔊 العربية':l==='Hindi'?'🔊 हिन्दी':'🔊 English'}</button>`).join('')}</div>
   ${tbtBlock(p,lang)}
   <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;">
@@ -1894,13 +1950,34 @@ function tabToolbox(p){
     <button class="btn btn-sm" onclick="stopTbtSpeech()">⏸ Stop</button>
   </div>
   </div>
-  <div class="card"><h3>Crew Acknowledgement</h3>
+  <div class="card"><h3>TRIC Discussion — Crew Acknowledgement</h3>
   ${p.tbt.done? `<p style="font-size:12.5px;color:var(--safe);">✓ Acknowledged by ${p.tbt.ack.by} on ${p.tbt.ack.date} at ${p.tbt.ack.time} — ${p.tbt.crewCount} crew briefed in ${p.tbt.languages.join(', ')}.</p>`
-  : `<p style="font-size:12.5px;color:var(--text-dim);">Permit Holder confirms scope, hazards, controls, stop-work conditions and emergency requirements have been explained, and crew questions addressed.</p>
+  : `<p style="font-size:12.5px;color:var(--text-dim);">Permit Holder holds a TRIC discussion confirming scope, hazards, controls, stop-work conditions and emergency requirements have been explained, and crew questions addressed.</p>
   <div class="field" style="max-width:200px;"><label>Crew Present</label><input type="number" id="tbtCrewCount" value="${p.crewIds.length}" min="1"></div>
-  ${(CU().id===p.holder||CU().role==='admin')?`<button class="btn btn-safe" style="margin-top:10px;" onclick="actAckTbt('${p.id}', parseInt(document.getElementById('tbtCrewCount').value||1))">✓ Confirm Toolbox Talk Delivered</button>`:`<p style="font-size:12px;color:var(--text-faint);">Sign in as ${user(p.holder)?user(p.holder).name:'the Permit Holder'} to acknowledge.</p>`}`}
+  ${(CU().id===p.holder||CU().role==='admin')?`<button class="btn btn-safe" style="margin-top:10px;" onclick="actAckTbt('${p.id}', parseInt(document.getElementById('tbtCrewCount').value||1))">✓ Confirm TRIC Briefing Delivered</button>`:`<p style="font-size:12px;color:var(--text-faint);">Sign in as ${user(p.holder)?user(p.holder).name:'the Permit Holder'} to acknowledge.</p>`}`}
   </div>
-  ${p.tbt.done && !p.startWorkCheck ? tabStartWork(p) : (p.startWorkCheck? startWorkSummary(p):'')}`;
+  ${p.tbt.done && !p.startWorkCheck ? tabStartWork(p) : (p.startWorkCheck? startWorkSummary(p):'')}
+  ${p.startWorkCheck ? tabTricLog(p) : ''}`;
+}
+function tabTricLog(p){
+  const can = ['Active','Suspended'].includes(p.status) && (CU().id===p.holder || CU().role==='admin');
+  return `<div class="card"><h3>Dynamic Risk Assessment — "Pause and Check" <small>New hazards identified during the work, per TRIC card Mustad</small></h3>
+  ${can?`<div class="form-row" style="align-items:flex-end;">
+    <div class="field"><label>New hazard identified</label><input id="tricHazard" placeholder="e.g. Unexpected buried cable found"></div>
+    <div class="field"><label>Additional control applied</label><input id="tricControl" placeholder="e.g. Work paused, hand-dig only within 0.5m"></div>
+  </div>
+  <button class="btn btn-amber" style="margin-bottom:14px;" onclick="addTricLog('${p.id}')">＋ Log Dynamic Risk Assessment</button>`:''}
+  ${(p.tricLog||[]).length? [...p.tricLog].reverse().map(t=>`<div class="obs-card"><div class="obhead"><b style="font-size:12.5px;">${t.date} ${t.time}</b><span style="font-size:11px;color:var(--text-faint);">${t.by}</span></div><p><b>New hazard:</b> ${t.newHazard}</p><p><b>Additional control:</b> ${t.additionalControl}</p></div>`).join('') : `<div class="empty">No dynamic risk assessments logged — conditions unchanged since briefing.</div>`}
+  </div>`;
+}
+function addTricLog(id){
+  const hz = document.getElementById('tricHazard').value.trim(), ct = document.getElementById('tricControl').value.trim();
+  if(!hz || !ct){ toast('Enter both the new hazard and the additional control.','danger'); return; }
+  const p = permitById(id);
+  if(!p.tricLog) p.tricLog=[];
+  p.tricLog.push({date:todayStr(), time:nowTime(), by:CU().name, newHazard:hz, additionalControl:ct});
+  pushHistory(p,'Dynamic Risk Assessment Logged', hz+' — '+ct);
+  toast('Dynamic risk assessment logged.'); persistPermit(p); renderView();
 }
 function tabStartWork(p){
   const can = CU().id===p.holder || CU().role==='admin';
@@ -1914,16 +1991,24 @@ function startWorkSummary(p){
   return `<div class="card"><h3>Start Work Check</h3><p style="font-size:12.5px;color:${p.startWorkCheck.result==='START WORK'?'var(--safe)':'var(--danger)'};">${p.startWorkCheck.result}</p></div>`;
 }
 function tabField(p){
-  const canVisit = ['Active','Suspended'].includes(p.status) && (CU().id===p.applicant || CU().role==='admin');
-  return `<div class="card"><h3>Pre-Application Field Verification</h3>
-  <p style="font-size:12.5px;color:var(--text-dim);">Verified by <b style="color:var(--text)">${p.fieldVerification.by}</b> (${p.fieldVerification.id}) on ${p.fieldVerification.date} at ${p.fieldVerification.time}. ✓ Confirmed scope, hazards and controls reflect actual site conditions.</p>
+  const info = PTW_CLASS_INFO_LABELS[p.permitType] || {who:'Applicant', title:'Daily Field Verification'};
+  const performerId = p.permitType==='CLASSB' ? p.ptwIssuer : p.permitType==='TASKSOP' ? p.holder : null;
+  const canVisit = ['Active','Suspended'].includes(p.status) && performerId && (CU().id===performerId || CU().role==='admin');
+  return `<div class="card"><h3>Job HSE Plan — Worksite Examination</h3>
+  <p style="font-size:12.5px;color:var(--text-dim);">Examined by <b style="color:var(--text)">${p.fieldVerification.by}</b> (${p.fieldVerification.id}) on ${p.fieldVerification.date} at ${p.fieldVerification.time}. ✓ Confirmed scope, hazards and controls reflect actual site conditions.</p>
   </div>
-  <div class="card"><h3>Daily Applicant Field Visits <small>Required at least once per working day while permit is active</small></h3>
+  <div class="card"><h3>${info.title} <small>${info.note}</small></h3>
+  ${p.permitType==='NOPTW'?`<p style="font-size:12.5px;color:var(--text-dim);">No-PTW jobs do not require daily on-site revalidation — reviewed against the agreed duration (max ${CONFIG.ptwClasses.NOPTW.maxDays} days, no extension).</p>`:''}
   ${canVisit?`<button class="btn btn-amber" onclick="openDailyVisitModal('${p.id}')">＋ Log Today's Field Check</button>`:''}
   <div class="tablewrap" style="margin-top:12px;"><table><thead><tr><th>Date</th><th>Time</th><th>By</th><th>Outcome</th><th>Comments</th></tr></thead><tbody>
-  ${[...(p.dailyVisits||[])].reverse().map(v=>`<tr><td>${v.date}</td><td>${v.time}</td><td>${v.by}</td><td>${statusPill2(v.outcome)}</td><td>${v.comments||'—'}</td></tr>`).join('') || `<tr><td colspan="5"><div class="empty">No field visits logged yet today.</div></td></tr>`}
+  ${[...(p.dailyVisits||[])].reverse().map(v=>`<tr><td>${v.date}</td><td>${v.time}</td><td>${v.by}</td><td>${statusPill2(v.outcome)}</td><td>${v.comments||'—'}</td></tr>`).join('') || `<tr><td colspan="5"><div class="empty">No field checks logged yet.</div></td></tr>`}
   </tbody></table></div></div>`;
 }
+const PTW_CLASS_INFO_LABELS = {
+  CLASSB:  {who:'PTW Issuer', title:'Daily PTW Issuer Revalidation', note:'Required daily while the permit is active'},
+  TASKSOP: {who:'Permit Holder', title:'Daily Holder Self-Revalidation', note:'Required daily — Holder revalidates their own Task SOP'},
+  NOPTW:   {who:'—', title:'Periodic Review', note:'No daily revalidation required for No-PTW jobs'},
+};
 function statusPill2(outcome){
   const map={'SATISFACTORY':'pill-approved','IMPROVEMENT REQUIRED':'pill-review','UNSAFE – STOP WORK':'pill-suspended','SAFE':'pill-approved','UNSAFE':'pill-suspended','IMPROVEMENT OPPORTUNITY':'pill-review','MAJOR NON-COMPLIANCE':'pill-suspended','STOP WORK':'pill-rejected'};
   return `<span class="pill ${map[outcome]||'pill-draft'}">${outcome}</span>`;
@@ -1965,7 +2050,7 @@ function tabHandback(p){
 function tabQr(p){
   return `<div class="card"><h3>Permit QR Code</h3>
   <div class="qr-wrap"><div id="qrcanvas"></div>
-  <p style="font-size:12px;color:var(--text-dim);text-align:center;max-width:280px;">Scan to view read-only live status: ${p.number}, ${p.location}, ${statusPillPlain(p.status)}, Risk ${p.riskLevel}, Holder ${user(p.holder)?user(p.holder).name:'—'}, Crew ${p.crewIds.length}, Valid until ${p.validTo?fmtDT(p.validTo):'—'}.</p>
+  <p style="font-size:12px;color:var(--text-dim);text-align:center;max-width:280px;">Scan to view read-only live status: ${p.number}, ${p.location}, ${statusPillPlain(p.status)}, Holder ${user(p.holder)?user(p.holder).name:'—'}, Crew ${p.crewIds.length}, Valid until ${p.validTo?fmtDT(p.validTo):'—'}.</p>
   <button class="btn btn-sm" onclick="toast('QR code image downloaded (simulated).')">⬇ Download QR</button>
   </div></div>
   <script>setTimeout(()=>{ try{ document.getElementById('qrcanvas').innerHTML=''; new QRCode(document.getElementById('qrcanvas'), {text:'ATNM-EPTW://'+'${p.number}', width:160, height:160, colorDark:'#12181d', colorLight:'#ffffff'}); }catch(e){} },30);<\/script>`;
@@ -1974,18 +2059,18 @@ function statusPillPlain(s){ return s; }
 // ===================== TOOLBOX / HSE REPORT LANDING PAGES =====================
 function renderToolboxHome(){
   const eligible = PERMITS.filter(p=>['Issued','Active','Suspended'].includes(p.status));
-  return `<div class="pagehead"><div><div class="eyebrow">UNDERSTAND IT</div><h2>AI Toolbox Talks</h2><p class="sub">Generate a job-specific, trilingual Toolbox Talk from any issued permit's approved scope, hazards and controls.</p></div></div>
-  <div class="tablewrap"><table><thead><tr><th>Permit No.</th><th>Type</th><th>Location</th><th>Holder</th><th>Status</th><th>TBT</th><th></th></tr></thead><tbody>
+  return `<div class="pagehead"><div><div class="eyebrow">UNDERSTAND IT</div><h2>AI TRIC Cards &amp; Briefings</h2><p class="sub">Generate a job-specific, trilingual TRIC (Task Risk Identification Card) briefing from any issued permit's approved Job HSE Plan.</p></div></div>
+  <div class="tablewrap"><table><thead><tr><th>Permit No.</th><th>Type</th><th>Location</th><th>Holder</th><th>Status</th><th>TRIC</th><th></th></tr></thead><tbody>
   ${eligible.map(p=>`<tr><td class="tbl-link" onclick="go('detail','${p.id}')">${p.number}</td><td>${typeChip(p.permitType)}</td><td>${p.location}</td><td>${user(p.holder).name}</td><td>${statusPill(p.status)}</td>
   <td>${p.tbt?(p.tbt.done?'<span style="color:var(--safe)">✓ Acknowledged</span>':'<span style="color:var(--amber)">Generated</span>'):'<span style="color:var(--text-faint)">Not yet</span>'}</td>
-  <td><button class="btn btn-sm" onclick="go('detail','${p.id}');STATE.detailTab='toolbox';renderView()">Open</button></td></tr>`).join('') || `<tr><td colspan="7"><div class="empty">No issued permits ready for Toolbox Talk.</div></td></tr>`}
+  <td><button class="btn btn-sm" onclick="go('detail','${p.id}');STATE.detailTab='toolbox';renderView()">Open</button></td></tr>`).join('') || `<tr><td colspan="7"><div class="empty">No issued permits ready for a TRIC briefing.</div></td></tr>`}
   </tbody></table></div>`;
 }
 function renderHseReportHome(){
   const eligible = PERMITS.filter(p=>['Active','Suspended','Issued'].includes(p.status));
   return `<div class="pagehead"><div><div class="eyebrow">VERIFY IT</div><h2>HSE PTW Reporting</h2><p class="sub">Select a live permit to record a field assurance report — Safe, Unsafe, Improvement Opportunity, Major Non-Compliance or Stop Work.</p></div></div>
-  <div class="tablewrap"><table><thead><tr><th>Permit No.</th><th>Type</th><th>Risk</th><th>Location</th><th>Applicant</th><th>Holder</th><th>Status</th><th></th></tr></thead><tbody>
-  ${eligible.map(p=>`<tr><td class="tbl-link" onclick="go('detail','${p.id}')">${p.number}</td><td>${typeChip(p.permitType)}</td><td>${riskChip(p.riskLevel)}</td><td>${p.location}</td><td>${user(p.applicant).name}</td><td>${user(p.holder).name}</td><td>${statusPill(p.status)}</td>
+  <div class="tablewrap"><table><thead><tr><th>Permit No.</th><th>Type</th><th>Location</th><th>Applicant</th><th>Holder</th><th>Status</th><th></th></tr></thead><tbody>
+  ${eligible.map(p=>`<tr><td class="tbl-link" onclick="go('detail','${p.id}')">${p.number}</td><td>${typeChip(p.permitType)}</td><td>${p.location}</td><td>${user(p.applicant).name}</td><td>${user(p.holder).name}</td><td>${statusPill(p.status)}</td>
   <td><button class="btn btn-sm btn-amber" onclick="go('detail','${p.id}');STATE.detailTab='hse';renderView();openHseObsModal('${p.id}')">✎ Report</button></td></tr>`).join('') || `<tr><td colspan="8"><div class="empty">No live permits to inspect.</div></td></tr>`}
   </tbody></table></div>`;
 }
@@ -2033,8 +2118,8 @@ function svgDonut(data, size){
     });
   }
   return `<svg viewBox="0 0 ${size} ${size}" width="${size}" height="${size}">${chartGlowDefs(id)}${arcs}
-  <text x="${cx}" y="${cy-2}" text-anchor="middle" fill="#F6F4FF" font-family="Oswald,sans-serif" font-size="26" font-weight="500">${total}</text>
-  <text x="${cx}" y="${cy+16}" text-anchor="middle" fill="rgba(255,255,255,.55)" font-family="Inter,sans-serif" font-size="10" letter-spacing="1">REPORTS</text>
+  <text x="${cx}" y="${cy-2}" text-anchor="middle" fill="#212B39" font-family="Oswald,sans-serif" font-size="26" font-weight="500">${total}</text>
+  <text x="${cx}" y="${cy+16}" text-anchor="middle" fill="#5B6675" font-family="Inter,sans-serif" font-size="10" letter-spacing="1">REPORTS</text>
   </svg>`;
 }
 function svgBarH(data, width){
@@ -2047,12 +2132,12 @@ function svgBarH(data, width){
   data.forEach((d,i)=>{
     const y=6+i*(barH+gap);
     const w = Math.max(3,(d.value/max)*chartW);
-    rows += `<text x="0" y="${y+barH*0.72}" fill="rgba(255,255,255,.82)" font-size="11" font-family="Inter,sans-serif">${escXml(d.label)}</text>
-    <rect x="${leftW}" y="${y}" width="${chartW}" height="${barH}" rx="7" fill="rgba(255,255,255,.06)"/>
+    rows += `<text x="0" y="${y+barH*0.72}" fill="#212B39" font-size="11" font-family="Inter,sans-serif">${escXml(d.label)}</text>
+    <rect x="${leftW}" y="${y}" width="${chartW}" height="${barH}" rx="7" fill="#EEF2F8"/>
     <rect x="${leftW}" y="${y}" width="${w.toFixed(1)}" height="${barH}" rx="7" fill="${d.color}" filter="url(#glow${id})"/>
-    <text x="${leftW+chartW+8}" y="${y+barH*0.72}" fill="#fff" font-size="11" font-family="'JetBrains Mono',monospace">${d.display!==undefined?d.display:d.value}</text>`;
+    <text x="${leftW+chartW+8}" y="${y+barH*0.72}" fill="#212B39" font-size="11" font-family="'JetBrains Mono',monospace">${d.display!==undefined?d.display:d.value}</text>`;
   });
-  return `<svg viewBox="0 0 ${width} ${h}" width="100%" height="${h}">${chartGlowDefs(id)}${rows || `<text x="0" y="16" fill="rgba(255,255,255,.4)" font-size="12">No data</text>`}</svg>`;
+  return `<svg viewBox="0 0 ${width} ${h}" width="100%" height="${h}">${chartGlowDefs(id)}${rows || `<text x="0" y="16" fill="#98A3B3" font-size="12">No data</text>`}</svg>`;
 }
 function legendRow(data){
   return `<div class="legend-row">${data.map(d=>`<span><i class="legend-dot" style="background:${d.color};box-shadow:0 0 8px ${d.color}"></i>${d.label} (${d.value})</span>`).join('')}</div>`;
@@ -2095,12 +2180,12 @@ function renderHseDashboard(){
     const theirsLive = theirs.filter(p=>['Active','Suspended','Issued'].includes(p.status));
     const insp = theirsLive.filter(p=>(p.hseInspections||[]).length>0).length;
     const pct = theirsLive.length? Math.round((insp/theirsLive.length)*100):0;
-    return {label:a.name, value:pct, display:pct+'%', color: pct>=80?'#22C55E':pct>=50?'#F5A623':'#EF4444'};
+    return {label:a.name, value:pct, display:pct+'%', color: pct>=80?'#3E9151':pct>=50?'#C5852A':'#C24942'};
   });
 
   const actionCatCounts={};
   list.forEach(p=>(p.hseInspections||[]).forEach(o=>{ if(o.action && o.status==='Open'){ actionCatCounts[o.category]=(actionCatCounts[o.category]||0)+1; } }));
-  const actionBars = Object.entries(actionCatCounts).sort((a,b)=>b[1]-a[1]).map(([k,v])=>({label:k, value:v, display:v, color:'#FF7A1A'}));
+  const actionBars = Object.entries(actionCatCounts).sort((a,b)=>b[1]-a[1]).map(([k,v])=>({label:k, value:v, display:v, color:'#DE7F3B'}));
 
   const projOptions = PROJECTS.filter(p=>!f.division || p.division===f.division);
 
@@ -2135,18 +2220,18 @@ function renderHseDashboard(){
       <h3>Observation Mix <small>${allObs.length} field reports in scope</small></h3>
       <div style="display:flex;align-items:center;gap:18px;flex-wrap:wrap;">
         ${svgDonut([
-          {label:'Safe',value:safeN,color:'#22C55E'},
-          {label:'Improvement Opportunity',value:improveN,color:'#F5A623'},
-          {label:'Unsafe',value:unsafeN,color:'#EF4444'},
-          {label:'Major Non-Compliance',value:majorN,color:'#DC2626'},
-          {label:'Stop Work',value:stopN,color:'#B91C1C'}
+          {label:'Safe',value:safeN,color:'#3E9151'},
+          {label:'Improvement Opportunity',value:improveN,color:'#C5852A'},
+          {label:'Unsafe',value:unsafeN,color:'#C24942'},
+          {label:'Major Non-Compliance',value:majorN,color:'#A23A34'},
+          {label:'Stop Work',value:stopN,color:'#7A2A25'}
         ])}
         ${legendRow([
-          {label:'Safe',value:safeN,color:'#22C55E'},
-          {label:'Improvement',value:improveN,color:'#F5A623'},
-          {label:'Unsafe',value:unsafeN,color:'#EF4444'},
-          {label:'Major',value:majorN,color:'#DC2626'},
-          {label:'Stop Work',value:stopN,color:'#B91C1C'}
+          {label:'Safe',value:safeN,color:'#3E9151'},
+          {label:'Improvement',value:improveN,color:'#C5852A'},
+          {label:'Unsafe',value:unsafeN,color:'#C24942'},
+          {label:'Major',value:majorN,color:'#A23A34'},
+          {label:'Stop Work',value:stopN,color:'#7A2A25'}
         ])}
       </div>
     </div>
@@ -2159,7 +2244,7 @@ function renderHseDashboard(){
   <div class="grid g-2" style="margin-top:14px;align-items:stretch;">
     <div class="chartcard">
       <h3>Open Corrective Actions by Category</h3>
-      ${svgBarH(actionBars.length?actionBars:[{label:'No open actions',value:0,color:'#FF7A1A',display:'—'}])}
+      ${svgBarH(actionBars.length?actionBars:[{label:'No open actions',value:0,color:'#DE7F3B',display:'—'}])}
     </div>
     <div class="chartcard">
       <h3>Repeat Findings <small>Category flagged 2+ times in scope</small></h3>
@@ -2270,7 +2355,7 @@ function userFormFields(u){
   const projOptions = PROJECTS.filter(p=>p.division===u.division);
   return `
   <div class="form-row">
-    <div class="field"><label>Employee ID ${u._editing?'':'<span class="req">*</span>'}</label><input id="ufId" value="${u.id}" ${u._editing?'disabled':''} placeholder="e.g. ENG-2310"></div>
+    <div class="field"><label>Employee ID ${u._editing?'':'<span class="req">*</span>'}</label><input id="ufId" value="${u.id}" ${u._editing?'disabled':''} placeholder="e.g. PA-2310"></div>
     <div class="field"><label>Full Name <span class="req">*</span></label><input id="ufName" value="${u.name}"></div>
   </div>
   <div class="form-row">
@@ -2278,7 +2363,7 @@ function userFormFields(u){
     <div class="field"><label>Division</label><select id="ufDivision" onchange="refreshUserFormProjects()">${DIVISIONS.map(d=>`<option ${d===u.division?'selected':''}>${d}</option>`).join('')}<option value="All" ${u.division==='All'?'selected':''}>All</option></select></div>
   </div>
   <div class="form-row">
-    <div class="field"><label>Role <span class="req">*</span></label><select id="ufRole">${['applicant','authorizer','hse','holder','admin','viewer'].map(r=>`<option value="${r}" ${r===u.role?'selected':''}>${roleLabel(r)}</option>`).join('')}</select></div>
+    <div class="field"><label>Role <span class="req">*</span></label><select id="ufRole">${['applicant','authorizer','issuer','hse','holder','admin','viewer'].map(r=>`<option value="${r}" ${r===u.role?'selected':''}>${roleLabel(r)}</option>`).join('')}</select></div>
     <div class="field"><label>Project</label><select id="ufProject"><option value="">—</option>${projOptions.map(p=>`<option value="${p.id}" ${p.id===u.project?'selected':''}>${p.name}</option>`).join('')}</select></div>
   </div>
   <div class="field"><label>Email <span class="req">*</span></label><input id="ufEmail" value="${u.email}" placeholder="name.surname${REQUIRED_EMAIL_DOMAIN}">
@@ -2375,10 +2460,10 @@ async function submitRemoveUser(id){
   toast('User permanently removed.'); closeModal(); renderView();
 }
 function adminApprovers(){
-  const approvers = USERS.filter(u=>u.role==='authorizer'||u.role==='hse');
-  return `<div class="card"><h3>Permit Authorizer / HSE Master List <small>Derived from Users — change a person's Role in Admin &gt; Users to add/remove them here</small></h3>
-  <div class="tablewrap"><table><thead><tr><th>Employee ID</th><th>Name</th><th>Designation</th><th>Division / Project</th><th>Max Risk Level</th><th>Status</th></tr></thead><tbody>
-  ${approvers.map(u=>`<tr><td style="font-family:var(--mono);">${u.id}</td><td>${u.name}</td><td>${u.designation}</td><td>${u.division} · ${PROJ(u.project)?PROJ(u.project).name:'—'}</td><td>${u.role==='hse'?'R4':'R2'}</td><td>${u.status&&String(u.status).toLowerCase()==='inactive'?'<span class="pill pill-suspended">Inactive</span>':'<span class="pill pill-approved">Active</span>'}</td></tr>`).join('')}
+  const approvers = USERS.filter(u=>['authorizer','issuer','hse'].includes(u.role));
+  return `<div class="card"><h3>PTW Authorizer / PTW Issuer / HSE Master List <small>Derived from Users — change a person's Role in Admin &gt; Users to add/remove them here</small></h3>
+  <div class="tablewrap"><table><thead><tr><th>Employee ID</th><th>Name</th><th>Designation</th><th>Division / Project</th><th>Function</th><th>Status</th></tr></thead><tbody>
+  ${approvers.map(u=>`<tr><td style="font-family:var(--mono);">${u.id}</td><td>${u.name}</td><td>${u.designation}</td><td>${u.division} · ${PROJ(u.project)?PROJ(u.project).name:'—'}</td><td><span class="badge-role">${roleLabel(u.role)}</span></td><td>${u.status&&String(u.status).toLowerCase()==='inactive'?'<span class="pill pill-suspended">Inactive</span>':'<span class="pill pill-approved">Active</span>'}</td></tr>`).join('')}
   </tbody></table></div></div>`;
 }
 
@@ -2429,7 +2514,7 @@ function openProjectModal(id){
   const p = id ? PROJECTS.find(x=>x.id===id) : {id:'',name:'',division:DIVISIONS[0],site:''};
   openModal(`<div class="mhead"><h4>${id?'Edit':'Add'} Project</h4><button class="xbtn" onclick="closeModal()">✕</button></div>
   <div class="mbody">
-  <div class="field" style="margin-bottom:10px;"><label>ID ${id?'':'<span class="req">*</span>'}</label><input id="pjId" value="${p.id}" ${id?'disabled':''} placeholder="e.g. PRJ-CIV-02"></div>
+  <div class="field" style="margin-bottom:10px;"><label>ID ${id?'':'<span class="req">*</span>'}</label><input id="pjId" value="${p.id}" ${id?'disabled':''} placeholder="e.g. YARD-XYZ"></div>
   <div class="field" style="margin-bottom:10px;"><label>Name <span class="req">*</span></label><input id="pjName" value="${p.name}"></div>
   <div class="form-row">
   <div class="field"><label>Division</label><select id="pjDivision">${DIVISIONS.map(d=>`<option ${d===p.division?'selected':''}>${d}</option>`).join('')}</select></div>
@@ -2516,41 +2601,18 @@ async function removeHazard(name){
 // ===================== ADMIN — Risk / Approval Matrix =====================
 function adminRisk(){
   const isAdmin = CU().role==='admin';
-  return `<div class="card"><h3>Risk / Criticality &amp; Approval Matrix ${isAdmin?`<button class="btn btn-sm btn-amber" onclick="openRiskModal()">＋ Add Level</button>`:''}</h3>
-  <div class="tablewrap"><table><thead><tr><th>Risk</th><th>Name</th><th>Approval Required</th><th></th></tr></thead><tbody>
-  ${RISK_LEVELS.map(r=>`<tr><td><span class="chip risk-${r.code}">${r.code}</span></td><td>${r.name}</td><td>${r.approval}</td><td>${isAdmin?`<button class="btn btn-sm" onclick="openRiskModal('${r.code}')">Edit</button> <button class="btn btn-sm btn-danger" onclick="removeRisk('${r.code}')">Remove</button>`:''}</td></tr>`).join('')}
+  return `<div class="card"><h3>PTW Classes &amp; Approval Routing <small>Per ATNM-HSE-SWP-23 §8</small></h3>
+  <div class="tablewrap"><table><thead><tr><th>Class</th><th>Max Days</th><th>Extension</th><th>Notice</th><th>Approval Routing</th></tr></thead><tbody>
+  ${PERMIT_TYPES.map(t=>{const info=CONFIG.ptwClasses[t.code]||{}; return `<tr><td>${typeChip(t.code)}</td>
+  <td>${isAdmin?`<input type="number" style="width:64px;" value="${info.maxDays}" onchange="CONFIG.ptwClasses['${t.code}'].maxDays=parseInt(this.value)||0;persistConfig()">`:info.maxDays}</td>
+  <td>${isAdmin?`<input type="number" style="width:64px;" value="${info.extensionDays}" onchange="CONFIG.ptwClasses['${t.code}'].extensionDays=parseInt(this.value)||0;persistConfig()">`:info.extensionDays}</td>
+  <td>${isAdmin?`<input style="width:120px;" value="${info.notice}" onchange="CONFIG.ptwClasses['${t.code}'].notice=this.value;persistConfig()">`:info.notice}</td>
+  <td>${isAdmin?`<input style="width:100%;min-width:220px;" value="${info.approval}" onchange="CONFIG.ptwClasses['${t.code}'].approval=this.value;persistConfig()">`:info.approval}</td>
+  </tr>`;}).join('')}
   </tbody></table></div></div>
-  <div class="card"><h3>Mandatory Competency by Permit Type</h3>
+  <div class="card"><h3>Mandatory Competency by PTW Class</h3>
   ${PERMIT_TYPES.map(t=>`<div class="form-row" style="align-items:flex-end;margin-bottom:10px;"><div style="padding-bottom:9px;">${typeChip(t.code)}</div><div class="field"><label>Required competencies (comma-separated)</label><input value="${(CONFIG.competency[t.code]||[]).join(', ')}" onchange="CONFIG.competency['${t.code}']=this.value.split(',').map(s=>s.trim()).filter(Boolean);persistConfig();toast('Competency requirement updated for ${t.code}.')"></div></div>`).join('')}
   </div>`;
-}
-function openRiskModal(code){
-  const r = code ? RISK_LEVELS.find(x=>x.code===code) : {code:'',name:'',approval:''};
-  openModal(`<div class="mhead"><h4>${code?'Edit':'Add'} Risk Level</h4><button class="xbtn" onclick="closeModal()">✕</button></div>
-  <div class="mbody">
-  <div class="field" style="margin-bottom:10px;"><label>Code ${code?'':'<span class="req">*</span>'}</label><input id="rkCode" value="${r.code}" ${code?'disabled':''} placeholder="e.g. R5" maxlength="4" style="text-transform:uppercase;"></div>
-  <div class="field" style="margin-bottom:10px;"><label>Name <span class="req">*</span></label><input id="rkName" value="${r.name}" placeholder="e.g. Extreme"></div>
-  <div class="field"><label>Approval Required</label><input id="rkApproval" value="${r.approval}" placeholder="e.g. Board-level Authority + HSE Director"></div>
-  </div>
-  <div class="mfoot"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn btn-amber" onclick="submitRisk('${code||''}')">Save</button></div>`);
-}
-async function submitRisk(code){
-  const item = { code: (code || document.getElementById('rkCode').value.trim()).toUpperCase(), name: document.getElementById('rkName').value.trim(), approval: document.getElementById('rkApproval').value.trim() };
-  if(!item.code || !item.name){ toast('Code and name are required.','danger'); return; }
-  if(!code && RISK_LEVELS.some(r=>r.code===item.code)){ toast('That risk code already exists.','danger'); return; }
-  const res = await persistMaster('riskLevels', item);
-  if(res.error) return;
-  const idx = RISK_LEVELS.findIndex(r=>r.code===item.code);
-  if(idx>-1) Object.assign(RISK_LEVELS[idx], item); else RISK_LEVELS.push(item);
-  toast('Risk level saved.'); closeModal(); renderView();
-}
-async function removeRisk(code){
-  const r = RISK_LEVELS.find(x=>x.code===code); if(!r) return;
-  if(!confirm('Remove risk level "'+r.name+'"? Existing permits keep their recorded risk level, but it disappears from the New Permit wizard.')) return;
-  const res = await removeMasterRemote('riskLevels', code);
-  if(res.error) return;
-  const idx = RISK_LEVELS.findIndex(x=>x.code===code); if(idx>-1) RISK_LEVELS.splice(idx,1);
-  toast('Risk level removed.'); renderView();
 }
 function adminConfig(){
   return `<div class="grid g-2">
